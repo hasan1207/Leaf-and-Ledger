@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaf & Ledger - Homepage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        
+        .hero-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .hero-section h2 {
+            color: #1b5e20;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            color: #424242;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .tree-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-section {
+            padding: 60px 20px 80px;
+        }
+        
+        .cta-heading {
+            text-align: center;
+            color: #1b5e20;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 50px;
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px 30px;
+            height: 100%;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .option-card:hover {
+            border-color: #2e7d32;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .option-card i {
+            font-size: 3rem;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+        
+        .option-card h3 {
+            color: #1b5e20;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .btn-custom {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        .btn-custom:hover {
+            background-color: #1b5e20;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary-custom {
+            background-color: #43a047;
+        }
+        
+        .btn-secondary-custom:hover {
+            background-color: #2e7d32;
+        }
+        
+        .or-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2e7d32;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .about-section {
+            background: white;
+            padding: 60px 20px;
+        }
+        
+        .about-section h3 {
+            color: #1b5e20;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .about-section p {
+            color: #424242;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .plantation-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #757575;
+            margin-top: 40px;
+        }
+        
+        .upload-input {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section h2 {
+                font-size: 2rem;
+            }
+            
+            .cta-heading {
+                font-size: 1.8rem;
+            }
+            
+            .or-divider {
+                margin: 30px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="nav-bar">
+        <img src="./images/klisus-white.jpeg" alt="Logo">
+        
+        <div class="header-bar-img">
+            <header class="text-center">
+                <h1>Leaf & Ledger</h1>
+                <p>A calculator for quantifying plantation's impact.</p>
+            </header>
+            
+            <div class="sub-nav text-center">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="nav-bar">
+        <img src="./images/klisus-white.jpeg" alt="">
+
+            <div class="header-bar-img bg-success">
+                
+
+                <header class="text-center">
+                    <h1 class="--fw-bold --text-success">Leaf & Ledger</h1>
+                    <p class="--text-muted">A calculator for quantifying plantation's impact.</p>
+                </header>
+
+                <div class="sub-nav bg-light-green px-2 text-center">
+                        <a href="index.html" class="nav-link active">Home</a>
+                        <a href="contact.html" class="nav-link">Contact Us</a>
+                </div>
+
+            </div>
+        
+        </div>
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <svg class="tree-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="90" fill="#e8f5e9"/>
+            <circle cx="100" cy="100" r="70" fill="#c8e6c9"/>
+            <circle cx="100" cy="90" r="50" fill="#66bb6a"/>
+            <rect x="90" y="120" width="20" height="50" fill="#5d4037"/>
+        </svg>
+        
+        <h2>What is Your Plantation's Impact?</h2>
+        <p>Quantify the environmental and economic benefits of your plantation using our comprehensive calculator. Measure carbon sequestration, biodiversity, water conservation, and more.</p>
+    </div>
+    
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <h2 class="cta-heading">Calculate Your Impact</h2>
+        
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Manual Entry Option -->
+                <div class="col-md-5">
+                    <div class="option-card">
+                        <i class="bi bi-pencil-square"></i>
+                        <h3>Fill out a Form</h3>
+                        <p class="text-center text-muted mb-4">Enter your plantation data manually using interactive sliders</p>
+                        <a href="calculator.html" class="btn-custom">Get Started</a>
+                    </div>
+                </div>
+                
+                <!-- OR Divider -->
+                <div class="col-md-2">
+                    <div class="or-divider">OR</div>
+                </div>
+                
+                <!-- File Upload Option -->
+                <div class="col-md-5">
+                    <div class="option-card">
+                        <i class="bi bi-file-earmark-excel"></i>
+                        <h3>Upload a File</h3>
+                        <p class="text-center text-muted mb-4">Upload CSV/Excel with your plantation data</p>
+                        <button class="btn-custom" onclick="document.getElementById('fileInput').click()">Upload File</button>
+                        <input type="file" id="fileInput" class="upload-input" accept=".csv,.xlsx,.xls" onchange="handleFileUpload(event)">
+                        <a href="#" class="btn-custom btn-secondary-custom mt-2" onclick="downloadTemplate()">Download Template</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- About Section -->
+    <div class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800" alt="Plantation" class="plantation-image">
+                </div>
+                <div class="col-md-6">
+                    <h3>About Plantation Impact Assessment</h3>
+                    <p>Understanding the comprehensive impact of plantations is crucial for sustainable development. Our calculator helps quantify multiple dimensions of plantation benefits including carbon sequestration, biodiversity enhancement, water conservation, soil health improvement, economic value, and social impact.</p>
+                    <p>Whether you're managing a small community garden or a large-scale reforestation project, accurate measurement of your environmental impact enables better decision-making and demonstrates your commitment to sustainability.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2025 Leaf & Ledger. All rights reserved.
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <script>
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const fileName = file.name.toLowerCase();
+            
+            if (fileName.endsWith('.csv')) {
+                Papa.parse(file, {
+                    header: true,
+                    complete: function(results) {
+                        processData(results.data);
+                    },
+                    error: function(error) {
+                        alert('Error parsing CSV: ' + error.message);
+                    }
+                });
+            } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+                        processData(jsonData);
+                    } catch (error) {
+                        alert('Error parsing Excel: ' + error.message);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                alert('Please upload a CSV or Excel file');
+            }
+        }
+        
+        function processData(data) {
+            if (!data || data.length === 0) {
+                alert('No data found in file');
+                return;
+            }
+            
+            // Expected columns: trees, area, species_count, water_sources, soil_quality, employment
+            const row = data[0];
+            const params = new URLSearchParams();
+            
+            if (row.trees) params.set('trees', row.trees);
+            if (row.area) params.set('area', row.area);
+            if (row.species_count) params.set('species', row.species_count);
+            if (row.water_sources) params.set('water', row.water_sources);
+            if (row.soil_quality) params.set('soil', row.soil_quality);
+            if (row.employment) params.set('employment', row.employment);
+            
+            // Redirect to calculator with pre-filled values
+            window.location.href = 'calculator.html?' + params.toString();
+        }
+        
+        function downloadTemplate() {
+            const template = [
+                ['trees', 'area', 'species_count', 'water_sources', 'soil_quality', 'employment'],
+                [1000, 50, 15, 3, 7, 25]
+            ];
+            
+            const ws = XLSX.utils.aoa_to_sheet(template);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Template');
+            XLSX.writeFile(wb, 'leaf_ledger_template.xlsx');
+        }
+    </script>
+</body>
+</html>

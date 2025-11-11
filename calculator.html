@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Calculator Toolkit</title>
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body class="bg-light">
+
+  <div class="nav-bar bg-success">
+
+     <img src="./images/klisus-white.jpeg" alt="">
+    <header class="py-2 pt-3 text-center">
+      <h1 class="--fw-bold --text-success">Green Calculator Toolkit</h1>
+      <p class="--text-muted">An integral part of the KliSus DMRV Platform</p>
+    </header>
+  </div>
+
+  <div class="--container con pb-5">
+
+
+    <div class="card p-4 mb-4">
+      
+
+
+      <div class="form-group">
+        <div class="title-row">
+          <label for="trees">Number of Trees</label>
+          <input type="number" id="trees" class="form-control w-auto" value="100" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')">
+        </div> <div class="input-row">
+        
+
+        <input type="range" id="treesRange" class="--form-range" min="0" max="5000" value="100"
+       oninput="validateNonNegative(this); syncInput('trees','treesRange');">
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <div class="title-row">
+          <label for="species">Number of Species</label>
+          <input type="number" id="species" class="form-control w-auto" value="5" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')">
+        </div>
+        <div class="input-row">
+          <input type="range" id="speciesRange" class="--form-range" min="0" max="200" value="5" oninput="validateNonNegative(this); syncInput('species','speciesRange')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="title-row">
+          <label for="area">Area</label>
+
+          <div class="area-div">
+            
+            <div class="unit-toggle btn-group" role="group" aria-label="Unit toggle">
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="m2" autocomplete="off" checked>
+              <label class="btn unit-btn" for="btnradio1">m²</label>
+
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="ac" autocomplete="off">
+              <label class="btn unit-btn" for="btnradio2">ac</label>
+            </div>
+            <div class="number-with-unit">
+              <input type="number" id="area" class="form-control w-auto" value="500" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')">
+              <span id="areaUnit">m²</span>
+            </div>
+          </div>
+        </div>
+        <div class="input-row">
+          <input type="range" id="areaRange" class="--form-range" min="0" max="50000" value="500" oninput="validateNonNegative(this); syncInput('area','areaRange')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="title-row">
+          <label for="duration">Project Duration</label>
+          <div class="number-with-unit">
+            <input type="number" id="duration" class="form-control w-auto" value="2" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')">
+            <span>yr</span>
+          </div>
+        </div>
+        <div class="input-row">
+          <input type="range" id="durationRange" class="--form-range" min="0" max="100" value="2" oninput="validateNonNegative(this); syncInput('duration','durationRange')">
+        </div>
+      </div>
+
+
+      <div class="text-center mt-3">
+        <button class="btn btn-warning px-4" id="watchAdBtn" onclick="watchAd()">
+          <i class="bi bi-play-circle"></i> Watch Ad to View Results
+        </button>
+      </div>
+
+
+
+
+      
+    </div>
+
+    <div id="report-section">
+      <div class="row g-4" id="results">
+
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">🌳</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Annual CO₂<br> Sequestration</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="co2">0</div>
+              <div class="metric-unit">kg/year</div>
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              This metric estimates the amount of carbon dioxide absorbed from the atmosphere annually. The value of 21.8 kg is a widely used average for the annual sequestration rate of a mature tree, derived from forestry research.
+            </div>            
+          </div>
+        </div>
+
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">🌿</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Biodiversity<br> Potential Index</div>
+            <div class="metric-value" id="biodiversity">0</div>
+            <div class="custom-tooltip branding-tooltip">
+              This is a relative score indicating the complexity of the habitat. A higher variety of species in a given area generally supports a richer ecosystem. This index provides a simple measure of this potential.
+            </div>            
+          </div>
+        </div>
+
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">🌡️</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Localized<br> Cooling Effect</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="cooling">0</div>
+              <div class="metric-unit">°C</div>
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              This estimates the potential reduction in local ambient air temperature. Urban green spaces can lower temperatures by 0.7°C to 1.3°C compared to open areas. This formula uses a conservative estimate based on an average reduction of 0.2°C per 100 m² of canopy cover.
+            </div>            
+          </div>
+        </div>
+
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">💨</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Air Quality<br> Improvement</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="air">0</div>
+              <div class="metric-unit">kg/year</div>
+
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              This calculates the estimated annual removal of harmful fine particulate matter (PM2.5) from the air. Large, healthy trees can remove significantly more pollution than smaller trees; this formula uses a conservative average based on urban forestry studies.
+            </div>            
+          </div>
+        </div>
+
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">💧</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Stormwater<br> Runoff Reduction</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="stormwater">0</div>
+              <div class="metric-unit">L/year</div>
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              This metric estimates the volume of rainwater intercepted by vegetation, which reduces the load on drainage systems. The value is based on an average interception rate of 100 litres per square meter of green space, derived from hydrological models.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm position-relative">
+            <div class="metric-row">
+              <div class="metric-icon">⭐</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Green<br> Branding Score</div>
+            <div class="metric-value" id="branding">0</div>
+
+           
+            <div class="custom-tooltip branding-tooltip">
+              A proprietary, motivational score that reflects the scale, complexity, and maturity of the greening initiative. The logarithmic scale indicates that while all contributions are valuable, sustained and diverse projects have a greater cumulative impact.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div id="action-buttons" class="mt-4" style="display: none;">
+        <div class="row g-3">
+          <div class="col-md-3 col-6">
+            <button class="btn btn-success w-100" onclick="generatePDF()">
+              <i class="bi bi-file-pdf"></i> Download PDF Report
+            </button>
+          </div>
+          <div class="col-md-3 col-6">
+            <button class="btn btn-success w-100" onclick="exportToCSV()">
+              <i class="bi bi-file-spreadsheet"></i> Export to CSV
+            </button>
+          </div>
+          <div class="col-md-3 col-6">
+            <button class="btn btn-success w-100" onclick="exportToPNG()">
+              <i class="bi bi-image"></i> Download Card (PNG)
+            </button>
+          </div>
+          <div class="col-md-3 col-6">
+            <button class="btn btn-outline-primary w-100" onclick="generateAgain()">
+              <i class="bi bi-arrow-clockwise"></i> Generate Again
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    
+
+  </div>
+
+    <footer class="d-flex justify-content-center align-items-center py-3 border-top" id="footer-1">
+      <a href="#" class="text-center">
+        Want a detailed, audit-ready report? Explore our DMRV tool →
+      </a>
+    </footer>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top" id="footer-2">
+      <div class="col-md-8 col-12 d-flex align-items-center justify-content-start text-center">
+        <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1" aria-label="Bootstrap">
+          <svg class="bi" width="30" height="24" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg> 
+        </a>
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2025 KliSus Systems - Green Calculator Toolkit. All rights reserved.</span>
+      </div>
+      <ul class="nav col-md-4 col-12 justify-content-center list-unstyled d-flex mt-3 mt-md-0">
+        <li class="ms-3">
+          <a class="text-body-secondary" href="#" aria-label="Instagram">
+            <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#instagram"></use>
+            </svg>
+          </a>
+        </li>
+        <li class="ms-3">
+          <a class="text-body-secondary" href="#" aria-label="Facebook">
+            <svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use>
+            </svg>
+          </a>
+        </li>
+      </ul> 
+    </footer>
+  
+    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <script src="script.js"></script>
+
+  <div id="adOverlay" class="ad-overlay" style="display: none;">
+  <video id="adVideo" autoplay muted playsinline>
+    <source src="./sample-ad.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+</div>
+
+
+</body>
+</html>
