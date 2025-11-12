@@ -205,7 +205,7 @@
                 </header>
 
                 <div class="sub-nav bg-light-green px-2 text-center">
-                        <a href="index.html" class="nav-link active">Home</a>
+                        <a href="home.html" class="nav-link active">Home</a>
                         <a href="contact.html" class="nav-link">Contact Us</a>
                 </div>
 
@@ -279,48 +279,125 @@
     </div>
     
     <footer>
-        © 2025 Leaf & Ledger. All rights reserved.
+        © 2025 KliSus Systems - Leaf & Ledger. All rights reserved.
     </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="script.js"></script>
     <script>
-        function handleFileUpload(event) {
+        async function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
-            
-            const fileName = file.name.toLowerCase();
-            
-            if (fileName.endsWith('.csv')) {
-                Papa.parse(file, {
-                    header: true,
-                    complete: function(results) {
-                        processData(results.data);
-                    },
-                    error: function(error) {
-                        alert('Error parsing CSV: ' + error.message);
-                    }
-                });
-            } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const data = new Uint8Array(e.target.result);
-                        const workbook = XLSX.read(data, {type: 'array'});
-                        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                        const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-                        processData(jsonData);
-                    } catch (error) {
-                        alert('Error parsing Excel: ' + error.message);
-                    }
-                };
-                reader.readAsArrayBuffer(file);
-            } else {
-                alert('Please upload a CSV or Excel file');
+
+            // Step 1: Ask user to watch ad first
+            if (!adWatched) {
+                watchAd(); // Replace this with your actual ad logic
             }
-        }
+
+            // Step 2: Parse the file
+            const fileName = file.name.toLowerCase();
+            let jsonData = [];
+
+            try {
+                if (fileName.endsWith('.csv')) {
+                jsonData = await new Promise((resolve, reject) => {
+                    Papa.parse(file, {
+                    header: true,
+                    complete: results => resolve(results.data),
+                    error: err => reject(err)
+                    });
+                });
+                } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                jsonData = XLSX.utils.sheet_to_json(firstSheet);
+                } else {
+                alert('Please upload a CSV or Excel file');
+                return;
+                }
+            } catch (error) {
+                alert('Error parsing file: ' + error.message);
+                return;
+            }
+
+            // Step 3: Run calculations for each entry in the uploaded file
+            if (!jsonData.length) {
+                alert('The uploaded file appears to be empty or invalid.');
+                return;
+            }
+
+            // Example: handle first row only for now
+            const row = jsonData[0];
+            const areaUnit = (row.area_unit || 'm2').toLowerCase();
+            let area = parseFloat(row.area);
+
+            if (areaUnit.includes('acre')) {
+                area *= 4046.86; // convert acres → m²
+            }
+
+            const trees = parseInt(row.number_of_trees);
+            const species = parseInt(row.number_of_species);
+            const duration = parseInt(row.project_duration);
+            
+
+            // Feed into your calculation logic
+            //calculatedResults = {
+              //  co2: (trees * 21.8).toFixed(1),
+                //biodiversity: area > 0 ? ((species / area) * 100).toFixed(2) : 0,
+                //cooling: ((area / 100) * 0.2).toFixed(2),
+                //air: (trees * 0.12).toFixed(2),
+               // stormwater: (area * 100).toFixed(0),
+                //branding: Math.log(trees + species + duration || 1).toFixed(2)
+            //};
+
+
+            // Store calculated results
+            calculatedResults = {
+                co2: (trees * 21.8).toFixed(1),
+                biodiversity: area > 0 ? ((species / area) * 100).toFixed(2) : 0,
+                cooling: ((area / 100) * 0.2).toFixed(2),
+                air: (trees * 0.12).toFixed(2),
+                stormwater: (area * 100).toFixed(0),
+                branding: Math.log(trees + species + duration || 1).toFixed(2)
+            };
+
+
+            
+
+            // Step 4: Generate all files and zip them together
+              try {
+                    const zip = new JSZip();
+
+                    const csvBlob = exportToCSVBlob(trees, species, area, duration, areaUnit);
+                    zip.file("Leaf_Ledger_Results.csv", csvBlob);
+
+                    const pngBlob = await exportToPNGBlob(trees, species, area, duration, areaUnit);
+                    zip.file("Leaf_Ledger_Results.png", pngBlob);
+
+                    const pdfBlob = await generatePDFBlob(trees, species, area, duration, areaUnit);
+                    zip.file("Leaf_Ledger_Report.pdf", pdfBlob);
+
+                    const content = await zip.generateAsync({ type: "blob" });
+                    saveAs(content, "Leaf_Ledger_Results.zip");
+                } catch (err) {
+                    console.error("Error generating zip:", err);
+                }
+            }
         
         function processData(data) {
             if (!data || data.length === 0) {
@@ -345,8 +422,8 @@
         
         function downloadTemplate() {
             const template = [
-                ['trees', 'area', 'species_count', 'water_sources', 'soil_quality', 'employment'],
-                [1000, 50, 15, 3, 7, 25]
+                ['number_of_trees', 'number_of_species', 'area', 'area_unit', 'project_duration'],
+                ['*whole number*', '*whole number*', '*whole/decimal number*', 'm2 or ac', '*whole number in years*']
             ];
             
             const ws = XLSX.utils.aoa_to_sheet(template);
@@ -355,5 +432,11 @@
             XLSX.writeFile(wb, 'leaf_ledger_template.xlsx');
         }
     </script>
+      <div id="adOverlay" class="ad-overlay" style="display: none;">
+  <video id="adVideo" autoplay muted playsinline>
+    <source src="./videoplayback.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+</div>
 </body>
 </html>

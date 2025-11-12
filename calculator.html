@@ -18,7 +18,7 @@
 
   <div class="nav-bar bg-success">
 
-     <img src="./images/klisus-white.jpeg" alt="">
+     <img src="./images/klisus-white.jpeg" alt="" onclick="window.location.href='/home.html'">
     <header class="py-2 pt-3 text-center">
       <h1 class="--fw-bold --text-success">Green Calculator Toolkit</h1>
       <p class="--text-muted">An integral part of the KliSus DMRV Platform</p>
@@ -94,7 +94,7 @@
 
       <div class="text-center mt-3">
         <button class="btn btn-warning px-4" id="watchAdBtn" onclick="watchAd()">
-          <i class="bi bi-play-circle"></i> Watch Ad to View Results
+          <i class="bi bi-play-circle"></i> Watch Ad to Generate Results
         </button>
       </div>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="metric-label">Annual CO₂<br> Sequestration</div>
             <div class="metric-value-outer">
-              <div class="metric-value" id="co2">0</div>
+              <div class="metric-value" id="co2">••••</div>
               <div class="metric-unit">kg/year</div>
             </div>
             <div class="custom-tooltip branding-tooltip">
@@ -131,7 +131,7 @@
               <i class="bi bi-info-circle info-icon branding-info"></i>
             </div>
             <div class="metric-label">Biodiversity<br> Potential Index</div>
-            <div class="metric-value" id="biodiversity">0</div>
+            <div class="metric-value" id="biodiversity">••••</div>
             <div class="custom-tooltip branding-tooltip">
               This is a relative score indicating the complexity of the habitat. A higher variety of species in a given area generally supports a richer ecosystem. This index provides a simple measure of this potential.
             </div>            
@@ -146,7 +146,7 @@
             </div>
             <div class="metric-label">Localized<br> Cooling Effect</div>
             <div class="metric-value-outer">
-              <div class="metric-value" id="cooling">0</div>
+              <div class="metric-value" id="cooling">••••</div>
               <div class="metric-unit">°C</div>
             </div>
             <div class="custom-tooltip branding-tooltip">
@@ -163,7 +163,7 @@
             </div>
             <div class="metric-label">Air Quality<br> Improvement</div>
             <div class="metric-value-outer">
-              <div class="metric-value" id="air">0</div>
+              <div class="metric-value" id="air">••••</div>
               <div class="metric-unit">kg/year</div>
 
             </div>
@@ -181,7 +181,7 @@
             </div>
             <div class="metric-label">Stormwater<br> Runoff Reduction</div>
             <div class="metric-value-outer">
-              <div class="metric-value" id="stormwater">0</div>
+              <div class="metric-value" id="stormwater">••••</div>
               <div class="metric-unit">L/year</div>
             </div>
             <div class="custom-tooltip branding-tooltip">
@@ -197,7 +197,7 @@
               <i class="bi bi-info-circle info-icon branding-info"></i>
             </div>
             <div class="metric-label">Green<br> Branding Score</div>
-            <div class="metric-value" id="branding">0</div>
+            <div class="metric-value" id="branding">••••</div>
 
            
             <div class="custom-tooltip branding-tooltip">
@@ -211,7 +211,7 @@
 
       <div id="action-buttons" class="mt-4" style="display: none;">
         <div class="row g-3">
-          <div class="col-md-3 col-6">
+          <!-- <div class="col-md-3 col-6">
             <button class="btn btn-success w-100" onclick="generatePDF()">
               <i class="bi bi-file-pdf"></i> Download PDF Report
             </button>
@@ -225,12 +225,12 @@
             <button class="btn btn-success w-100" onclick="exportToPNG()">
               <i class="bi bi-image"></i> Download Card (PNG)
             </button>
-          </div>
-          <div class="col-md-3 col-6">
+          </div> -->
+          
             <button class="btn btn-outline-primary w-100" onclick="generateAgain()">
               <i class="bi bi-arrow-clockwise"></i> Generate Again
             </button>
-          </div>
+          
         </div>
       </div>
 
@@ -271,16 +271,22 @@
   
     
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
+
+
+
   <script src="script.js"></script>
 
   <div id="adOverlay" class="ad-overlay" style="display: none;">
   <video id="adVideo" autoplay muted playsinline>
-    <source src="./sample-ad.mp4" type="video/mp4">
+    <source src="./videoplayback.mp4" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
 </div>

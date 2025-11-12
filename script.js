@@ -1,5 +1,5 @@
 const path = window.location.pathname;
-const isIndexPage = path.endsWith("index.html") || path.endsWith("/") || path === "";
+const isIndexPage = path.endsWith("home.html") || path.endsWith("/") || path === "";
 const isReportPage = path.endsWith("report.html");
 
 let chart;
@@ -129,6 +129,8 @@ function calculate() {
     branding: Math.log(trees + species + duration || 1).toFixed(2)
   };
 
+
+  
   // Display the results
   formatMetricValues(calculatedResults.co2, "co2");
   formatMetricValues(calculatedResults.biodiversity, "biodiversity");
@@ -172,11 +174,21 @@ function disableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = true;
   });
+  // const spans = document.querySelectorAll('input[type="number"]+span');
+  // spans.forEach(span => {
+  //   span.style.backgroundColor = '#e9ebee';
+  // });
+  document.querySelectorAll('.number-with-unit').forEach(el => {
+    el.style.backgroundColor = '#e9ebee';
+  });
 }
 
 function enableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = false;
+  });
+  document.querySelectorAll('.number-with-unit').forEach(el => {
+    el.style.backgroundColor = '#e9fbf4';
   });
 }
 
@@ -215,7 +227,12 @@ function hideActionButtons() {
 // }
 
 function watchAd() {
-  const adButton = document.getElementById('watchAdBtn');
+  let adButton;
+  if(window.location.pathname == '/calculator.html') {
+    
+    adButton = document.getElementById('watchAdBtn');
+  }
+  
   const adOverlay = document.getElementById('adOverlay');
   const adVideo = document.getElementById('adVideo');
 
@@ -242,26 +259,48 @@ function watchAd() {
     setTimeout(onAdComplete, 1000);
   };
 
-  adButton.disabled = true;
-  adButton.textContent = 'Playing Ad...';
-}
-
-function onAdComplete() {
-  adWatched = true;
-  
-  // NOW calculate the real values
-  calculate();
-  
-  disableForm();
-  
-  // Hide watch ad button
-  const adButton = document.getElementById('watchAdBtn');
-  if (adButton) {
-    adButton.style.display = 'none';
+  if(window.location.pathname == '/calculator.html') {
+    adButton.disabled = true;
+    adButton.textContent = 'Playing Ad...';
+  }
   }
   
-  // Show action buttons
-  showActionButtons();
+
+async function onAdComplete() {
+
+  adWatched = true;
+
+  //console.log(window.location.pathname);
+
+  if(window.location.pathname == '/calculator.html') {
+    calculate();
+    disableForm();
+
+    const adButton = document.getElementById('watchAdBtn');
+    if (adButton) adButton.style.display = 'none';
+    showActionButtons();
+  }
+  
+  
+
+  
+  try {
+    const zip = new JSZip();
+
+    const csvBlob = exportToCSVBlob("", "", "", "", "");
+    zip.file("Leaf_Ledger_Results.csv", csvBlob);
+
+    const pngBlob = await exportToPNGBlob("", "", "", "", "");
+    zip.file("Leaf_Ledger_Results.png", pngBlob);
+
+    const pdfBlob = await generatePDFBlob("", "", "", "", "");
+    zip.file("Leaf_Ledger_Report.pdf", pdfBlob);
+
+    const content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, "Leaf_Ledger_Results.zip");
+  } catch (err) {
+    console.error("Error generating zip:", err);
+  }
 }
 
 // Generate Again functionality
@@ -272,6 +311,10 @@ function generateAgain() {
   showPlaceholders();
   enableForm();
   hideActionButtons();
+
+  document.querySelectorAll('.metric-value').forEach(el => {
+    el.classList.remove('unlocked');
+  });
   
   // Show watch ad button again
   const adButton = document.getElementById('watchAdBtn');
@@ -319,14 +362,44 @@ Green Branding Score,${calculatedResults.branding},`;
   window.URL.revokeObjectURL(url);
 }
 
-// Export to PNG (placeholder - will implement card design)
-function exportToPNG() {
+
+
+async function exportToPNG() {
   if (!adWatched || !calculatedResults) {
     alert('Please watch the ad first to unlock results.');
     return;
   }
-  alert('PNG export feature coming soon! This will generate a beautiful results card.');
-  // TODO: Implement PNG card generation with html2canvas
+
+  const resultsSection = document.getElementById("results");
+  if (!resultsSection) {
+    alert("Results section not found on page.");
+    return;
+  }
+
+  try {
+    // Capture the visible results area as an image
+    const canvas = await html2canvas(resultsSection, {
+      scale: 2, // high-quality capture
+      useCORS: true, // allow external images if needed
+      backgroundColor: "#ffffff"
+    });
+
+    // Convert to PNG data URL
+    const imageData = canvas.toDataURL("image/png");
+
+    // Create a temporary <a> element to download
+    const link = document.createElement("a");
+    link.href = imageData;
+    link.download = "Leaf_Ledger_Results.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    console.log("✅ PNG exported successfully.");
+  } catch (error) {
+    console.error("Error generating PNG:", error);
+    alert("Sorry, there was a problem exporting your PNG.");
+  }
 }
 
 // PDF Generation (existing function, modified to check ad status)
@@ -405,3 +478,102 @@ async function generatePDF() {
   reportDiv.remove();
 }
 
+async function generatePDFBlob(trees, species, area, duration, unit) {
+  const response = await fetch("report.html");
+  const html = await response.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  if(trees == "" || species == "" || area == "" || duration == "" || unit == ""){
+    trees = document.getElementById("trees")?.value || 0;
+    species = document.getElementById("species")?.value || 0;
+    area = document.getElementById("area")?.value || 0;
+    duration = document.getElementById("duration")?.value || 0;
+    unit = document.getElementById("areaUnit")?.textContent || "m²";
+  }
+
+
+
+  doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
+  doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
+  doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
+  doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
+
+  doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
+  doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
+  doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
+  doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
+  doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
+  doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
+  doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
+
+  const now = new Date();
+  doc.querySelector("#report-date").textContent = now.toLocaleDateString() + ", " + now.toLocaleTimeString();
+
+  const reportDiv = doc.getElementById("report");
+  reportDiv.style.width = "210mm";
+  reportDiv.style.minHeight = "297mm";
+  reportDiv.style.padding = "10mm";
+  reportDiv.style.background = "#fff";
+  reportDiv.style.boxSizing = "border-box";
+
+  document.body.appendChild(reportDiv);
+
+  const canvas = await html2canvas(reportDiv, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+  const imgData = canvas.toDataURL("image/jpeg");
+
+  const pdf = new jspdf.jsPDF("p", "mm", "a4");
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+
+  const imgWidth = pageWidth;
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
+  const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
+  const xOffset = (pageWidth - finalWidth) / 2;
+  const yOffset = (pageHeight - finalHeight) / 2;
+
+  pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
+  const blob = pdf.output("blob");
+
+  reportDiv.remove();
+  return blob;
+}
+
+async function exportToPNGBlob(trees, species, area, duration, unit) {
+  if(trees != "" || species != "" || area != "" || duration != "" || unit != ""){
+    return;
+  }
+  const resultsSection = document.getElementById("results");
+  const canvas = await html2canvas(resultsSection, { scale: 2, useCORS: true });
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+  return blob;
+}
+
+function exportToCSVBlob(trees, species, area, duration, unit) {
+
+  //let trees, species, area, duration, unit;
+
+  if(trees == "" || species == "" || area == "" || duration == "" || unit == "") {
+    trees = document.getElementById("trees").value;
+    species = document.getElementById("species").value;
+    area = document.getElementById("area").value;
+    duration = document.getElementById("duration").value;
+    unit = document.getElementById("areaUnit").textContent;
+  }
+
+
+  const csvContent = `Metric,Value,Unit
+Number of Trees,${trees},trees
+Number of Species,${species},species
+Area,${area},${unit}
+Project Duration,${duration},years
+Annual CO2 Sequestration,${calculatedResults.co2},kg/year
+Biodiversity Potential Index,${calculatedResults.biodiversity},
+Localized Cooling Effect,${calculatedResults.cooling},°C
+Air Quality Improvement,${calculatedResults.air},kg/year
+Stormwater Runoff Reduction,${calculatedResults.stormwater},L/year
+Green Branding Score,${calculatedResults.branding},`;
+
+  return new Blob([csvContent], { type: "text/csv" });
+}
