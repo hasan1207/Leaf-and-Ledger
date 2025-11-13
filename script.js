@@ -47,11 +47,11 @@ radioButtons.forEach(radioButton => {
     if (selectedUnit === "m2") {
       unitType.textContent = "m²";
       rawValue = rawValue * 4046.86;
-      unitRange.max = 100000;
+      unitRange.max = 200000;
     } else {
       unitType.textContent = "ac";
       rawValue = rawValue / 4046.86;
-      unitRange.max = 25;
+      unitRange.max = 50;
     }
 
     rawValue = Math.min(Math.max(rawValue, unitRange.min), unitRange.max);
@@ -186,6 +186,8 @@ function disableForm() {
 function enableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = false;
+    input.value = 0;
+    updateAllSliderFills();
   });
   document.querySelectorAll('.number-with-unit').forEach(el => {
     el.style.backgroundColor = '#e9fbf4';
@@ -273,33 +275,49 @@ async function onAdComplete() {
   //console.log(window.location.pathname);
 
   if(window.location.pathname == '/calculator.html') {
+
+     document.getElementById('report-section').style.display = 'block';
+    document.getElementById('report-section').scrollIntoView({ behavior: 'smooth' });
     calculate();
     disableForm();
+   
 
     const adButton = document.getElementById('watchAdBtn');
+    const againButton = document.getElementById('generateAgainBtn');
     if (adButton) adButton.style.display = 'none';
+    if (againButton) againButton.style.display = 'inline-block';
     showActionButtons();
   }
   
   
 
   
+  // try {
+  //   const zip = new JSZip();
+
+  //   const csvBlob = exportToCSVBlob("", "", "", "", "");
+  //   zip.file("Leaf_Ledger_Results.csv", csvBlob);
+
+  //   const pngBlob = await exportToPNGBlob("", "", "", "", "");
+  //   zip.file("Leaf_Ledger_Results.png", pngBlob);
+
+  //   const pdfBlob = await generatePDFBlob("", "", "", "", "");
+  //   zip.file("Leaf_Ledger_Report.pdf", pdfBlob);
+
+  //   const content = await zip.generateAsync({ type: "blob" });
+  //   saveAs(content, "Leaf_Ledger_Results.zip");
+  // } catch (err) {
+  //   console.error("Error generating zip:", err);
+  // }
+
   try {
-    const zip = new JSZip();
+    // Generate only PDF
+    const pdfBlob = await generatePDFBlob();
 
-    const csvBlob = exportToCSVBlob("", "", "", "", "");
-    zip.file("Leaf_Ledger_Results.csv", csvBlob);
-
-    const pngBlob = await exportToPNGBlob("", "", "", "", "");
-    zip.file("Leaf_Ledger_Results.png", pngBlob);
-
-    const pdfBlob = await generatePDFBlob("", "", "", "", "");
-    zip.file("Leaf_Ledger_Report.pdf", pdfBlob);
-
-    const content = await zip.generateAsync({ type: "blob" });
-    saveAs(content, "Leaf_Ledger_Results.zip");
+    // Use FileSaver.js (saveAs) to download directly
+    saveAs(pdfBlob, "Leaf_Ledger_Report.pdf");
   } catch (err) {
-    console.error("Error generating zip:", err);
+    console.error("Error generating PDF:", err);
   }
 }
 
@@ -307,6 +325,8 @@ async function onAdComplete() {
 function generateAgain() {
   adWatched = false;
   calculatedResults = null; // Clear stored results
+
+  document.getElementById('report-section').style.display = 'none';
   
   showPlaceholders();
   enableForm();
@@ -318,10 +338,15 @@ function generateAgain() {
   
   // Show watch ad button again
   const adButton = document.getElementById('watchAdBtn');
+  const generateAgainBtn = document.getElementById('generateAgainBtn');
   if (adButton) {
     adButton.style.display = 'inline-block';
     adButton.textContent = 'Watch Ad to View Results';
     adButton.disabled = false;
+  }
+
+  if(generateAgainBtn) {
+    generateAgainBtn.style.display = 'none';
   }
   
   // Scroll to top
@@ -478,19 +503,18 @@ async function generatePDF() {
   reportDiv.remove();
 }
 
-async function generatePDFBlob(trees, species, area, duration, unit) {
+async function generatePDFBlob() {
   const response = await fetch("report.html");
   const html = await response.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
 
-  if(trees == "" || species == "" || area == "" || duration == "" || unit == ""){
     trees = document.getElementById("trees")?.value || 0;
     species = document.getElementById("species")?.value || 0;
     area = document.getElementById("area")?.value || 0;
     duration = document.getElementById("duration")?.value || 0;
     unit = document.getElementById("areaUnit")?.textContent || "m²";
-  }
+  
 
 
 

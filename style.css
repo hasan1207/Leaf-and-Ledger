@@ -7,10 +7,12 @@ body {
   
   padding: 20px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
 }
 
-.card{
+.cardd{
   flex: 1;
 }
 
@@ -86,7 +88,7 @@ body {
 
 .metric-value {
   filter: blur(8px);
-  transition: filter 0.5s ease;
+  transition: filter 2s ease;
   --letter-spacing: 0.1em;
   --font-family: 'Courier New', monospace;
 }
@@ -130,6 +132,17 @@ body {
 
 .header-bar-img {
   flex-grow: 1;
+}
+
+.first-row {
+  width: 100%;;
+  display: flex;
+  justify-content: center;
+  
+}
+
+#report-section {
+  display: none;
 }
 
 
@@ -444,9 +457,10 @@ input:disabled {
   height: 300px;
 }
 
-.card{
+.cardd{
   max-width: 800px !important;
   --margin: auto;
+  --width: 800px;
 }
 
 .title-row{
@@ -553,8 +567,9 @@ input[type="number"] {
 
 }
 
-.card{
+.cardd{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 

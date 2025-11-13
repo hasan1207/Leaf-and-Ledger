@@ -27,81 +27,85 @@
 
   <div class="--container con pb-5">
 
-
-    <div class="card p-4 mb-4">
-      
-
-
-      <div class="form-group">
-        <div class="title-row">
-          <label for="trees">Number of Trees</label>
-          <input type="number" id="trees" class="form-control w-auto" value="100" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')">
-        </div> <div class="input-row">
+    <div class="first-row">
+      <div class="cardd p-4 mb-4">
         
 
-        <input type="range" id="treesRange" class="--form-range" min="0" max="5000" value="100"
-       oninput="validateNonNegative(this); syncInput('trees','treesRange');">
-        </div> 
-      </div>
 
-      <div class="form-group">
-        <div class="title-row">
-          <label for="species">Number of Species</label>
-          <input type="number" id="species" class="form-control w-auto" value="5" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')">
+        <div class="form-group">
+          <div class="title-row">
+            <label for="trees">Number of Trees</label>
+            <input type="number" id="trees" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')">
+          </div> <div class="input-row">
+          
+
+          <input type="range" id="treesRange" class="--form-range" min="0" max="10000" value="0"
+        oninput="validateNonNegative(this); syncInput('trees','treesRange');">
+          </div> 
         </div>
-        <div class="input-row">
-          <input type="range" id="speciesRange" class="--form-range" min="0" max="200" value="5" oninput="validateNonNegative(this); syncInput('species','speciesRange')">
+
+        <div class="form-group">
+          <div class="title-row">
+            <label for="species">Number of Species</label>
+            <input type="number" id="species" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')">
+          </div>
+          <div class="input-row">
+            <input type="range" id="speciesRange" class="--form-range" min="0" max="100" value="0" oninput="validateNonNegative(this); syncInput('species','speciesRange')">
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="title-row">
-          <label for="area">Area</label>
+        <div class="form-group">
+          <div class="title-row">
+            <label for="area">Area</label>
 
-          <div class="area-div">
-            
-            <div class="unit-toggle btn-group" role="group" aria-label="Unit toggle">
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="m2" autocomplete="off" checked>
-              <label class="btn unit-btn" for="btnradio1">m²</label>
+            <div class="area-div">
+              
+              <div class="unit-toggle btn-group" role="group" aria-label="Unit toggle">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="m2" autocomplete="off" checked>
+                <label class="btn unit-btn" for="btnradio1">m²</label>
 
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="ac" autocomplete="off">
-              <label class="btn unit-btn" for="btnradio2">ac</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="ac" autocomplete="off">
+                <label class="btn unit-btn" for="btnradio2">ac</label>
+              </div>
+              <div class="number-with-unit">
+                <input type="number" id="area" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')">
+                <span id="areaUnit">m²</span>
+              </div>
             </div>
+          </div>
+          <div class="input-row">
+            <input type="range" id="areaRange" class="--form-range" min="0" max="200000" value="0" oninput="validateNonNegative(this); syncInput('area','areaRange')">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="title-row">
+            <label for="duration">Project Duration</label>
             <div class="number-with-unit">
-              <input type="number" id="area" class="form-control w-auto" value="500" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')">
-              <span id="areaUnit">m²</span>
+              <input type="number" id="duration" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')">
+              <span>yr</span>
             </div>
           </div>
-        </div>
-        <div class="input-row">
-          <input type="range" id="areaRange" class="--form-range" min="0" max="50000" value="500" oninput="validateNonNegative(this); syncInput('area','areaRange')">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="title-row">
-          <label for="duration">Project Duration</label>
-          <div class="number-with-unit">
-            <input type="number" id="duration" class="form-control w-auto" value="2" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')">
-            <span>yr</span>
+          <div class="input-row">
+            <input type="range" id="durationRange" class="--form-range" min="0" max="50" value="0" oninput="validateNonNegative(this); syncInput('duration','durationRange')">
           </div>
         </div>
-        <div class="input-row">
-          <input type="range" id="durationRange" class="--form-range" min="0" max="100" value="2" oninput="validateNonNegative(this); syncInput('duration','durationRange')">
+
+
+        <div class="text-center mt-3">
+          <button class="btn btn-warning px-4" id="watchAdBtn" onclick="watchAd()">
+            <i class="bi bi-play-circle"></i> Generate Metrics
+          </button>
+          <button class="btn btn-outline-primary px-4" id="generateAgainBtn" style="display: none;" onclick="generateAgain()">
+              <i class="bi bi-arrow-clockwise"></i> Generate Again
+          </button>
         </div>
+
+
+
+
+        
       </div>
-
-
-      <div class="text-center mt-3">
-        <button class="btn btn-warning px-4" id="watchAdBtn" onclick="watchAd()">
-          <i class="bi bi-play-circle"></i> Watch Ad to Generate Results
-        </button>
-      </div>
-
-
-
-
-      
     </div>
 
     <div id="report-section">
@@ -227,9 +231,9 @@
             </button>
           </div> -->
           
-            <button class="btn btn-outline-primary w-100" onclick="generateAgain()">
+            <!-- <button class="btn btn-outline-primary w-100" id="generateAgainBtn" onclick="generateAgain()">
               <i class="bi bi-arrow-clockwise"></i> Generate Again
-            </button>
+            </button> -->
           
         </div>
       </div>
@@ -251,7 +255,7 @@
         <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1" aria-label="Bootstrap">
           <svg class="bi" width="30" height="24" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg> 
         </a>
-        <span class="mb-3 mb-md-0 text-body-secondary">© 2025 KliSus Systems - Green Calculator Toolkit. All rights reserved.</span>
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2025 Leaf & Ledger - KliSus Systems (Green Calculator Toolkit). All rights reserved.</span>
       </div>
       <ul class="nav col-md-4 col-12 justify-content-center list-unstyled d-flex mt-3 mt-md-0">
         <li class="ms-3">
