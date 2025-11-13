@@ -13,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=block" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
+
 </head>
 <body class="bg-light">
 
@@ -29,67 +30,289 @@
 
     <div class="first-row">
       <div class="cardd p-4 mb-4">
+
+          <ul class="nav nav-tabs" id="calculatorTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="green-tab" data-bs-toggle="tab" data-bs-target="#green" type="button" role="tab">
+              Green Space & Biodiversity
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="energy-tab" data-bs-toggle="tab" data-bs-target="#energy" type="button" role="tab">
+              Energy & Built Environment
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="water-tab" data-bs-toggle="tab" data-bs-target="#water" type="button" role="tab">
+              Water Use & Management
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="waste-tab" data-bs-toggle="tab" data-bs-target="#waste" type="button" role="tab">
+              Waste & Circularity
+            </button>
+          </li>
+        </ul>
         
 
 
-        <div class="form-group">
-          <div class="title-row">
-            <label for="trees">Number of Trees</label>
-            <input type="number" id="trees" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')">
-          </div> <div class="input-row">
-          
 
-          <input type="range" id="treesRange" class="--form-range" min="0" max="10000" value="0"
-        oninput="validateNonNegative(this); syncInput('trees','treesRange');">
-          </div> 
-        </div>
+      <div class="tab-content" id="calculatorTabContent">
+        <!-- Green Space & Biodiversity Tab -->
+        <div class="tab-pane fade show active" id="green" role="tabpanel">
+          <div class="form-group">
+            <div class="title-row">
+              <label for="trees">Number of Trees</label>
+              <input type="number" id="trees" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')">
+            </div> <div class="input-row">
+            
 
-        <div class="form-group">
-          <div class="title-row">
-            <label for="species">Number of Species</label>
-            <input type="number" id="species" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')">
+            <input type="range" id="treesRange" class="--form-range" min="0" max="10000" value="0"
+          oninput="validateNonNegative(this); syncInput('trees','treesRange');">
+            </div> 
           </div>
-          <div class="input-row">
-            <input type="range" id="speciesRange" class="--form-range" min="0" max="100" value="0" oninput="validateNonNegative(this); syncInput('species','speciesRange')">
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="species">Number of Species</label>
+              <input type="number" id="species" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')">
+            </div>
+            <div class="input-row">
+              <input type="range" id="speciesRange" class="--form-range" min="0" max="100" value="0" oninput="validateNonNegative(this); syncInput('species','speciesRange')">
+            </div>
           </div>
-        </div>
 
-        <div class="form-group">
-          <div class="title-row">
-            <label for="area">Area</label>
+          <div class="form-group">
+            <div class="title-row">
+              <label for="area">Area</label>
 
-            <div class="area-div">
-              
-              <div class="unit-toggle btn-group" role="group" aria-label="Unit toggle">
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="m2" autocomplete="off" checked>
-                <label class="btn unit-btn" for="btnradio1">m²</label>
+              <div class="area-div">
+                
+                <div class="unit-toggle btn-group" role="group" aria-label="Unit toggle">
+                  <input type="radio" class="btn-check" name="btnradio-area" id="btnradio1" value="m2" autocomplete="off" checked>
+                  <label class="btn unit-btn" for="btnradio1">m²</label>
 
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="ac" autocomplete="off">
-                <label class="btn unit-btn" for="btnradio2">ac</label>
+                  <input type="radio" class="btn-check" name="btnradio-area" id="btnradio2" value="ac" autocomplete="off">
+                  <label class="btn unit-btn" for="btnradio2">ac</label>
+                </div>
+                <div class="number-with-unit">
+                  <input type="number" id="area" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')">
+                  <span id="areaUnit">m²</span>
+                </div>
               </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="areaRange" class="--form-range" min="0" max="200000" value="0" oninput="validateNonNegative(this); syncInput('area','areaRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="duration">Project Duration</label>
               <div class="number-with-unit">
-                <input type="number" id="area" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')">
-                <span id="areaUnit">m²</span>
+                <input type="number" id="duration" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')">
+                <span>yr</span>
               </div>
             </div>
+            <div class="input-row">
+              <input type="range" id="durationRange" class="--form-range" min="0" max="50" value="0" oninput="validateNonNegative(this); syncInput('duration','durationRange')">
+            </div>
           </div>
-          <div class="input-row">
-            <input type="range" id="areaRange" class="--form-range" min="0" max="200000" value="0" oninput="validateNonNegative(this); syncInput('area','areaRange')">
+
+        </div>
+
+        <div class="tab-pane fade" id="energy" role="tabpanel">
+          <div class="form-group">
+            <div class="title-row">
+              <label for="electricity">Electricity Consumption</label>
+              <div class="number-with-unit">
+                <input type="number" id="electricity" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('electricity','electricityRange')">
+                <span>kWh/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="electricityRange" class="--form-range" min="0" max="100000" value="0" oninput="validateNonNegative(this); syncInput('electricity','electricityRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="renewable">Renewable Electricity Used</label>
+              <div class="number-with-unit">
+                <input type="number" id="renewable" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('renewable','renewableRange')">
+                <span>kWh/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="renewableRange" class="--form-range" min="0" max="100000" value="0" oninput="validateNonNegative(this); syncInput('renewable','renewableRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="powerRating">Power Rating of Equipment</label>
+              <div class="number-with-unit">
+                <input type="number" id="powerRating" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('powerRating','powerRatingRange')">
+                <span>kW</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="powerRatingRange" class="--form-range" min="0" max="1000" value="0" oninput="validateNonNegative(this); syncInput('powerRating','powerRatingRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="operatingHours">Operating Hours per Day</label>
+              <div class="number-with-unit">
+                <input type="number" id="operatingHours" class="form-control w-auto" value="0" min="0" max="24" oninput="validateNonNegative(this); syncSlider('operatingHours','operatingHoursRange')">
+                <span>Hours/day</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="operatingHoursRange" class="--form-range" min="0" max="24" value="0" oninput="validateNonNegative(this); syncInput('operatingHours','operatingHoursRange')">
+            </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <div class="title-row">
-            <label for="duration">Project Duration</label>
-            <div class="number-with-unit">
-              <input type="number" id="duration" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')">
-              <span>yr</span>
+        <div class="tab-pane fade" id="water" role="tabpanel">
+          <div class="form-group">
+            <div class="title-row">
+              <label for="waterWithdrawal">Water Withdrawal</label>
+              <div class="number-with-unit">
+                <input type="number" id="waterWithdrawal" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('waterWithdrawal','waterWithdrawalRange')">
+                <span>Litres/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="waterWithdrawalRange" class="--form-range" min="0" max="1000000" value="0" oninput="validateNonNegative(this); syncInput('waterWithdrawal','waterWithdrawalRange')">
             </div>
           </div>
-          <div class="input-row">
-            <input type="range" id="durationRange" class="--form-range" min="0" max="50" value="0" oninput="validateNonNegative(this); syncInput('duration','durationRange')">
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="waterDischarged">Water Discharged</label>
+              <div class="number-with-unit">
+                <input type="number" id="waterDischarged" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('waterDischarged','waterDischargedRange')">
+                <span>Litres/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="waterDischargedRange" class="--form-range" min="0" max="1000000" value="0" oninput="validateNonNegative(this); syncInput('waterDischarged','waterDischargedRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="waterReused">Water Reused</label>
+              <div class="number-with-unit">
+                <input type="number" id="waterReused" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('waterReused','waterReusedRange')">
+                <span>Litres/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="waterReusedRange" class="--form-range" min="0" max="1000000" value="0" oninput="validateNonNegative(this); syncInput('waterReused','waterReusedRange')">
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
+            <div class="title-row">
+              <label for="siteArea">Site Area</label>
+              <div class="number-with-unit">
+                <input type="number" id="siteArea" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('siteArea','siteAreaRange')">
+                <span>m²</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="siteAreaRange" class="--form-range" min="0" max="200000" value="0" oninput="validateNonNegative(this); syncInput('siteArea','siteAreaRange')">
+            </div>
+          </div> -->
+
+
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="siteArea">Site Area</label>
+
+              <div class="area-div">
+                
+                <div class="unit-toggle btn-group" role="group" aria-label="Unit toggle">
+                  <input type="radio" class="btn-check" name="btnradio-siteArea" id="btnradio3" value="m2" autocomplete="off" checked>
+                  <label class="btn unit-btn" for="btnradio3">m²</label>
+
+                  <input type="radio" class="btn-check" name="btnradio-siteArea" id="btnradio4" value="ac" autocomplete="off">
+                  <label class="btn unit-btn" for="btnradio4">ac</label>
+                </div>
+                <div class="number-with-unit">
+                  <input type="number" id="siteArea" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('siteArea','siteAreaRange')">
+                  <span id="areaUnit2">m²</span>
+                </div>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="siteAreaRange" class="--form-range" min="0" max="200000" value="0" oninput="validateNonNegative(this); syncInput('siteArea','siteAreaRange')">
+            </div>
+          </div>
+
+        </div>
+
+        
+
+        <div class="tab-pane fade" id="waste" role="tabpanel">
+          <div class="form-group">
+            <div class="title-row">
+              <label for="hazardousWaste">Hazardous Waste</label>
+              <div class="number-with-unit">
+                <input type="number" id="hazardousWaste" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('hazardousWaste','hazardousWasteRange')">
+                <span>kg/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="hazardousWasteRange" class="--form-range" min="0" max="50000" value="0" oninput="validateNonNegative(this); syncInput('hazardousWaste','hazardousWasteRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="nonHazardousWaste">Non-Hazardous Waste</label>
+              <div class="number-with-unit">
+                <input type="number" id="nonHazardousWaste" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('nonHazardousWaste','nonHazardousWasteRange')">
+                <span>kg/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="nonHazardousWasteRange" class="--form-range" min="0" max="100000" value="0" oninput="validateNonNegative(this); syncInput('nonHazardousWaste','nonHazardousWasteRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="wasteRecycled">Waste Recycled</label>
+              <div class="number-with-unit">
+                <input type="number" id="wasteRecycled" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('wasteRecycled','wasteRecycledRange')">
+                <span>kg/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="wasteRecycledRange" class="--form-range" min="0" max="100000" value="0" oninput="validateNonNegative(this); syncInput('wasteRecycled','wasteRecycledRange')">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="title-row">
+              <label for="wasteLandfill">Waste Sent to Landfill</label>
+              <div class="number-with-unit">
+                <input type="number" id="wasteLandfill" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('wasteLandfill','wasteLandfillRange')">
+                <span>kg/year</span>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="range" id="wasteLandfillRange" class="--form-range" min="0" max="100000" value="0" oninput="validateNonNegative(this); syncInput('wasteLandfill','wasteLandfillRange')">
+            </div>
           </div>
         </div>
+
+      </div>  
 
 
         <div class="text-center mt-3">
@@ -136,6 +359,7 @@
             </div>
             <div class="metric-label">Biodiversity<br> Potential Index</div>
             <div class="metric-value" id="biodiversity">••••</div>
+            <div class="metric-unit"></div>
             <div class="custom-tooltip branding-tooltip">
               This is a relative score indicating the complexity of the habitat. A higher variety of species in a given area generally supports a richer ecosystem. This index provides a simple measure of this potential.
             </div>            
@@ -202,6 +426,7 @@
             </div>
             <div class="metric-label">Green<br> Branding Score</div>
             <div class="metric-value" id="branding">••••</div>
+            <div class="metric-unit"></div>
 
            
             <div class="custom-tooltip branding-tooltip">

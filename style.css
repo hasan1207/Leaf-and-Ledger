@@ -880,3 +880,42 @@ input[type="range"]::-moz-range-track {
     }
 
  
+    .nav-tabs {
+      border-bottom: 2px solid #e0e0e0;
+      margin-bottom: 0;
+    }
+    .nav-tabs .nav-link {
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #666;
+      font-weight: 500;
+      padding: 1rem 1.5rem;
+      transition: all 0.3s;
+    }
+    .nav-tabs .nav-link:hover {
+      border-color: transparent;
+      color: #2d7a5e;
+      background-color: #f8f9fa;
+    }
+    .nav-tabs .nav-link.active {
+      color: #2d7a5e;
+      border-bottom-color: #2d7a5e;
+      background-color: transparent;
+    }
+    .tab-content {
+      padding: 2rem;
+    }
+
+    .nav-tabs{
+      flex-wrap: nowrap !important;
+    }
+
+    @media (max-width: 575px) {
+      .nav-tabs{
+        flex-wrap: wrap !important;
+      }
+    }
+
+    .number-with-unit {
+      --min-width: 175px;
+    }
