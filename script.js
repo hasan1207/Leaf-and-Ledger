@@ -33,161 +33,6 @@ document.addEventListener('click', (e) => {
   });
 });
 
-// const radioButtons = document.querySelectorAll('input[name="btnradio"]');
-
-// radioButtons.forEach(radioButton => {
-//   const unitValue = document.querySelector(".number-with-unit > input[type='number']");
-//   const unitRange = document.querySelector("#areaRange");
-//   const unitType = document.querySelector(".number-with-unit > span");
-
-//   radioButton.addEventListener('change', function() {
-//     let rawValue = parseFloat(unitValue.value) || 0;
-//     selectedUnit = document.querySelector('input[name="btnradio"]:checked').value;
-
-//     if (selectedUnit === "m2") {
-//       unitType.textContent = "m²";
-//       rawValue = rawValue * 4046.86;
-//       unitRange.max = 200000;
-//     } else {
-//       unitType.textContent = "ac";
-//       rawValue = rawValue / 4046.86;
-//       unitRange.max = 50;
-//     }
-
-//     rawValue = Math.min(Math.max(rawValue, unitRange.min), unitRange.max);
-//     unitValue.value = rawValue;
-//     unitRange.value = rawValue;
-
-//     updateAllSliderFills();
-//     if (adWatched) {
-//       calculate();
-//     }
-//   });
-// });
-
-
-// const AC_TO_M2 = 4046.86;
-// function displayFromM2(m2, unit) {
-//   return unit === 'ac' ? m2 / AC_TO_M2 : m2;
-// }
-// function m2FromDisplay(displayValue, unit) {
-//   return unit === 'ac' ? displayValue * AC_TO_M2 : displayValue;
-// }
-
-// // Initialize and wire up each .area-div unit group
-// document.querySelectorAll('.area-div').forEach(areaDiv => {
-//   const numInput = areaDiv.querySelector('.number-with-unit input[type="number"]');
-//   const unitSpan = areaDiv.querySelector('.number-with-unit span');
-//   const radios = areaDiv.querySelectorAll('input[type="radio"]');
-//   // find the associated range in the same form-group (if any)
-//   const formGroup = areaDiv.closest('.form-group');
-//   const rangeInput = formGroup ? formGroup.querySelector('input[type="range"]') : null;
-
-//   // Determine current unit and initialize canonical m2 value on the input dataset
-//   const initialUnit = areaDiv.querySelector('input[type="radio"]:checked')?.value || 'm2';
-//   const initialDisplay = parseFloat(numInput.value) || 0;
-//   numInput.dataset.m2 = m2FromDisplay(initialDisplay, initialUnit);
-
-//   // When user types a new numeric value, update canonical m2 and sync range
-//   numInput.addEventListener('input', () => {
-//     const curUnit = areaDiv.querySelector('input[type="radio"]:checked')?.value || 'm2';
-//     const displayVal = parseFloat(numInput.value) || 0;
-//     numInput.dataset.m2 = m2FromDisplay(displayVal, curUnit);
-
-//     if (rangeInput) {
-//       // Keep range in sync (we assume range uses same units as displayed value)
-//       rangeInput.value = displayVal;
-//     }
-
-//     updateAllSliderFills();
-//     if (adWatched) calculate();
-//   });
-
-//   // When a radio changes in this group, convert display value from canonical m2
-//   radios.forEach(radio => {
-//     radio.addEventListener('change', () => {
-//       const chosenUnit = radio.value; // 'm2' or 'ac'
-//       const m2 = parseFloat(numInput.dataset.m2) || 0;
-//       const newDisplay = displayFromM2(m2, chosenUnit);
-
-//       // Update visible number, unit label, and range max/val
-//       numInput.value = Number(newDisplay.toFixed(chosenUnit === 'ac' ? 4 : 2));
-//       unitSpan.textContent = chosenUnit === 'ac' ? 'ac' : 'm²';
-
-//       if (rangeInput) {
-//         if (chosenUnit === 'ac') {
-//           rangeInput.max = 50;
-//         } else {
-//           rangeInput.max = 200000;
-//         }
-//         rangeInput.value = numInput.value;
-//       }
-
-//       updateAllSliderFills();
-//       if (adWatched) calculate();
-//     });
-//   });
-// });
-
-
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   const AC_TO_M2 = 4046.86;
-//   function displayFromM2(m2, unit) {
-//     return unit === 'ac' ? m2 / AC_TO_M2 : m2;
-//   }
-//   function m2FromDisplay(displayValue, unit) {
-//     return unit === 'ac' ? displayValue * AC_TO_M2 : displayValue;
-//   }
-
-//   // Initialize and wire up each .area-div unit group
-//   document.querySelectorAll('.area-div').forEach(areaDiv => {
-//     const numInput = areaDiv.querySelector('.number-with-unit input[type="number"]');
-//     const unitSpan = areaDiv.querySelector('.number-with-unit span');
-//     const radios = areaDiv.querySelectorAll('input[type="radio"]');
-//     const formGroup = areaDiv.closest('.form-group');
-//     const rangeInput = formGroup ? formGroup.querySelector('input[type="range"]') : null;
-
-//     if (!numInput || !unitSpan || radios.length === 0) return; // skip invalid
-
-//     // Determine current unit and initialize canonical m2 value
-//     const initialUnit = areaDiv.querySelector('input[type="radio"]:checked')?.value || 'm2';
-//     const initialDisplay = parseFloat(numInput.value) || 0;
-//     numInput.dataset.m2 = m2FromDisplay(initialDisplay, initialUnit);
-
-//     // When user types a new numeric value, update canonical m2 and sync range
-//     numInput.addEventListener('input', () => {
-//       const curUnit = areaDiv.querySelector('input[type="radio"]:checked')?.value || 'm2';
-//       const displayVal = parseFloat(numInput.value) || 0;
-//       numInput.dataset.m2 = m2FromDisplay(displayVal, curUnit);
-
-//       if (rangeInput) rangeInput.value = displayVal;
-//       updateAllSliderFills();
-//       if (adWatched) calculate();
-//     });
-
-//     // When a radio changes in this group, convert display value from canonical m2
-//     radios.forEach(radio => {
-//       radio.addEventListener('change', () => {
-//         const chosenUnit = radio.value;
-//         const m2 = parseFloat(numInput.dataset.m2) || 0;
-//         const newDisplay = displayFromM2(m2, chosenUnit);
-
-//         numInput.value = Number(newDisplay.toFixed(chosenUnit === 'ac' ? 4 : 2));
-//         unitSpan.textContent = chosenUnit === 'ac' ? 'ac' : 'm²';
-
-//         if (rangeInput) {
-//           rangeInput.max = chosenUnit === 'ac' ? 50 : 200000;
-//           rangeInput.value = numInput.value;
-//         }
-
-//         updateAllSliderFills();
-//         if (adWatched) calculate();
-//       });
-//     });
-//   });
-// });
-
 
 
 
@@ -195,105 +40,82 @@ document.addEventListener("DOMContentLoaded", () => {
   const AC_TO_M2 = 4046.86;
 
   function displayFromM2(m2, unit) {
-    return unit === 'ac' ? m2 / AC_TO_M2 : m2;
+    return unit === "ac" ? m2 / AC_TO_M2 : m2;
   }
 
   function m2FromDisplay(displayValue, unit) {
-    return unit === 'ac' ? displayValue * AC_TO_M2 : displayValue;
+    return unit === "ac" ? displayValue * AC_TO_M2 : displayValue;
   }
 
-  // Only sets the canonical m2 dataset on each area-div's number input.
-  // Safe to call repeatedly after DOM updates / regenerations.
+  // Initialize canonical m² dataset values for all area-divs
   function initAreaDivValues() {
-    document.querySelectorAll('.area-div').forEach(areaDiv => {
-      const numInput = areaDiv.querySelector('.number-with-unit input[type="number"]');
+    document.querySelectorAll(".area-div").forEach(areaDiv => {
+      const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
       if (!numInput) return;
-
-      const initialUnit = areaDiv.querySelector('input[type="radio"]:checked')?.value || 'm2';
-      const initialDisplay = parseFloat(numInput.value) || 0;
-      numInput.dataset.m2 = m2FromDisplay(initialDisplay, initialUnit);
-      // Ensure unit label shows correct initially
-      const unitSpan = areaDiv.querySelector('.number-with-unit span');
-      if (unitSpan) unitSpan.textContent = initialUnit === 'ac' ? 'ac' : 'm²';
-
-      // Ensure range element (if present) matches the numeric value and unit limits
-      const formGroup = areaDiv.closest('.form-group');
-      const rangeInput = formGroup ? formGroup.querySelector('input[type="range"]') : null;
-      if (rangeInput) {
-        rangeInput.max = initialUnit === 'ac' ? 50 : 200000;
-        rangeInput.value = Number(initialDisplay);
-      }
+      const checkedUnit = areaDiv.querySelector("input[type='radio']:checked")?.value || "m2";
+      const displayVal = parseFloat(numInput.value) || 0;
+      numInput.dataset.m2 = m2FromDisplay(displayVal, checkedUnit);
     });
   }
 
-  // Delegated handler for number inputs (sync canonical m2 and range)
-  document.addEventListener('input', event => {
-    const target = event.target;
-    if (!target.matches('.area-div .number-with-unit input[type="number"]')) return;
+  // Convert displayed value and unit when toggling m² ↔ ac
+  function updateAreaDiv(areaDiv, chosenUnit) {
+    const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
+    const unitSpan = areaDiv.querySelector(".number-with-unit span");
+    const rangeInput = areaDiv.closest(".form-group")?.querySelector("input[type='range']");
 
-    const areaDiv = target.closest('.area-div');
-    if (!areaDiv) return;
-
-    const curUnit = areaDiv.querySelector('input[type="radio"]:checked')?.value || 'm2';
-    const displayVal = parseFloat(target.value) || 0;
-    target.dataset.m2 = m2FromDisplay(displayVal, curUnit);
-
-    const formGroup = areaDiv.closest('.form-group');
-    const rangeInput = formGroup ? formGroup.querySelector('input[type="range"]') : null;
-    if (rangeInput) rangeInput.value = displayVal;
-
-    updateAllSliderFills();
-    if (typeof adWatched !== 'undefined' && adWatched) calculate();
-  });
-
-  // Delegated handler for radio changes (unit toggle) — conversion happens here.
-  document.addEventListener('change', event => {
-    const target = event.target;
-    if (!target.matches('.area-div input[type="radio"]')) return;
-
-    const areaDiv = target.closest('.area-div');
-    if (!areaDiv) return;
-
-    const numInput = areaDiv.querySelector('.number-with-unit input[type="number"]');
-    const unitSpan = areaDiv.querySelector('.number-with-unit span');
     if (!numInput || !unitSpan) return;
 
-    const chosenUnit = target.value;
     const m2 = parseFloat(numInput.dataset.m2) || 0;
     const newDisplay = displayFromM2(m2, chosenUnit);
 
-    numInput.value = Number(newDisplay.toFixed(chosenUnit === 'ac' ? 4 : 2));
-    unitSpan.textContent = chosenUnit === 'ac' ? 'ac' : 'm²';
+    numInput.value = Number(newDisplay.toFixed(chosenUnit === "ac" ? 4 : 2));
+    unitSpan.textContent = chosenUnit === "ac" ? "ac" : "m²";
 
-    const formGroup = areaDiv.closest('.form-group');
-    const rangeInput = formGroup ? formGroup.querySelector('input[type="range"]') : null;
     if (rangeInput) {
-      rangeInput.max = chosenUnit === 'ac' ? 50 : 200000;
+      rangeInput.max = chosenUnit === "ac" ? 50 : 200000;
       rangeInput.value = numInput.value;
     }
 
-    updateAllSliderFills();
-    if (typeof adWatched !== 'undefined' && adWatched) calculate();
+    updateAllSliderFills?.();
+    if (typeof adWatched !== "undefined" && adWatched) calculate?.();
+  }
 
-    // Update the canonical dataset (in case other code reads dataset.m2 later)
-    numInput.dataset.m2 = m2; // unchanged in canonical units (m²)
+  // When typing in the number input
+  document.addEventListener("input", e => {
+    if (!e.target.matches(".area-div .number-with-unit input[type='number']")) return;
+
+    const numInput = e.target;
+    const areaDiv = numInput.closest(".area-div");
+    const curUnit = areaDiv.querySelector("input[type='radio']:checked")?.value || "m2";
+    const displayVal = parseFloat(numInput.value) || 0;
+
+    numInput.dataset.m2 = m2FromDisplay(displayVal, curUnit);
+
+    const rangeInput = areaDiv.closest(".form-group")?.querySelector("input[type='range']");
+    if (rangeInput) rangeInput.value = displayVal;
+
+    updateAllSliderFills?.();
+    if (typeof adWatched !== "undefined" && adWatched) calculate?.();
   });
 
-  // Initialize values on first load
+  // When toggling between m² and ac
+  document.addEventListener("change", e => {
+    if (!e.target.matches(".area-div input[type='radio']")) return;
+    const radio = e.target;
+    const areaDiv = radio.closest(".area-div");
+    const chosenUnit = radio.value;
+    updateAreaDiv(areaDiv, chosenUnit);
+  });
+
+  // Initialize at load
   initAreaDivValues();
 
-  // If your generateAgain button recreates elements, call initAreaDivValues afterwards
+  // Reinitialize after "Generate Again" (if that button exists)
   const generateBtn = document.getElementById("generateAgain");
   if (generateBtn) {
     generateBtn.addEventListener("click", () => {
-      // If generateAgain is asynchronous (e.g. fetch then inject),
-      // you must call initAreaDivValues AFTER the DOM replacement completes.
-      // If generation is synchronous here, this call is enough:
-      initAreaDivValues();
-
-      // If your generation replaces elements asynchronously, you can:
-      // setTimeout(initAreaDivValues, 50); // small hacky delay
-      // OR better: call initAreaDivValues from the code that finishes DOM replacement.
+      requestAnimationFrame(initAreaDivValues);
     });
   }
 });
@@ -304,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function updateAllSliderFills() {
+  console.log("update slider fills");
   document.querySelectorAll('input[type="range"]').forEach(slider => {
     const min = parseFloat(slider.min) || 0;
     const max = parseFloat(slider.max) || 100;
@@ -340,48 +163,6 @@ function syncSlider(numId, rangeId) {
   }
 }
 
-// ONLY calculate and display after ad is watched
-// function calculate() {
-//   if (!adWatched) {
-//     // Don't calculate - show placeholder
-//     showPlaceholders();
-//     return;
-//   }
-
-//   const trees = +document.getElementById("trees").value || 0;
-//   const species = +document.getElementById("species").value || 0;
-//   let area = +document.getElementById("area").value || 0;
-//   const duration = +document.getElementById("duration").value || 0;
-
-//   if(selectedUnit == "ac") {
-//     area = area * 4046.86;
-//   }
-
-//   // Store calculated results
-//   calculatedResults = {
-//     co2: (trees * 21.8).toFixed(1),
-//     biodiversity: area > 0 ? ((species / area) * 100).toFixed(2) : 0,
-//     cooling: ((area / 100) * 0.2).toFixed(2),
-//     air: (trees * 0.12).toFixed(2),
-//     stormwater: (area * 100).toFixed(0),
-//     branding: Math.log(trees + species + duration || 1).toFixed(2)
-//   };
-
-
-  
-//   // Display the results
-//   formatMetricValues(calculatedResults.co2, "co2");
-//   formatMetricValues(calculatedResults.biodiversity, "biodiversity");
-//   formatMetricValues(calculatedResults.cooling, "cooling");
-//   formatMetricValues(calculatedResults.air, "air");
-//   formatMetricValues(calculatedResults.stormwater.toLocaleString(), "stormwater");
-//   formatMetricValues(calculatedResults.branding, "branding");
-//   document.querySelectorAll('.metric-value').forEach(el => {
-//     el.classList.add('unlocked');
-//   });
-// }
-
-
 
 function calculate() {
   if (!adWatched) {
@@ -409,183 +190,328 @@ function calculate() {
 
     if (areaUnit === "ac") area *= 4046.86;
 
+    // calculatedResults = {
+    //   co2: (trees * 21.8).toFixed(1),
+    //   biodiversity: area > 0 ? ((species / area) * 100).toFixed(2) : 0,
+    //   cooling: ((area / 100) * 0.2).toFixed(2),
+    //   air: (trees * 0.12).toFixed(2),
+    //   stormwater: (area * 100).toFixed(0),
+    //   branding: Math.log(trees + species + duration || 1).toFixed(2)
+    // };
+
+    const co2 = trees * 21.8; // kg/year (average sequestration per mature tree)
+    const biodiversity = area > 0 ? ((species / area) * 100) : 0;
+    const cooling = (area / 100) * 0.2; // °C reduction
+    const air = trees * 0.12; // kg/year of PM2.5 removed
+    const stormwater = area * 100; // L/year intercepted
+    const branding = Math.log(trees + species + duration || 1); // index
+
+    // --- Relatable Equivalents ---
+    const cars = co2 / 1710;        // cars/year
+    const households = co2 / 3000;  // household-years
+    const credits = co2 / 1000;     // 1 tCO₂ credits
+
+    // --- Bundle Results ---
     calculatedResults = {
-      co2: (trees * 21.8).toFixed(1),
-      biodiversity: area > 0 ? ((species / area) * 100).toFixed(2) : 0,
-      cooling: ((area / 100) * 0.2).toFixed(2),
-      air: (trees * 0.12).toFixed(2),
-      stormwater: (area * 100).toFixed(0),
-      branding: Math.log(trees + species + duration || 1).toFixed(2)
+      co2: co2.toFixed(1),
+      biodiversity: biodiversity.toFixed(2),
+      cooling: cooling.toFixed(2),
+      air: air.toFixed(2),
+      stormwater: stormwater.toFixed(0),
+      branding: branding.toFixed(2),
+
+      // new equivalents
+      cars: cars.toFixed(2),
+      households: households.toFixed(2),
+      credits: credits.toFixed(2)
     };
   }
 
   // ⚡ 2. Energy & Built Environment
   else if (category === "energy-tab") {
-    const electricity = +document.getElementById("electricity").value || 0;
-    const renewable = +document.getElementById("renewable").value || 0;
-    const power = +document.getElementById("powerRating").value || 0;
-    const hours = +document.getElementById("operatingHours").value || 0;
-    const tariff = 8; // ₹/kWh (example)
-    const gridEF = 0.82; // kg CO2/kWh (example)
-    const baseline = 10000; // baseline example for savings%
+  const electricity = +document.getElementById("electricity").value || 0;
+  const renewable = +document.getElementById("renewable").value || 0;
+  const power = +document.getElementById("powerRating").value || 0;
+  const hours = +document.getElementById("operatingHours").value || 0;
 
-    ids = [
-      "annualEnergy",
-      "energyCost",
-      "renewableShare",
-      "energyIntensity",
-      "energySavings",
-      "ghg"
-    ];
+  // Constants
+  const tariff = 8;      // ₹ per kWh (example)
+  const gridEF = 0.82;   // kg CO₂ per kWh (example)
+  const baseline = 10000; // baseline kWh for savings%
 
-    units = [
-      "kWh/year",
-      "₹/year",
-      "%",
-      "kWh/unit",
-      "%",
-      "kg CO2/year"
-    ];
+  // Display fields
+  ids = [
+    "annualEnergy",
+    "energyCost",
+    "renewableShare",
+    "energyIntensity",
+    "energySavings",
+    "ghg",
+    // new equivalents
+    "householdMonths",
+    "petrolAvoided",
+    "energyGJ"
+  ];
 
-    labels = [
-      "Annual Energy",
-      "Energy Cost",
-      "Renewable Share",
-      "Energy Intensity",
-      "Energy Savings",
-      "GHG Emissions"
-    ];
+  units = [
+    "kWh/year",
+    "₹/year",
+    "%",
+    "kWh/unit",
+    "%",
+    "kg CO₂/year",
+    // new equivalents
+    "months",
+    "litres",
+    "GJ/year"
+  ];
 
-    
-    emojis = [
-      "⚡️",
-      "💰",
-      "🌞",
-      "📊",
-      "💡",
-      "🌍"
-    ];
+  labels = [
+    "Annual Energy",
+    "Energy Cost",
+    "Renewable Share",
+    "Energy Intensity",
+    "Energy Savings",
+    "GHG Emissions",
+    // new equivalents
+    "Household Electricity (Months)",
+    "Petrol Avoided",
+    "Annual GJ Saved"
+  ];
 
-    tooltips = [];
+  emojis = [
+    "⚡️",
+    "💰",
+    "🌞",
+    "📊",
+    "💡",
+    "🌍",
+    // new equivalents
+    "🏠",
+    "⛽",
+    "🔥"
+  ];
 
-    
+  // --- Calculations ---
+  const annualEnergy = power * hours * 365; // total energy in kWh/year
 
+  const energyCost = electricity * tariff; // ₹/year
+  const renewableShare = electricity > 0 ? (renewable / electricity) * 100 : 0;
+  const energyIntensity = annualEnergy / 100; // arbitrary "per 100 units" example
+  const energySavings = ((baseline - electricity) / baseline) * 100;
+  const ghg = electricity * gridEF; // kg CO₂/year
 
-    const annualEnergy = (power * hours * 365).toFixed(2);
-    calculatedResults = {
-      annualEnergy,
-      energyCost: (electricity * tariff).toFixed(2),
-      renewableShare: electricity > 0 ? ((renewable / electricity) * 100).toFixed(2) : 0,
-      energyIntensity: (annualEnergy / 100).toFixed(2),
-      energySavings: (((baseline - electricity) / baseline) * 100).toFixed(2),
-      ghg: (electricity * gridEF).toFixed(2)
-    };
-  }
+  // --- Relatable Equivalents ---
+  const householdMonths = annualEnergy / 90;      // kWh ÷ 90 = months of avg household use
+  const petrolAvoided = annualEnergy / 9.7;       // kWh ÷ 9.7 = litres petrol avoided
+  const energyGJ = annualEnergy / 277.778;        // kWh ÷ 277.778 = GJ saved
+
+  // --- Final Results Object ---
+  calculatedResults = {
+    annualEnergy: annualEnergy.toFixed(2),
+    energyCost: energyCost.toFixed(2),
+    renewableShare: renewableShare.toFixed(2),
+    energyIntensity: energyIntensity.toFixed(2),
+    energySavings: energySavings.toFixed(2),
+    ghg: ghg.toFixed(2),
+
+    // new equivalents
+    householdMonths: householdMonths.toFixed(2),
+    petrolAvoided: petrolAvoided.toFixed(2),
+    energyGJ: energyGJ.toFixed(2)
+  };
+}
 
   // 💧 3. Water Use & Management
   else if (category === "water-tab") {
-    const withdrawal = +document.getElementById("waterWithdrawal").value || 0;
-    const discharge = +document.getElementById("waterDischarged").value || 0;
-    const reuse = +document.getElementById("waterReused").value || 0;
-    let siteArea = +document.getElementById("siteArea").value || 0;
-    const siteAreaUnit = document.querySelector('input[name="btnradio-siteArea"]:checked')?.value || "m2";
+  const withdrawal = +document.getElementById("waterWithdrawal").value || 0;
+  const discharge = +document.getElementById("waterDischarged").value || 0;
+  const reuse = +document.getElementById("waterReused").value || 0;
+  let siteArea = +document.getElementById("siteArea").value || 0;
+  const siteAreaUnit = document.querySelector('input[name="btnradio-siteArea"]:checked')?.value || "m2";
 
-    if (siteAreaUnit === "ac") siteArea *= 4046.86;
+  if (siteAreaUnit === "ac") siteArea *= 4046.86;
 
-    const netConsumption = withdrawal - discharge - reuse;
+  const netConsumption = withdrawal - discharge - reuse;
 
-    ids = [
-      "totalUse",
-      "netConsumption",
-      "reusePercent",
-      "stormInfiltration",
-      "waterIntensity",
-      "hydroBalance"
-    ];
+  // Display fields
+  ids = [
+    "totalUse",
+    "netConsumption",
+    "reusePercent",
+    "stormInfiltration",
+    "waterIntensity",
+    "hydroBalance",
+    // new equivalents
+    "showersSupplied",
+    "householdMonthsWater",
+    "olympicPools"
+  ];
 
-    units = [
-      "L/year",
-      "L/year",
-      "%",
-      "L/year",
-      "L/m²",
-      "L/year"
-    ];
+  units = [
+    "L/year",
+    "L/year",
+    "%",
+    "L/year",
+    "L/m²",
+    "L/year",
+    // new equivalents
+    "showers",
+    "household-months",
+    "pools"
+  ];
 
-    labels = [
-      "Total Use",
-      "Net Consumption",
-      "Reuse %",
-      "Storm Infiltration",
-      "Water Intensity",
-      "Hydro Balance"
-    ];
+  labels = [
+    "Total Use",
+    "Net Consumption",
+    "Reuse %",
+    "Storm Infiltration",
+    "Water Intensity",
+    "Hydro Balance",
+    // new equivalents
+    "Household Showers Supplied",
+    "Months of Household Water Supply",
+    "Olympic Pools Equivalent"
+  ];
 
-    emojis = ["💧", "🚰", "🔁", "🌧️", "📊", "⚖️"];
+  emojis = [
+    "💧",
+    "🚰",
+    "🔁",
+    "🌧️",
+    "📊",
+    "⚖️",
+    // new equivalents
+    "🚿",
+    "🏠",
+    "🏊‍♂️"
+  ];
 
-    
+  // --- Core Calculations ---
+  const totalUse = withdrawal;
+  const reusePercent = withdrawal > 0 ? (reuse / withdrawal) * 100 : 0;
+  const stormInfiltration = siteArea * 80; // L/year
+  const waterIntensity = netConsumption / 100; // L/m²
+  const hydroBalance = withdrawal - discharge;
 
-    calculatedResults = {
-      totalUse: withdrawal,
-      netConsumption,
-      reusePercent: withdrawal > 0 ? ((reuse / withdrawal) * 100).toFixed(2) : 0,
-      stormInfiltration: (siteArea * 80).toFixed(0),
-      waterIntensity: (netConsumption / 100).toFixed(2),
-      hydroBalance: (withdrawal - discharge).toFixed(2)
-    };
-  }
+  // --- Relatable Equivalents ---
+  const litresSaved = reuse; // Using reused/saved water volume
+  const showersSupplied = litresSaved / 50;          // 50 L per shower
+  const householdMonthsWater = litresSaved / 3000;   // 3000 L per household-month
+  const olympicPools = litresSaved / 2_500_000;      // 2.5 million L per pool
+
+  // --- Final Results Object ---
+  calculatedResults = {
+    totalUse: totalUse.toFixed(2),
+    netConsumption: netConsumption.toFixed(2),
+    reusePercent: reusePercent.toFixed(2),
+    stormInfiltration: stormInfiltration.toFixed(0),
+    waterIntensity: waterIntensity.toFixed(2),
+    hydroBalance: hydroBalance.toFixed(2),
+
+    // new equivalents
+    showersSupplied: showersSupplied.toFixed(2),
+    householdMonthsWater: householdMonthsWater.toFixed(2),
+    olympicPools: olympicPools.toFixed(4)
+  };
+}
 
   // 🗑️ 4. Waste & Circularity
   else if (category === "waste-tab") {
-    const haz = +document.getElementById("hazardousWaste").value || 0;
-    const nonHaz = +document.getElementById("nonHazardousWaste").value || 0;
-    const recycled = +document.getElementById("wasteRecycled").value || 0;
-    const landfill = +document.getElementById("wasteLandfill").value || 0;
-    const organicFraction = 0.3; // example
-    const energyFactor = 0.7; // kWh per kg
+  const haz = +document.getElementById("hazardousWaste").value || 0;
+  const nonHaz = +document.getElementById("nonHazardousWaste").value || 0;
+  const recycled = +document.getElementById("wasteRecycled").value || 0;
+  const landfill = +document.getElementById("wasteLandfill").value || 0;
 
-    const total = haz + nonHaz;
+  const organicFraction = 0.3; // fraction of waste that is organic
+  const energyFactor = 0.7; // kWh per kg of organic waste
 
-    ids = [
-      "totalWaste",
-      "recycleRate",
-      "landfillRate",
-      "energyPotential",
-      "wasteIntensity",
-      "reductionPercent"
-    ];
+  const total = haz + nonHaz;
+  const organicWaste = total * organicFraction;
 
-    units = [
-      "kg/year",
-      "%",
-      "%",
-      "kWh/year",
-      "kg/m²",
-      "%"
-    ];
+  // --- Field IDs ---
+  ids = [
+    "totalWaste",
+    "recycleRate",
+    "landfillRate",
+    "energyPotential",
+    "wasteIntensity",
+    "reductionPercent",
+    // new equivalents
+    "truckloadsAvoided",
+    "treeCarbonEquivalent",
+    "energyGenPotential"
+  ];
 
-    labels = [
-      "Total Waste",
-      "Recycle Rate",
-      "Landfill Rate",
-      "Energy Potential",
-      "Waste Intensity",
-      "Reduction %"
-    ];
+  // --- Units ---
+  units = [
+    "kg/year",
+    "%",
+    "%",
+    "kWh/year",
+    "kg/m²",
+    "%",
+    // new equivalents
+    "truckloads",
+    "tree-equivalents",
+    "kWh/year"
+  ];
 
-    emojis = ["🗑️", "♻️", "🏭", "⚡", "📊", "📉"];
+  // --- Labels ---
+  labels = [
+    "Total Waste",
+    "Recycle Rate",
+    "Landfill Rate",
+    "Energy Potential",
+    "Waste Intensity",
+    "Reduction %",
+    // new equivalents
+    "Truckloads of Waste Avoided",
+    "Trees Worth of Carbon Avoided",
+    "Energy Generation Potential"
+  ];
 
-    
+  // --- Emojis ---
+  emojis = [
+    "🗑️",
+    "♻️",
+    "🏭",
+    "⚡",
+    "📊",
+    "📉",
+    // new equivalents
+    "🚛",
+    "🌳",
+    "🔋"
+  ];
 
-    calculatedResults = {
-      totalWaste: total,
-      recycleRate: total > 0 ? ((recycled / total) * 100).toFixed(2) : 0,
-      landfillRate: total > 0 ? ((landfill / total) * 100).toFixed(2) : 0,
-      energyPotential: (total * organicFraction * energyFactor).toFixed(2),
-      wasteIntensity: (total / 100).toFixed(2),
-      reductionPercent: ((10000 - total) / 10000 * 100).toFixed(2) // baseline example
-    };
-  }
+  // --- Core Metrics ---
+  const recycleRate = total > 0 ? (recycled / total) * 100 : 0;
+  const landfillRate = total > 0 ? (landfill / total) * 100 : 0;
+  const energyPotential = total * organicFraction * energyFactor; // kWh
+  const wasteIntensity = total / 100; // kg/m²
+  const reductionPercent = ((10000 - total) / 10000) * 100; // vs baseline
+
+  // --- Relatable Equivalents ---
+  const truckloadsAvoided = total / 10_000; // 10-tonne trucks
+  const treeCarbonEquivalent = total / 1000; // 1 tree ≈ 1000 kg CO₂e
+  const energyGenPotential = organicWaste * 0.7; // kWh (same as above for clarity)
+
+  // --- Final Results Object ---
+  calculatedResults = {
+    totalWaste: total.toFixed(2),
+    recycleRate: recycleRate.toFixed(2),
+    landfillRate: landfillRate.toFixed(2),
+    energyPotential: energyPotential.toFixed(2),
+    wasteIntensity: wasteIntensity.toFixed(2),
+    reductionPercent: reductionPercent.toFixed(2),
+
+    // new equivalents
+    truckloadsAvoided: truckloadsAvoided.toFixed(2),
+    treeCarbonEquivalent: treeCarbonEquivalent.toFixed(2),
+    energyGenPotential: energyGenPotential.toFixed(2)
+  };
+}
 
 
   if(category == 'energy-tab' || category == 'water-tab' || category == 'waste-tab'){
@@ -618,7 +544,7 @@ function calculate() {
   if (window.location.pathname.endsWith("calculator.html")) {
     for (const key in calculatedResults) {
       if (document.getElementById(key))
-        console.log("Key: " + key + ", Value: " + calculatedResults[key]);
+        //console.log("Key: " + key + ", Value: " + calculatedResults[key]);
         formatMetricValues(calculatedResults[key], key);
     }
 
@@ -632,15 +558,6 @@ function calculate() {
 
 
 
-// function showPlaceholders() {
-//   // Show dummy placeholder text (not real values)
-//   document.getElementById("co2").textContent = "••••";
-//   document.getElementById("biodiversity").textContent = "••••";
-//   document.getElementById("cooling").textContent = "••••";
-//   document.getElementById("air").textContent = "••••";
-//   document.getElementById("stormwater").textContent = "••••";
-//   document.getElementById("branding").textContent = "••••";
-// }
 
 function showPlaceholders() {
   // Detect which tab is active
@@ -687,83 +604,10 @@ function formatMetricValues(value, className) {
 
 
 
-// function formatMetricValues(results) {
-//   const category = document.querySelector('.nav-link.active')?.id;
-
-//   // Define layout, labels, units, icons, and tooltips for each category
-//   const categoryConfigs = {
-//     "green-tab": [
-//       { id: "co2", label: "Annual CO₂<br>Sequestration", unit: "kg/year", icon: "🌳", tooltip: "Estimates the annual CO₂ absorbed by trees. A mature tree sequesters ~21.8 kg CO₂ annually on average." },
-//       { id: "biodiversity", label: "Biodiversity<br>Potential Index", unit: "", icon: "🌿", tooltip: "Indicates habitat complexity based on species richness per area." },
-//       { id: "cooling", label: "Localized<br>Cooling Effect", unit: "°C", icon: "🌡️", tooltip: "Estimates ambient temperature reduction due to canopy cover." },
-//       { id: "air", label: "Air Quality<br>Improvement", unit: "kg/year", icon: "💨", tooltip: "Estimates annual removal of fine particulate matter (PM2.5)." },
-//       { id: "stormwater", label: "Stormwater<br>Runoff Reduction", unit: "L/year", icon: "💧", tooltip: "Estimates rainwater intercepted by vegetation reducing drainage loads." },
-//       { id: "branding", label: "Green<br>Branding Score", unit: "", icon: "⭐", tooltip: "Reflects the initiative's scale and maturity based on logarithmic growth." }
-//     ],
-//     "energy-tab": [
-//       { id: "annualEnergy", label: "Annual Energy<br>Generation", unit: "kWh", icon: "⚡", tooltip: "Total energy generated annually based on power and operating hours." },
-//       { id: "energyCost", label: "Energy<br>Cost", unit: "₹/year", icon: "💰", tooltip: "Annual energy expenditure estimated from consumption and tariff." },
-//       { id: "renewableShare", label: "Renewable<br>Share", unit: "%", icon: "☀️", tooltip: "Proportion of total electricity sourced from renewable systems." },
-//       { id: "energyIntensity", label: "Energy<br>Intensity", unit: "kWh/unit", icon: "🏗️", tooltip: "Energy used per functional unit (e.g., floor area or output)." },
-//       { id: "energySavings", label: "Energy<br>Savings", unit: "%", icon: "💡", tooltip: "Percent reduction in consumption compared to baseline." },
-//       { id: "ghg", label: "GHG<br>Emissions", unit: "kg CO₂e/year", icon: "🌍", tooltip: "Greenhouse gas emissions based on grid emission factor." }
-//     ],
-//     "water-tab": [
-//       { id: "totalUse", label: "Total Water<br>Use", unit: "L/year", icon: "💧", tooltip: "Total annual water withdrawn from all sources." },
-//       { id: "netConsumption", label: "Net Water<br>Consumption", unit: "L/year", icon: "🚰", tooltip: "Water withdrawn minus discharged and reused water." },
-//       { id: "reusePercent", label: "Reuse<br>Percentage", unit: "%", icon: "🔁", tooltip: "Percent of total water reused or recycled annually." },
-//       { id: "stormInfiltration", label: "Stormwater<br>Infiltration", unit: "L/year", icon: "🌦️", tooltip: "Estimated infiltration based on site area." },
-//       { id: "waterIntensity", label: "Water<br>Intensity", unit: "L/unit", icon: "🏞️", tooltip: "Water use per functional unit or m²." },
-//       { id: "hydroBalance", label: "Hydrological<br>Balance", unit: "L/year", icon: "⚖️", tooltip: "Difference between withdrawal and discharge." }
-//     ],
-//     "waste-tab": [
-//       { id: "totalWaste", label: "Total<br>Waste Generated", unit: "kg/year", icon: "🗑️", tooltip: "Total annual waste generated, both hazardous and non-hazardous." },
-//       { id: "recycleRate", label: "Recycle<br>Rate", unit: "%", icon: "♻️", tooltip: "Percentage of total waste that is recycled." },
-//       { id: "landfillRate", label: "Landfill<br>Rate", unit: "%", icon: "🏞️", tooltip: "Percentage of total waste sent to landfills." },
-//       { id: "energyPotential", label: "Energy<br>Potential", unit: "kWh/year", icon: "🔥", tooltip: "Estimated recoverable energy from organic waste fraction." },
-//       { id: "wasteIntensity", label: "Waste<br>Intensity", unit: "kg/unit", icon: "📦", tooltip: "Waste generated per functional unit (e.g., output, area, or people)." },
-//       { id: "reductionPercent", label: "Waste<br>Reduction", unit: "%", icon: "🧹", tooltip: "Reduction in total waste relative to baseline." }
-//     ]
-//   };
-
-//   const config = categoryConfigs[category];
-//   if (!config) return;
-
-//   const resultsContainer = document.getElementById("results");
-//   resultsContainer.innerHTML = ""; // Clear old cards
-
-//   // Build new metric cards
-//   config.forEach(metric => {
-//     const value = results[metric.id] ?? "••••";
-//     const [intPart, decPart] = Number(value).toFixed(2).split('.');
-//     const formattedValue = isNaN(intPart)
-//       ? "••••"
-//       : `${parseInt(intPart).toLocaleString()}.${decPart ? `<span class="decimal">${decPart}</span>` : ""}`;
-
-//     const cardHTML = `
-//       <div class="col-custom">
-//         <div class="metric-card p-4 text-center shadow-sm">
-//           <div class="metric-row">
-//             <div class="metric-icon">${metric.icon}</div>
-//             <i class="bi bi-info-circle info-icon branding-info"></i>
-//           </div>
-//           <div class="metric-label">${metric.label}</div>
-//           <div class="metric-value-outer">
-//             <div class="metric-value" id="${metric.id}">${formattedValue}</div>
-//             ${metric.unit ? `<div class="metric-unit">${metric.unit}</div>` : ""}
-//           </div>
-//           <div class="custom-tooltip branding-tooltip">${metric.tooltip}</div>
-//         </div>
-//       </div>
-//     `;
-//     resultsContainer.insertAdjacentHTML("beforeend", cardHTML);
-//   });
-// }
-
-// Form control functionality
 function disableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = true;
+    
   });
   // const spans = document.querySelectorAll('input[type="number"]+span');
   // spans.forEach(span => {
@@ -777,8 +621,10 @@ function disableForm() {
 function enableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = false;
-    input.value = 0;
     updateAllSliderFills();
+  });
+  document.querySelectorAll('input[type="number"], input[type="range"]').forEach(input => {
+    input.value = 0;
   });
   document.querySelectorAll('.number-with-unit').forEach(el => {
     el.style.backgroundColor = '#e9fbf4';
@@ -800,24 +646,6 @@ function hideActionButtons() {
   }
 }
 
-// Watch Ad button functionality
-// function watchAd() {
-//   // Simulate ad watching - Replace this with actual ad integration
-//   const adButton = document.getElementById('watchAdBtn');
-//   adButton.textContent = 'Loading Ad...';
-//   adButton.disabled = true;
-  
-//   // Simulate ad duration (replace with actual ad callback)
-//   setTimeout(() => {
-//     onAdComplete();
-//   }, 3000); // 3 second simulated ad
-  
-//   // For actual implementation, integrate with ad networks like:
-//   // - Google AdSense
-//   // - AdMob
-//   // - Custom video ad networks
-//   // Call onAdComplete() after ad finishes
-// }
 
 function watchAd() {
   let adButton;
@@ -882,31 +710,9 @@ async function onAdComplete() {
   
   
 
-  
-  // try {
-  //   const zip = new JSZip();
-
-  //   const csvBlob = exportToCSVBlob("", "", "", "", "");
-  //   zip.file("Leaf_Ledger_Results.csv", csvBlob);
-
-  //   const pngBlob = await exportToPNGBlob("", "", "", "", "");
-  //   zip.file("Leaf_Ledger_Results.png", pngBlob);
-
-  //   const pdfBlob = await generatePDFBlob("", "", "", "", "");
-  //   zip.file("Leaf_Ledger_Report.pdf", pdfBlob);
-
-  //   const content = await zip.generateAsync({ type: "blob" });
-  //   saveAs(content, "Leaf_Ledger_Results.zip");
-  // } catch (err) {
-  //   console.error("Error generating zip:", err);
-  // }
 
   try {
-    // Generate only PDF
-    // const pdfBlob = await generatePDFBlob();
-
-    // // Use FileSaver.js (saveAs) to download directly
-    // saveAs(pdfBlob, "Leaf_Ledger_Report.pdf");
+    
   } catch (err) {
     console.error("Error generating PDF:", err);
   }
@@ -922,6 +728,7 @@ function generateAgain() {
   showPlaceholders();
   enableForm();
   hideActionButtons();
+  updateAllSliderFills();
 
   document.querySelectorAll('.metric-value').forEach(el => {
     el.classList.remove('unlocked');
@@ -1192,3 +999,9 @@ Green Branding Score,${calculatedResults.branding},`;
 
   return new Blob([csvContent], { type: "text/csv" });
 }
+
+document.addEventListener('change', e => {
+  if (e.target.matches('.area-div input[type="radio"]')) {
+    console.log('🔥 Radio toggled:', e.target.value);
+  }
+});

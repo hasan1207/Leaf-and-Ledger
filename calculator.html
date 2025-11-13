@@ -63,7 +63,7 @@
           <div class="form-group">
             <div class="title-row">
               <label for="trees">Number of Trees</label>
-              <input type="number" id="trees" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')">
+              <input type="number" id="trees" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('trees','treesRange')" readonly> 
             </div> <div class="input-row">
             
 
@@ -75,7 +75,7 @@
           <div class="form-group">
             <div class="title-row">
               <label for="species">Number of Species</label>
-              <input type="number" id="species" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')">
+              <input type="number" id="species" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('species','speciesRange')" readonly>
             </div>
             <div class="input-row">
               <input type="range" id="speciesRange" class="--form-range" min="0" max="100" value="0" oninput="validateNonNegative(this); syncInput('species','speciesRange')">
@@ -96,7 +96,7 @@
                   <label class="btn unit-btn" for="btnradio2">ac</label>
                 </div>
                 <div class="number-with-unit">
-                  <input type="number" id="area" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')">
+                  <input type="number" id="area" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('area','areaRange')" readonly>
                   <span id="areaUnit">m²</span>
                 </div>
               </div>
@@ -110,7 +110,7 @@
             <div class="title-row">
               <label for="duration">Project Duration</label>
               <div class="number-with-unit">
-                <input type="number" id="duration" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')">
+                <input type="number" id="duration" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('duration','durationRange')" readonly>
                 <span>yr</span>
               </div>
             </div>
@@ -431,6 +431,68 @@
            
             <div class="custom-tooltip branding-tooltip">
               A proprietary, motivational score that reflects the scale, complexity, and maturity of the greening initiative. The logarithmic scale indicates that while all contributions are valuable, sustained and diverse projects have a greater cumulative impact.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-5 mb-3 text-center">
+          <hr class="mx-auto" style="width: 60%; opacity: 0.3;">
+          <h5 class="fw-bold text-secondary mt-3">Top 3 Relatable Equivalents</h5>
+        </div>
+
+        <!-- Equivalent 1 -->
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">🚗</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Cars Taken<br>Off the Road</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="cars">••••</div>
+              <div class="metric-unit">cars/year</div>
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              Equivalent number of average petrol cars' annual CO₂ emissions avoided.
+              <br><strong>Formula:</strong> CO₂_sequestered_kg ÷ 1710 (kg CO₂ per car-year)
+            </div>
+          </div>
+        </div>
+
+        <!-- Equivalent 2 -->
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">🏠</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Household Electricity<br>Offset (Annual)</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="households">••••</div>
+              <div class="metric-unit">household-years</div>
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              Equivalent to the annual electricity use of average households offset by saved emissions.
+              <br><strong>Formula:</strong> CO₂_sequestered_kg ÷ 3000 (kg CO₂ per household-year)
+            </div>
+          </div>
+        </div>
+
+        <!-- Equivalent 3 -->
+        <div class="col-custom">
+          <div class="metric-card p-4 text-center shadow-sm">
+            <div class="metric-row">
+              <div class="metric-icon">🌲</div>
+              <i class="bi bi-info-circle info-icon branding-info"></i>
+            </div>
+            <div class="metric-label">Carbon Credits<br>(Approx.)</div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="credits">••••</div>
+              <div class="metric-unit">credits (1 tCO₂)</div>
+            </div>
+            <div class="custom-tooltip branding-tooltip">
+              Approximate number of 1-tonne CO₂ credits represented.
+              <br><strong>Formula:</strong> CO₂_sequestered_kg ÷ 1000
             </div>
           </div>
         </div>

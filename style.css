@@ -919,3 +919,13 @@ input[type="range"]::-moz-range-track {
     .number-with-unit {
       --min-width: 175px;
     }
+
+    #results hr {
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
+    #results h5 {
+      letter-spacing: 0.5px;
+      color: #323232;
+    }
