@@ -1250,7 +1250,7 @@ function calculate() {
     units = ["kg/year","","°C","kg/year","L/year","","cars/year","household years","credits (1 tCO₂)"];
     labels = ["Annual CO₂ Sequestration","Biodiversity Potential Index","Localized Cooling Effect","Air Quality Improvement","Stormwater Runoff Reduction","Green Branding Score","Cars Taken Off the Road","Household Electricity Offset (Annual)","Carbon Credits (Approx.)"];
     emojisLocal = ["🌳","🌿","🌡️","💨","💧","⭐","🚗","🏠","🌲"];
-    tooltipContent = ["Estimated carbon captured annually by the trees.","Relative biodiversity score based on species richness per area.","Cooling potential created by green space.","Amount of PM2.5 removed by trees annually.","Rainwater intercepted by green surfaces annually.","A maturity indicator combining age, species and duration.","Equivalent number of average petrol cars' annual CO₂ emissions avoided.","Number of average households' annual electricity use offset by saved emissions.","Approximate number of 1-tonne CO₂ credits represented."];
+    tooltipContent = ["Estimated carbon captured annually by the trees. Removes harmful carbon dioxide from the atmosphere each year, helping slow climate change.", "Relative biodiversity score based on species richness per area. Shows how effectively the green space can support diverse plant and animal life.", "Cooling potential created by green space. Reduces surrounding temperatures naturally, improving comfort and lowering heat stress.", "Amount of PM2.5 removed by trees annually. Filters pollutants like PM2.5 from the air, providing cleaner and healthier air to breathe.", "Rainwater intercepted by green surfaces annually. Absorbs rainfall and reduces flooding risk while improving groundwater replenishment.", "A maturity indicator combining age, species, and trees. Reflects the environmental leadership and maturity of your green initiative.", "Equivalent number of average petrol cars' annual CO₂ emissions avoided.", "Number of average households' annual electricity use offset by saved emissions.", "Approximate number of 1-tonne CO₂ credits represented."];
     calculatedResults = {
       co2: co2.toFixed(1),
       biodiversity: biodiversity.toFixed(2),
@@ -1284,7 +1284,7 @@ function calculate() {
     units = ["kWh/year","₹/year","%","kWh/unit","%","kg CO₂/year","months","litres","GJ/year"];
     labels = ["Annual Energy","Energy Cost","Renewable Share","Energy Intensity","Energy Savings","GHG Emissions","Household Electricity (Months)","Petrol Avoided","Annual GJ Saved"];
     emojisLocal = ["⚡️","💰","🌞","📊","💡","🌍","🏠","⛽","🔥"];
-    tooltipContent = ["Total energy consumed annually.","Estimated cost of consumed electricity.","Percentage share of renewable energy.","Energy needed per unit of output.","Reduction in energy use relative to baseline.","Emissions caused by electricity usage.","Equivalent months of household electricity.","Volume of petrol whose combustion equals the energy saved.","Energy savings expressed in GJ."];
+    tooltipContent = ["Total energy consumed annually. Represents the total energy consumed annually, helping track operational efficiency.", "Estimated cost of consumed electricity. Shows the annual financial cost of electricity consumption to highlight savings opportunities.", "Percentage share of renewable energy. Indicates how much of your total energy comes from clean, renewable sources.", "Energy needed per unit of user-defined output. Reveals the amount of energy required per unit of output, showing operational efficiency.", "Reduction in energy use relative to baseline. Shows how much energy you have saved compared to the baseline, demonstrating improvement.", "Emissions caused by electricity usage. Quantifies the climate-impacting emissions generated from electricity use.", "Equivalent months of an average household's electricity supplied by saved energy.", "Volume of petrol whose combustion equals the energy saved.", "Energy savings expressed in gigajoules."];
     calculatedResults = {
       annualEnergy: annualEnergy.toFixed(2),
       energyCost: energyCost.toFixed(2),
@@ -1322,7 +1322,7 @@ function calculate() {
     units = ["L/year","L/year","%","L/year","L/m²","L/year","showers","household-months","pools"];
     labels = ["Total Use","Net Consumption","Reuse %","Storm Infiltration","Water Intensity","Hydro Balance","Household Showers Supplied","Months of Household Water Supply","Olympic Pools Equivalent"];
     emojisLocal = ["💧","🚰","🔁","🌧️","📊","⚖️","🚿","🏠","🏊‍♂️"];
-    tooltipContent = ["Total water withdrawn from all sources.","Water consumed after reuse and discharge.","Percentage of withdrawn water reused.","Estimated annual stormwater infiltration.","Water consumption per output unit.","Water retained or released by site.","Number of typical household showers that volume could supply.","Months of water supply for one household provided.","Number of standard Olympic pools worth of water saved."];
+    tooltipContent = ["Total water withdrawn from all sources. Measures the total water withdrawn from all sources for your operations.", "Water consumed after reuse and discharge. Shows the actual water consumed after subtracting reused and discharged water.", "Percentage of withdrawn water reused. Indicates how effectively your system recycles water, reducing freshwater demand.", "Estimated annual stormwater infiltration. Estimates how much rainwater your site can naturally filter back into the ground.", "Water consumption per output unit. Shows how much water is consumed per unit of output, helping identify efficiency gains.", "Water retained or released by site. Indicates whether your site retains or releases water overall.", "Number of typical household showers that volume of water could supply.", "Months of water supply for one household (basic use) provided.", "Number of standard Olympic pools worth of water saved."];
     calculatedResults = {
       totalUse: totalUse.toFixed(2),
       netConsumption: netConsumption.toFixed(2),
@@ -1352,11 +1352,12 @@ function calculate() {
     const truckloadsAvoided = total / 10000;
     const treeCarbonEquivalent = total / 1000;
     const energyGenPotential = organicWaste * 0.7;
+    
     ids = ["totalWaste","recycleRate","landfillRate","energyPotential","wasteIntensity","reductionPercent","truckloadsAvoided","treeCarbonEquivalent","energyGenPotential"];
     units = ["kg/year","%","%","kWh/year","kg/m²","%","truckloads","tree-equivalents","kWh/year"];
     labels = ["Total Waste","Recycle Rate","Landfill Rate","Energy Potential","Waste Intensity","Reduction %","Truckloads of Waste Avoided","Trees Worth of Carbon Avoided","Energy Generation Potential"];
     emojisLocal = ["🗑️","♻️","🏭","⚡","📊","📉","🚛","🌳","🔋"];
-    tooltipContent = ["Combined hazardous and non-hazardous waste.","Percentage of waste recycled.","Percentage of waste landfilled.","Potential energy from recoverable waste.","Waste generated per output unit.","Reduction in waste compared to baseline.","Number of 10-tonne truckloads reduced.","Approximate trees' worth of carbon avoided.","Potential electricity from waste-to-energy for organic fraction."];
+    tooltipContent = ["Combined hazardous and non-hazardous waste. Represents the combined hazardous and non-hazardous waste produced annually.", "Percentage of waste recycled. Shows the percentage of waste diverted from disposal through recycling.", "Percentage of waste landfilled. Indicates how much waste ends up in landfills, supporting zero-waste goals.", "Potential energy from recoverable waste. Shows how much usable energy can be recovered from organic waste.", "Waste generated per output unit. Measures waste generated per unit of output, highlighting efficiency improvements.", "Reduction in waste compared to baseline. Shows how effectively waste has been reduced compared to your baseline levels.", "Number of standard 10-tonne truckloads reduced.", "Approximate trees' worth of carbon avoided by diverting waste.", "Potential electricity from waste-to-energy for organic fraction."]
     calculatedResults = {
       totalWaste: total.toFixed(2),
       recycleRate: recycleRate.toFixed(2),
