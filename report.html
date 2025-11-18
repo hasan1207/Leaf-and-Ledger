@@ -2,171 +2,260 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Structured Report Template</title>
+  <title>Leaf and Ledger Report</title>
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=block" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    
+
+    
+
+  </style>
 </head>
 <body>
 
   <div id="report">
-    <table class="master">
-      <tbody>
+    <!-- Header -->
+    <div class="header-section">
+      <div class="logo-container">
+      
+        <img src="./images/klisus-white.jpeg" alt="Klisus Systems" class="logo">
+        <div>KliSus Systems</div>
+      </div>
+      <div class="report-title">Leaf and Ledger Report</div>
+      <div class="report-date" id="report-date">11.11.2025, 20:28:50</div>
+    </div>
+
+    <!-- Overview -->
+    <div class="section-header">OVERVIEW</div>
+    <div class="overview-grid">
+      <div class="overview-item">
+        <div class="overview-label">Number of trees</div>
+        <div class="overview-value" id="overview-trees">393 <span></span></div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-label">Number of species</div>
+        <div class="overview-value" id="overview-species">14 <span></span></div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-label">Area</div>
+        <div class="overview-value" id="overview-area">5775 <span>m²</span></div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-label">Project Duration</div>
+        <div class="overview-value" id="overview-duration">11 <span>years</span></div>
+      </div>
+    </div>
+
+    <!-- Your Impact in Numbers -->
+    <div class="impact-section">
+      <div class="section-header">Your Impact in numbers</div>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <!-- <div class="impact-icon">🌱</div> -->
+           <img src="/images/icons-removebg-preview.png" alt="">
+          <div class="impact-label">Annual CO₂ Sequestration</div>
+          <div><span class="impact-value" id="co2-value">8,567.40</span> <span class="impact-unit">kg/year</span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">🌳</div> -->
+           <img src="/images/icons_copy-removebg-preview.png" alt="">
+          <div class="impact-label">Biodiversity Potential Index</div>
+          <div><span class="impact-value" id="biodiversity-value">0.24</span> <span class="impact-unit"></span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">🌡️</div> -->
+           <img src="/images/icons_copy_3-removebg-preview.png" alt="">
+          <div class="impact-label">Localized Cooling Effect</div>
+          <div><span class="impact-value" id="cooling-value">11.55</span> <span class="impact-unit">°C</span></div>
+        </div>
+        <div class="impact-card">
+          <img src="/images/icons_copy_4-removebg-preview.png" alt="">
+          <!-- <div class="impact-icon">💨</div> -->
+          <div class="impact-label">Air Quality Improvement</div>
+          <div><span class="impact-value" id="air-value">47.16</span> <span class="impact-unit">kg/year</span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">💧</div> -->
+           <img src="/images/icons_copy_2-removebg-preview.png" alt="">
+          <div class="impact-label">Stormwater Runoff Reduction</div>
+          <div><span class="impact-value" id="stormwater-value">577,500.00</span> <span class="impact-unit">L/year</span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">⭐</div> -->
+           <img src="/images/icons_copy_5-removebg-preview.png" alt="">
+          <div class="impact-label">Green Branding Score</div>
+          <div><span class="impact-value" id="branding-value">6.04</span> <span class="impact-unit"></span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">🚗</div> -->
+           <img src="/images/icons_copy_7-removebg-preview.png" alt="">
+          <div class="impact-label">Cars Taken Off the Road</div>
+          <div><span class="impact-value" id="car-value">19.31</span> <span class="impact-unit">Cars/year</span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">🏠</div> -->
+           <img src="/images/icons_copy_6-removebg-preview.png" alt="">
+          <div class="impact-label">Household Electricity Offset (Annual)</div>
+          <div><span class="impact-value" id="electricity-value">11.01</span> <span class="impact-unit">household years</span></div>
+        </div>
+        <div class="impact-card">
+          <!-- <div class="impact-icon">🌲</div> -->
+           <img src="/images/icons_copy_8-removebg-preview.png" alt="">
+          <div class="impact-label">Carbon Credits (Approx.)</div>
+          <div><span class="impact-value" id="credit-value">33.03</span> <span class="impact-unit">credits (1 tCO₂)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric Breakdown -->
+    <!-- <div class="breakdown-section">
+      <div class="section-header">METRIC BREAKDOWN</div>
+      <table class="breakdown-table">
         <tr>
-            <td class="row-1">
-                <img src="./images/klisus-white-small.png" alt="klisus logo" class="logo">
-            
-                <h2>Your Green Impact Summary</h2>
-            </td>
+          <td class="breakdown-metric">Annual CO₂ Sequestration</td>
+          <td class="breakdown-explanation">Measures the yearly amount of carbon dioxide removed by trees from the atmosphere.</td>
         </tr>
-
         <tr>
-          <td class="first-line">
-            <h3>KliSus Systems</h3>
-            <h3 id="report-date">27/10/2025, 11:30 AM</h3>
-          </td>
+          <td class="breakdown-metric">Biodiversity Potential Index</td>
+          <td class="breakdown-explanation">Assesses how well an area supports a variety of plant and animal species.</td>
         </tr>
-
         <tr>
-          <td>
-            <table class="subtable report-overview-table equal-cols">
-              <tr><th colspan="2" style="font-weight: 600; text-align: center;">Overview</th></tr>
-              <tr><th>Number of Trees</th><th>Number of Species</th></tr>
-              <tr><td>100</td><td>5</td></tr>
-              <tr><th>Area</th><th>Project Duration</th></tr>
-              <tr><td>10000<span>m²</span></td><td>5 years</td></tr>
-            </table>
-          </td>
+          <td class="breakdown-metric">Localized Cooling Effect</td>
+          <td class="breakdown-explanation">Indicates the degree to which trees help reduce surrounding temperatures.</td>
         </tr>
-
         <tr>
-          <td>
-            <table class="subtable results-table equal-cols">
-                <tr><th colspan="3" style="font-weight: 600; text-align: center;">Your Impact in Numbers</th></tr>
-                <tr>
-                    <td>
-                        <div id="co2Cell">
-                            <span>🌳</span>
-                            <span>Annual CO₂ Sequestration</span>
-                            <span><span>2,180.00</span> kg/year</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="bioCell">
-                            <span>🌿</span>
-                            <span>Biodiversity Potential Index</span>
-                            <span><span>1.00</span></span>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="coolingCell">
-                            <span>🌡️</span>
-                            <span>Localized Cooling Effect</span>
-                            <span><span>1.00</span> °C</span>
-                        </div>
-                    </td>
-
-                                        
-                </tr>
-                <tr>
-                    <td>
-                        <div id="airCell">
-                            <span>💨</span>
-                            <span>Air Quality Improvement</span>
-                            <span><span>12.00</span> kg/year</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="stormCell">
-                            <span>💧</span>
-                            <span>Stormwater Runoff Reduction</span>
-                            <span><span>50,000.00</span> L/year</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="scoreCell">
-                            <span>⭐</span>
-                            <span>Green Branding Score</span>
-                            <span><span>4.67</span></span>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-          </td>
+          <td class="breakdown-metric">Air Quality Improvement</td>
+          <td class="breakdown-explanation">Quantifies the reduction of air pollutants due to tree coverage.</td>
         </tr>
-
         <tr>
-          <td>
-            <table class="subtable metrics-table">
-            <tr><th colspan="3" style="font-weight: 600; text-align: center;">Metric Breakdown</th></tr>
-            <tr>
-                <th colspan="1">Core Metrics</th>
-                <th colspan="2">Explanation</th>
-            </tr>
-
-            <tr>
-            <th>Annual CO₂ Sequestration</th>
-            <td>This metric estimates the amount of carbon dioxide absorbed from the atmosphere annually. The value of 21.8 kg is a widely used average for the annual sequestration rate of a mature tree, derived from forestry research.</td>
-            </tr>
-            <tr>
-                <th>Biodiversity Potential Index</th>
-                <td>This is a relative score indicating the complexity of the habitat. A higher variety of species in a given area generally supports a richer ecosystem. This index provides a simple measure of this potential.</td>
-            </tr>
-            <tr>
-                <th>Localized Cooling Effect</th>
-                <td>This estimates the potential reduction in local ambient air temperature. Urban green spaces can lower temperatures by 0.7°C to 1.3°C compared to open areas. This formula uses a conservative estimate based on an average reduction of 0.2°C per 100 m² of canopy cover.</td>
-            </tr>
-            <tr>
-                <th>Air Quality Improvement</th>
-                <td>This calculates the estimated annual removal of harmful fine particulate matter (PM2.5) from the air. Large, healthy trees can remove significantly more pollution than smaller trees; this formula uses a conservative average based on urban forestry studies.</td>
-            </tr>
-            <tr>
-                <th>Stormwater Runoff Reduction</th>
-                <td>This metric estimates the volume of rainwater intercepted by vegetation, which reduces the load on drainage systems. The value is based on an average interception rate of 100 litres per square meter of green space, derived from hydrological models.</td>
-            </tr>
-            <tr>
-                <th>Green Branding Score</th>
-                <td>A proprietary, motivational score that reflects the scale, complexity, and maturity of the greening initiative. The logarithmic scale indicates that while all contributions are valuable, sustained and diverse projects have a greater cumulative impact.</td>
-            </tr>
-
-            </table>
-          </td>
+          <td class="breakdown-metric">Stormwater Runoff Reduction</td>
+          <td class="breakdown-explanation">Controlling rainfall to absorb and slow water flow, preventing flooding and filtering pollutants to protect water quality.</td>
         </tr>
-
         <tr>
-          <td>
-            <table class="subtable score-table">
-              <tr><th colspan="3" style="font-weight: 600; text-align: center;">Green Branding Score</th></tr>
-              <tr><td colspan="3" style="text-align: center;">4.67</td></tr>
-              
-            </table>
-          </td>
+          <td class="breakdown-metric">Green Branding Score</td>
+          <td class="breakdown-explanation">Controlling rainfall to absorb and slow water flow, preventing flooding and filtering pollutants to protect water quality.</td>
         </tr>
-
         <tr>
-          <td>
-            <table class="subtable step-table">
-              <tr><th colspan="3" style="font-weight: 600; text-align: center;">Take the Next Step</th></tr>
-              <tr><td colspan="3" style="text-align: justify; hyphens: auto;">This report provides a powerful
-                snapshot based on established models. To unlock detailed, audit-ready insights and track
-                your green assets over time, explore our comprehensive DMRV Report.</td>
-              </tr>
-
-            </table>
-          </td>
+          <td class="breakdown-metric">Cars Taken Off the Road</td>
+          <td class="breakdown-explanation">Controlling rainfall to absorb and slow water flow, preventing flooding and filtering pollutants to protect water quality.</td>
         </tr>
-
         <tr>
-          <td>
-            <h3 style="padding: 10px; text-align: center; color: #808080">Generated by the Green Calculator Toolkit - © 2025 KliSus Systems. All rights reserved.</h3>
-          </td>
+          <td class="breakdown-metric">Household Electricity Offset</td>
+          <td class="breakdown-explanation">Controlling rainfall to absorb and slow water flow, preventing flooding and filtering pollutants to protect water quality.</td>
         </tr>
-      </tbody>
-    </table>
+        <tr>
+          <td class="breakdown-metric">Carbon Credits</td>
+          <td class="breakdown-explanation">Controlling rainfall to absorb and slow water flow, preventing flooding and filtering pollutants to protect water quality.</td>
+        </tr>
+      </table>
+    </div> -->
+
+    
+
+    <!-- Green Branding Score -->
+    <!-- <div class="score-section">
+      <div class="section-header">Green Banding Score</div>
+      <div class="score-content">
+        <div class="score-subtitle">Reflects the strong leadership and significant achievements of your green project in advancing sustainability.</div>
+        <div class="score-value" id="final-score">6.4</div>
+      </div>
+    </div> -->
+
+    <!-- Relatable Equivalents -->
+    <div class="equivalents-section">
+      <div class="equivalents-title">RELATABLE EQUIVALENTS</div>
+      <div class="equivalents-container">
+        <!-- First Group -->
+        <div class="equivalent-group">
+          <div class="equivalent-item">
+            <div class="equivalent-icon">🌳</div>
+            <div class="equivalent-content">
+              <div class="equivalent-value" id="eq1-value">150 tonnes</div>
+              <div class="equivalent-label">CO2 sequestered</div>
+            </div>
+          </div>
+          <div class="equals-sign">=</div>
+          <div class="equivalent-item">
+            <div class="equivalent-icon">🚗</div>
+            <div class="equivalent-content">
+              <div class="equivalent-value" id="eq2-value">50 car off road</div>
+              <div class="equivalent-label">per year</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Second Group -->
+        <div class="equivalent-group">
+          <div class="equivalent-item">
+            <div class="equivalent-icon">🌡️</div>
+            <div class="equivalent-content">
+              <div class="equivalent-value" id="eq3-value">1°C localized</div>
+              <div class="equivalent-label">cooling effect</div>
+            </div>
+          </div>
+          <div class="equals-sign">=</div>
+          <div class="equivalent-item" id="snowflake">
+            <div class="equivalent-icon">❄️</div>
+            <div class="equivalent-content">
+              <div class="equivalent-value" id="eq4-value">20-25 air</div>
+              <div class="equivalent-label">conditioners</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Third Group -->
+        <div class="equivalent-group">
+          <div class="equivalent-item">
+            <div class="equivalent-icon">💧</div>
+            <div class="equivalent-content">
+              <div class="equivalent-value" id="eq5-value">50,000 liters</div>
+              <div class="equivalent-label">stormwater runoff reduction</div>
+            </div>
+          </div>
+          <div class="equals-sign">=</div>
+          <div class="equivalent-item">
+            <div class="equivalent-icon">🏠</div>
+            <div class="equivalent-content">
+              <div class="equivalent-value" id="eq6-value">200 household</div>
+              <div class="equivalent-label">showers supply.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Generated by the Green Calculator Toolkit - © 2025 KliSus Systems. All rights reserved.
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
   <script src="script.js"></script>
-  
 </body>
 </html>

@@ -7,6 +7,34 @@ let areaUnit = "m2";
 let adWatched = false;
 let selectedUnit = "m2";
 let calculatedResults = null; // Store results only after ad
+let category = "green-tab";
+let inputData = ["0", "0", "0", "0"];
+
+// const placeholders = {
+//     "green-tab": ["co2", "biodiversity", "cooling", "air", "stormwater", "branding", "cars", "households", "credits"],
+//     "energy-tab": ["annualEnergy", "energyCost", "renewableShare", "energyIntensity", "energySavings", "ghg", ],
+//     "water-tab": ["totalUse", "netConsumption", "reusePercent", "stormInfiltration", "waterIntensity", "hydroBalance"],
+//     "waste-tab": ["totalWaste", "recycleRate", "landfillRate", "energyPotential", "wasteIntensity", "reductionPercent"]
+//   };
+
+const inputHeaders = {
+  "green-tab": ["Number of Trees", "Number of Species", "Area", "Project Duration"],
+  "energy-tab": ["Electricity Consumption", "Renewable Electricity Used", "Power Rating of Equipment", "Operating Hours per Day"],
+  "water-tab": ["Water Withdrawal", "Water Discharged", "Water Reused", "Site Area"],
+  "waste-tab": ["Hazardous Waste", "Non-Hazardous Waste", "Waste Recycled", "Waste Sent to Landfill"]
+}
+
+const inputUnits = {
+  "green-tab": ["", "", "m²", "years"],
+  "energy-tab": ["kWh/year", "kWh/year", "kW", "hours/day"],
+  "water-tab": ["Litres/year", "Litres/year", "Litres/year", "m²"],
+  "waste-tab": ["kg/year", "kg/year", "kg", "m²"]
+}
+
+let labels = [];
+let units = [];
+let ids = [];
+
 
 
 const infoIcons = document.querySelectorAll(".branding-info");
@@ -166,15 +194,16 @@ function syncSlider(numId, rangeId) {
 
 function calculate() {
   if (!adWatched) {
-    showPlaceholders();
+    //showPlaceholders();
     return;
   }
 
-  let category = document.querySelector('.nav-link.active')?.id;
+  // let category = document.querySelector('.nav-link.active')?.id;
+  category = document.querySelector('.nav-link.active')?.id;
 
-  let ids = [];
-  let units = [];
-  let labels = [];
+  //let ids = [];
+  //let units = [];
+  //let labels = [];
   let emojis = [];
   let tooltips = [];
 
@@ -188,7 +217,15 @@ function calculate() {
     const duration = +document.getElementById("duration").value || 0;
     const areaUnit = document.querySelector('input[name="btnradio-area"]:checked')?.value || "m2";
 
-    if (areaUnit === "ac") area *= 4046.86;
+    inputData = [trees, species, area, duration];
+
+    inputUnits[category][2] = "m²";
+
+    if (areaUnit === "ac"){
+      area *= 4046.86;
+      inputUnits[category][2] = "ac";
+
+    } 
 
     // calculatedResults = {
     //   co2: (trees * 21.8).toFixed(1),
@@ -210,6 +247,59 @@ function calculate() {
     const cars = co2 / 1710;        // cars/year
     const households = co2 / 3000;  // household-years
     const credits = co2 / 1000;     // 1 tCO₂ credits
+
+
+      ids = [
+      "co2",
+      "biodiversity",
+      "cooling",
+      "air",
+      "stormwater",
+      "branding",
+      // new equivalents
+      "cars",
+      "households",
+      "credits"
+    ];
+
+    units = [
+      "kg/year",
+      "",
+      "°C",
+      "kg/year",
+      "L/year",
+      "",
+      // new equivalents
+      "cars/year",
+      "household years",
+      "credits (1 tCO₂)"
+    ];
+
+    labels = [
+      "Annual CO₂ Sequestration",
+      "Biodiversity Potential Index",
+      "Localized Cooling Effect",
+      "Air Quality Improvement",
+      "Stormwater Runoff Reduction",
+      "Green Branding Score",
+      // new equivalents
+      "Cars Taken Off the Road",
+      "Household Electricity Offset (Annual)",
+      "Carbon Credits (Approx.)"
+    ];
+
+    emojis = [
+      "🌳",
+      "🌿",
+      "🌡️",
+      "💨",
+      "💧",
+      "⭐",
+      // new equivalents
+      "🚗",
+      "🏠",
+      "🌲"
+    ];
 
     // --- Bundle Results ---
     calculatedResults = {
@@ -233,6 +323,13 @@ function calculate() {
   const renewable = +document.getElementById("renewable").value || 0;
   const power = +document.getElementById("powerRating").value || 0;
   const hours = +document.getElementById("operatingHours").value || 0;
+
+  inputData = [
+    electricity,
+    renewable,
+    power,
+    hours
+  ];
 
   // Constants
   const tariff = 8;      // ₹ per kWh (example)
@@ -330,7 +427,19 @@ function calculate() {
   let siteArea = +document.getElementById("siteArea").value || 0;
   const siteAreaUnit = document.querySelector('input[name="btnradio-siteArea"]:checked')?.value || "m2";
 
-  if (siteAreaUnit === "ac") siteArea *= 4046.86;
+  inputData = [
+    withdrawal,
+    discharge,
+    reuse,
+    siteArea
+  ];
+
+  inputUnits[category][3] = "m²";
+
+  if (siteAreaUnit === "ac"){
+    siteArea *= 4046.86;
+    inputUnits[category][3] = "ac";
+  } 
 
   const netConsumption = withdrawal - discharge - reuse;
 
@@ -423,6 +532,8 @@ function calculate() {
   const recycled = +document.getElementById("wasteRecycled").value || 0;
   const landfill = +document.getElementById("wasteLandfill").value || 0;
 
+  inputData = [haz, nonHaz, recycled, landfill];
+
   const organicFraction = 0.3; // fraction of waste that is organic
   const energyFactor = 0.7; // kWh per kg of organic waste
 
@@ -514,7 +625,7 @@ function calculate() {
 }
 
 
-  if(category == 'energy-tab' || category == 'water-tab' || category == 'waste-tab'){
+  //if(category == 'energy-tab' || category == 'water-tab' || category == 'waste-tab'){
 
     document.querySelectorAll("#report-section .metric-value").forEach((el, index) => {
       el.id = ids[index];
@@ -536,7 +647,9 @@ function calculate() {
     // documents.querySelectorAll("#report-section .branding-tooltip.custom-tooltip").forEach((el, index) => {
     //   el.textContent = tooltips[index];
     // });
-  }
+
+    
+  //}
 
     
 
@@ -564,6 +677,12 @@ function showPlaceholders() {
   const category = document.querySelector('.nav-link.active')?.id;
 
   // Define placeholders for each category
+  // const placeholders = {
+  //   "green-tab": ["co2", "biodiversity", "cooling", "air", "stormwater", "branding"],
+  //   "energy-tab": ["annualEnergy", "energyCost", "renewableShare", "energyIntensity", "energySavings", "ghg"],
+  //   "water-tab": ["totalUse", "netConsumption", "reusePercent", "stormInfiltration", "waterIntensity", "hydroBalance"],
+  //   "waste-tab": ["totalWaste", "recycleRate", "landfillRate", "energyPotential", "wasteIntensity", "reductionPercent"]
+  // };
   const placeholders = {
     "green-tab": ["co2", "biodiversity", "cooling", "air", "stormwater", "branding"],
     "energy-tab": ["annualEnergy", "energyCost", "renewableShare", "energyIntensity", "energySavings", "ghg"],
@@ -583,7 +702,7 @@ function showPlaceholders() {
 
 if(isIndexPage){
   updateAllSliderFills();
-  showPlaceholders();
+  //showPlaceholders();
   hideActionButtons();
 }
 
@@ -607,6 +726,7 @@ function formatMetricValues(value, className) {
 function disableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = true;
+    input.style.borderColor = '#e9ebee';
     
   });
   // const spans = document.querySelectorAll('input[type="number"]+span');
@@ -615,12 +735,14 @@ function disableForm() {
   // });
   document.querySelectorAll('.number-with-unit').forEach(el => {
     el.style.backgroundColor = '#e9ebee';
+    el.style.border = "1px solid #e9ebee";
   });
 }
 
 function enableForm() {
   document.querySelectorAll('input[type="number"], input[type="range"], input[type="radio"]').forEach(input => {
     input.disabled = false;
+    input.style.borderColor = '#a7e6bf';
     updateAllSliderFills();
   });
   document.querySelectorAll('input[type="number"], input[type="range"]').forEach(input => {
@@ -628,6 +750,7 @@ function enableForm() {
   });
   document.querySelectorAll('.number-with-unit').forEach(el => {
     el.style.backgroundColor = '#e9fbf4';
+    el.style.border = "1px solid rgba(167, 230, 191, 1)";
   });
 }
 
@@ -712,6 +835,11 @@ async function onAdComplete() {
 
 
   try {
+
+    const pdfBlob = await generatePDFBlob();
+    saveAs(pdfBlob, "Leaf_Ledger_Report.pdf");
+
+    
     
   } catch (err) {
     console.error("Error generating PDF:", err);
@@ -725,7 +853,7 @@ function generateAgain() {
 
   document.getElementById('report-section').style.display = 'none';
   
-  showPlaceholders();
+  //showPlaceholders();
   enableForm();
   hideActionButtons();
   updateAllSliderFills();
@@ -739,7 +867,8 @@ function generateAgain() {
   const generateAgainBtn = document.getElementById('generateAgainBtn');
   if (adButton) {
     adButton.style.display = 'inline-block';
-    adButton.textContent = 'Watch Ad to View Results';
+    //adButton.textContent = 'Watch Ad to View Results';
+    adButton.innerHTML = "<i class='bi bi-play-circle'></i> Generate Metrics";
     adButton.disabled = false;
   }
 
@@ -751,257 +880,334 @@ function generateAgain() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Export to CSV
-function exportToCSV() {
-  if (!adWatched || !calculatedResults) {
-    alert('Please watch the ad first to unlock results.');
-    return;
-  }
+
+
+
+
+
+
+
+// async function generatePDFBlob() {
+//   const response = await fetch("report.html");
+//   const html = await response.text();
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(html, "text/html");
+
+//     trees = document.getElementById("trees")?.value || 0;
+//     species = document.getElementById("species")?.value || 0;
+//     area = document.getElementById("area")?.value || 0;
+//     duration = document.getElementById("duration")?.value || 0;
+//     unit = document.getElementById("areaUnit")?.textContent || "m²";
   
-  const trees = document.getElementById("trees").value;
-  const species = document.getElementById("species").value;
-  const area = document.getElementById("area").value;
-  const duration = document.getElementById("duration").value;
-  const unit = document.getElementById("areaUnit").textContent;
-  
-  const csvContent = `Metric,Value,Unit
-Number of Trees,${trees},trees
-Number of Species,${species},species
-Area,${area},${unit}
-Project Duration,${duration},years
-Annual CO2 Sequestration,${calculatedResults.co2},kg/year
-Biodiversity Potential Index,${calculatedResults.biodiversity},
-Localized Cooling Effect,${calculatedResults.cooling},°C
-Air Quality Improvement,${calculatedResults.air},kg/year
-Stormwater Runoff Reduction,${calculatedResults.stormwater},L/year
-Green Branding Score,${calculatedResults.branding},`;
-
-  const blob = new Blob([csvContent], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'leaf_ledger_results.csv';
-  a.click();
-  window.URL.revokeObjectURL(url);
-}
 
 
 
-async function exportToPNG() {
-  if (!adWatched || !calculatedResults) {
-    alert('Please watch the ad first to unlock results.');
-    return;
-  }
+//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
+//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
+//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
+//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
 
-  const resultsSection = document.getElementById("results");
-  if (!resultsSection) {
-    alert("Results section not found on page.");
-    return;
-  }
+//   doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
+//   doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
+//   doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
+//   doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
+//   doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
+//   doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
+//   doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
 
-  try {
-    // Capture the visible results area as an image
-    const canvas = await html2canvas(resultsSection, {
-      scale: 2, // high-quality capture
-      useCORS: true, // allow external images if needed
-      backgroundColor: "#ffffff"
-    });
+//   const now = new Date();
+//   doc.querySelector("#report-date").textContent = now.toLocaleDateString() + ", " + now.toLocaleTimeString();
 
-    // Convert to PNG data URL
-    const imageData = canvas.toDataURL("image/png");
+//   const reportDiv = doc.getElementById("report");
+//   reportDiv.style.width = "210mm";
+//   reportDiv.style.minHeight = "297mm";
+//   reportDiv.style.padding = "10mm";
+//   reportDiv.style.background = "#fff";
+//   reportDiv.style.boxSizing = "border-box";
 
-    // Create a temporary <a> element to download
-    const link = document.createElement("a");
-    link.href = imageData;
-    link.download = "Leaf_Ledger_Results.png";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+//   document.body.appendChild(reportDiv);
 
-    console.log("✅ PNG exported successfully.");
-  } catch (error) {
-    console.error("Error generating PNG:", error);
-    alert("Sorry, there was a problem exporting your PNG.");
-  }
-}
+//   const canvas = await html2canvas(reportDiv, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+//   const imgData = canvas.toDataURL("image/jpeg");
 
-// PDF Generation (existing function, modified to check ad status)
-async function generatePDF() {
-  if (!adWatched || !calculatedResults) {
-    alert('Please watch the ad first to unlock results.');
-    return;
-  }
-  
-  const response = await fetch("report.html");
-  const html = await response.text();
+//   const pdf = new jspdf.jsPDF("p", "mm", "a4");
+//   const pageWidth = pdf.internal.pageSize.getWidth();
+//   const pageHeight = pdf.internal.pageSize.getHeight();
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
+//   const imgWidth = pageWidth;
+//   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+//   const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
+//   const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
+//   const xOffset = (pageWidth - finalWidth) / 2;
+//   const yOffset = (pageHeight - finalHeight) / 2;
 
-  const trees = document.getElementById("trees")?.value || 0;
-  const species = document.getElementById("species")?.value || 0;
-  const area = document.getElementById("area")?.value || 0;
-  const duration = document.getElementById("duration")?.value || 0;
-  const unit = document.getElementById("areaUnit")?.textContent || "m²";
+//   pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
+//   const blob = pdf.output("blob");
 
-  doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
-  doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
-  doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
-  doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
+//   reportDiv.remove();
+//   return blob;
+// }
 
-  doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
-  doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
-  doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
-  doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
-  doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
-  doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
-  doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
 
-  const now = new Date();
-  doc.querySelector("#report-date").textContent =
-    now.toLocaleDateString() + ", " + now.toLocaleTimeString();
+// async function generatePDFBlob() {
+//   const response = await fetch("report.html");
+//   const html = await response.text();
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(html, "text/html");
 
-  const reportDiv = doc.getElementById("report");
+//   // --- Retrieve input values ---
+//   const trees = document.getElementById("trees")?.value || 0;
+//   const species = document.getElementById("species")?.value || 0;
+//   const area = document.getElementById("area")?.value || 0;
+//   const duration = document.getElementById("duration")?.value || 0;
+//   const unit = document.getElementById("areaUnit")?.textContent || "m²";
 
-  reportDiv.style.width = "210mm";
-  reportDiv.style.minHeight = "297mm";
-  reportDiv.style.padding = "10mm";
-  reportDiv.style.background = "#fff";
-  reportDiv.style.boxSizing = "border-box";
+//   // --- Update Overview Table ---
+//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
+//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
+//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
+//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
 
-  document.body.appendChild(reportDiv);
+//   // --- Update Main Metrics ---
+//   doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
+//   doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
+//   doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
+//   doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
+//   doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
+//   doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
 
-  const canvas = await html2canvas(reportDiv, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: "#ffffff",
-    scrollY: 0,
-    windowWidth: reportDiv.scrollWidth,
-    windowHeight: reportDiv.scrollHeight
-  });
+//   // --- Update Extra Metrics (new row) ---
+//   if (calculatedResults.homesCooled !== undefined) {
+//     doc.querySelector("#shadeCell > span > span").textContent = calculatedResults.homesCooled;
+//   }
+//   if (calculatedResults.oxygenSupplied !== undefined) {
+//     doc.querySelector("#oxygenCell > span > span").textContent = calculatedResults.oxygenSupplied;
+//   }
+//   if (calculatedResults.lpgOffset !== undefined) {
+//     doc.querySelector("#carbonCell > span > span").textContent = calculatedResults.lpgOffset;
+//   }
 
-  const imgData = canvas.toDataURL("image/jpeg");
+//   // --- Update Branding Score ---
+//   doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
 
-  const pdf = new jspdf.jsPDF("p", "mm", "a4");
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
+//   // --- Update Timestamp ---
+//   const now = new Date();
+//   doc.querySelector("#report-date").textContent =
+//     now.toLocaleDateString() + ", " + now.toLocaleTimeString();
 
-  const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+//   // --- Prepare for PDF Rendering ---
+//   const reportDiv = doc.getElementById("report");
+//   reportDiv.style.width = "210mm";
+//   reportDiv.style.minHeight = "297mm";
+//   reportDiv.style.padding = "10mm";
+//   reportDiv.style.background = "#fff";
+//   reportDiv.style.boxSizing = "border-box";
 
-  const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
-  const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
+//   document.body.appendChild(reportDiv);
 
-  const xOffset = (pageWidth - finalWidth) / 2;
-  const yOffset = (pageHeight - finalHeight) / 2;
+//   // --- Generate Canvas and PDF ---
+//   const canvas = await html2canvas(reportDiv, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+//   const imgData = canvas.toDataURL("image/jpeg");
 
-  pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
-  pdf.save("GreenCalculatorReport.pdf");
+//   const pdf = new jspdf.jsPDF("p", "mm", "a4");
+//   const pageWidth = pdf.internal.pageSize.getWidth();
+//   const pageHeight = pdf.internal.pageSize.getHeight();
 
-  reportDiv.remove();
-}
+//   const imgWidth = pageWidth;
+//   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+//   const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
+//   const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
+//   const xOffset = (pageWidth - finalWidth) / 2;
+//   const yOffset = (pageHeight - finalHeight) / 2;
+
+//   pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
+//   const blob = pdf.output("blob");
+
+//   reportDiv.remove();
+//   return blob;
+// }
+
+
+const reportIds = [];
 
 async function generatePDFBlob() {
-  const response = await fetch("report.html");
-  const html = await response.text();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
+      const response = await fetch("report.html");
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      // if(category == "green-tab"){
+        
 
-    trees = document.getElementById("trees")?.value || 0;
-    species = document.getElementById("species")?.value || 0;
-    area = document.getElementById("area")?.value || 0;
-    duration = document.getElementById("duration")?.value || 0;
-    unit = document.getElementById("areaUnit")?.textContent || "m²";
-  
+      // }
+      // else if(category == "energy-tab"){
+        
+      // }
+      // else if(category == "water-tab"){
+        
+      // }
+      // else if(category == "waste-tab"){
+        
+      // }
 
+      // document.querySelectorAll("#report-section .metric-value").forEach((value, index) => {
+      //     reportIds.push(value.id);
+      //   });
 
+      //   doc.querySelectorAll(".overview-value > span").forEach((unit, index) => {
+      //   console.log(unit);
+      //   unit.innerHTML = inputUnits[category][index];
+      // });
 
-  doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
-  doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
-  doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
-  doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
-
-  doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
-  doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
-  doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
-  doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
-  doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
-  doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
-  doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
-
-  const now = new Date();
-  doc.querySelector("#report-date").textContent = now.toLocaleDateString() + ", " + now.toLocaleTimeString();
-
-  const reportDiv = doc.getElementById("report");
-  reportDiv.style.width = "210mm";
-  reportDiv.style.minHeight = "297mm";
-  reportDiv.style.padding = "10mm";
-  reportDiv.style.background = "#fff";
-  reportDiv.style.boxSizing = "border-box";
-
-  document.body.appendChild(reportDiv);
-
-  const canvas = await html2canvas(reportDiv, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
-  const imgData = canvas.toDataURL("image/jpeg");
-
-  const pdf = new jspdf.jsPDF("p", "mm", "a4");
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
-
-  const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
-  const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
-  const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
-  const xOffset = (pageWidth - finalWidth) / 2;
-  const yOffset = (pageHeight - finalHeight) / 2;
-
-  pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
-  const blob = pdf.output("blob");
-
-  reportDiv.remove();
-  return blob;
-}
-
-async function exportToPNGBlob(trees, species, area, duration, unit) {
-  if(trees != "" || species != "" || area != "" || duration != "" || unit != ""){
-    return;
-  }
-  const resultsSection = document.getElementById("results");
-  const canvas = await html2canvas(resultsSection, { scale: 2, useCORS: true });
-  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
-  return blob;
-}
-
-function exportToCSVBlob(trees, species, area, duration, unit) {
-
-  //let trees, species, area, duration, unit;
-
-  if(trees == "" || species == "" || area == "" || duration == "" || unit == "") {
-    trees = document.getElementById("trees").value;
-    species = document.getElementById("species").value;
-    area = document.getElementById("area").value;
-    duration = document.getElementById("duration").value;
-    unit = document.getElementById("areaUnit").textContent;
-  }
+      
 
 
-  const csvContent = `Metric,Value,Unit
-Number of Trees,${trees},trees
-Number of Species,${species},species
-Area,${area},${unit}
-Project Duration,${duration},years
-Annual CO2 Sequestration,${calculatedResults.co2},kg/year
-Biodiversity Potential Index,${calculatedResults.biodiversity},
-Localized Cooling Effect,${calculatedResults.cooling},°C
-Air Quality Improvement,${calculatedResults.air},kg/year
-Stormwater Runoff Reduction,${calculatedResults.stormwater},L/year
-Green Branding Score,${calculatedResults.branding},`;
+      // --- Update Overview Section ---
+      // doc.querySelector("#overview-trees").textContent = inputData.trees;
+      // doc.querySelector("#overview-species").textContent = inputData.species;
+      // doc.querySelector("#overview-area").innerHTML = `${inputData.area} <span>${inputData.unit}</span>`;
+      // doc.querySelector("#overview-duration").innerHTML = `${inputData.duration} <span>years</span>`;
 
-  return new Blob([csvContent], { type: "text/csv" });
-}
+      doc.querySelectorAll(".overview-label").forEach((label, index) => {
+        //console.log(label);
+        label.textContent = inputHeaders[category][index];
+      });
 
-document.addEventListener('change', e => {
-  if (e.target.matches('.area-div input[type="radio"]')) {
-    console.log('🔥 Radio toggled:', e.target.value);
-  }
-});
+      doc.querySelectorAll(".overview-value").forEach((value, index) => {
+        //value.textContent = inputData[index];
+        value.innerHTML = `${inputData[index]} <span>${inputUnits[category][index]}</span>`;
+      });
+
+      // doc.querySelectorAll(".overview-value span").forEach((unit, index) => {
+      //   console.log(unit);
+      //   unit.innerHTML = inputUnits[category][index];
+      // });
+
+      
+
+      doc.querySelectorAll(".impact-section .impact-card .impact-label").forEach((label, index) => {
+        label.textContent = labels[index];
+      });
+
+      //console.log(reportIds);
+
+      console.log(doc.querySelectorAll(".overview-value"));
+
+      doc.querySelectorAll(".impact-section .impact-card .impact-unit").forEach((unit, index) => {
+        unit.textContent = units[index];
+      });
+
+      doc.querySelectorAll(".impact-section .impact-card .impact-value").forEach((value, index) => {
+        //value.textContent = calculatedResults[index];
+        //value.id = reportIds[index] + "-value";
+        value.id = ids[index] + "-value";
+      });
+
+    //   for (const key in calculatedResults) {
+    //     //console.log(key);
+    //   if (doc.getElementById(key + "-value")){
+    //     //console.log(doc.getElementById(key + "-value"));
+    //     //console.log(calculatedResults[key]);
+    //     doc.getElementById(key + "-value").textContent = calculatedResults[key];
+    //   }
+    //     //console.log("Key: " + key + ", Value: " + calculatedResults[key]);
+    //     //formatMetricValues(calculatedResults[key], key);
+    //     //console.log(document.getElementById(key + "-value"));
+
+        
+    // }
+
+    for(const key in calculatedResults){
+      console.log(key + "-value");
+      doc.getElementById(key + "-value").textContent = calculatedResults[key];
+    }
+
+
+
+      
+
+
+
+      // // --- Update Impact Metrics ---
+      // doc.querySelector("#co2-value").textContent = calculatedResults.co2Sequestration;
+      // doc.querySelector("#bio-value").textContent = calculatedResults.biodiversityIndex;
+      // doc.querySelector("#cooling-value").textContent = calculatedResults.coolingEffect;
+      // doc.querySelector("#air-value").textContent = calculatedResults.airQuality;
+      // doc.querySelector("#storm-value").textContent = calculatedResults.stormwaterReduction;
+      // doc.querySelector("#score-value").textContent = calculatedResults.brandingScore;
+
+      // // --- Update Green Branding Score ---
+      // //doc.querySelector("#final-score").textContent = calculatedResults.brandingScore;
+
+      // // --- Update Relatable Equivalents ---
+      // if (calculatedResults.equivalents) {
+      //   doc.querySelector("#eq1-value").textContent = calculatedResults.equivalents.co2Tonnes;
+      //   doc.querySelector("#eq2-value").textContent = calculatedResults.equivalents.carsOffRoad;
+      //   doc.querySelector("#eq3-value").textContent = calculatedResults.equivalents.coolingEffect;
+      //   doc.querySelector("#eq4-value").textContent = calculatedResults.equivalents.airConditioners;
+      //   doc.querySelector("#eq5-value").textContent = calculatedResults.equivalents.stormwaterLiters;
+      //   doc.querySelector("#eq6-value").textContent = calculatedResults.equivalents.householdShowers;
+      // }
+
+      // --- Update Timestamp ---
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString('en-GB').replace(/\//g, '.') + 
+                           ', ' + 
+                           now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      doc.querySelector("#report-date").textContent = formattedDate;
+
+      // --- Prepare for PDF Rendering ---
+      const reportDiv = doc.getElementById("report");
+      reportDiv.style.width = "210mm";
+      reportDiv.style.minHeight = "297mm";
+      reportDiv.style.background = "#fff";
+      reportDiv.style.boxSizing = "border-box";
+
+      // Temporarily append to body for rendering
+      document.body.appendChild(reportDiv);
+
+      // --- Generate Canvas and PDF ---
+      const canvas = await html2canvas(reportDiv, { 
+        scale: 2, 
+        useCORS: true, 
+        backgroundColor: "#ffffff",
+        logging: false
+      });
+      const imgData = canvas.toDataURL("image/jpeg", 0.95);
+
+      const pdf = new jspdf.jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      let finalHeight, finalWidth, xOffset, yOffset;
+      
+      if (imgHeight > pageHeight) {
+        finalHeight = pageHeight;
+        finalWidth = (pageHeight * canvas.width) / canvas.height;
+      } else {
+        finalHeight = imgHeight;
+        finalWidth = imgWidth;
+      }
+      
+      xOffset = (pageWidth - finalWidth) / 2;
+      yOffset = (pageHeight - finalHeight) / 2;
+
+      pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
+      const blob = pdf.output("blob");
+
+      // Clean up
+      reportDiv.remove();
+      
+      return blob;
+    }
+
+
+
+
+// document.addEventListener('change', e => {
+//   if (e.target.matches('.area-div input[type="radio"]')) {
+//     console.log('🔥 Radio toggled:', e.target.value);
+//   }
+// });
