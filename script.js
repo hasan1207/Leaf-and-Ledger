@@ -1,5 +1,5 @@
 const path = window.location.pathname;
-const isIndexPage = path.endsWith("home.html") || path.endsWith("/") || path === "";
+const isIndexPage = path.endsWith("index.html") || path.endsWith("/") || path === "";
 const isReportPage = path.endsWith("report.html");
 
 let chart;
