@@ -1594,7 +1594,7 @@ async function generatePDFBlob() {
   doc.querySelectorAll(".overview-value").forEach((value, index) => {
     const val = inputData[index] !== undefined ? inputData[index] : "";
     const unit = inputUnits[category] && inputUnits[category][index] ? inputUnits[category][index] : "";
-    value.innerHTML = `${formatNumberPretty(val)} <span>${unit}</span> <br> ${val} <span>${unit}</span>`;
+    value.innerHTML = `${formatNumberPretty(val)} <span>${unit}</span> <br> ${formatNumberPretty(val)} <span>${unit}</span>`;
   });
 
   doc.querySelectorAll(".impact-section .impact-card .impact-label").forEach((label, index) => {
