@@ -1078,6 +1078,17 @@ const inputUnits = {
   "waste-tab": ["kg/year", "kg/year", "kg", "m²"]
 };
 
+function formatNumberPretty(value) {
+    const num = Number(value);
+    if (isNaN(num)) return value;
+
+    const parts = num.toString().split(".");
+    const integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const decimal = parts[1] ? "." + parts[1] : "";
+
+    return integer + decimal;
+}
+
 let tooltipContent = [];
 let labels = [];
 let units = [];
@@ -1352,7 +1363,7 @@ function calculate() {
     const truckloadsAvoided = total / 10000;
     const treeCarbonEquivalent = total / 1000;
     const energyGenPotential = organicWaste * 0.7;
-    
+
     ids = ["totalWaste","recycleRate","landfillRate","energyPotential","wasteIntensity","reductionPercent","truckloadsAvoided","treeCarbonEquivalent","energyGenPotential"];
     units = ["kg/year","%","%","kWh/year","kg/m²","%","truckloads","tree-equivalents","kWh/year"];
     labels = ["Total Waste","Recycle Rate","Landfill Rate","Energy Potential","Waste Intensity","Reduction %","Truckloads of Waste Avoided","Trees Worth of Carbon Avoided","Energy Generation Potential"];
@@ -1564,16 +1575,7 @@ function generateAgain() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function formatNumberPretty(value) {
-    const num = Number(value);
-    if (isNaN(num)) return value;
 
-    const parts = num.toString().split(".");
-    const integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const decimal = parts[1] ? "." + parts[1] : "";
-
-    return integer + decimal;
-}
 
 
 
@@ -1592,7 +1594,7 @@ async function generatePDFBlob() {
   doc.querySelectorAll(".overview-value").forEach((value, index) => {
     const val = inputData[index] !== undefined ? inputData[index] : "";
     const unit = inputUnits[category] && inputUnits[category][index] ? inputUnits[category][index] : "";
-    value.innerHTML = `${val} <span>${unit}</span>`;
+    value.innerHTML = `${formatNumberPretty(val)} <span>${unit}</span> <br> ${val} <span>${unit}</span>`;
   });
 
   doc.querySelectorAll(".impact-section .impact-card .impact-label").forEach((label, index) => {
