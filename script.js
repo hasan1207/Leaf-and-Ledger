@@ -1563,32 +1563,58 @@ function generateAgain() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function formatNumberPretty(value) {
+    const num = Number(value);
+    if (isNaN(num)) return value;
+
+    const parts = num.toString().split(".");
+    const integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const decimal = parts[1] ? "." + parts[1] : "";
+
+    return integer + decimal;
+}
+
+
+
 async function generatePDFBlob() {
   const response = await fetch("report.html");
   const html = await response.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
+
+
   doc.querySelectorAll(".overview-label").forEach((label, index) => {
     if (inputHeaders[category] && inputHeaders[category][index]) label.textContent = inputHeaders[category][index];
   });
+
+
   doc.querySelectorAll(".overview-value").forEach((value, index) => {
     const val = inputData[index] !== undefined ? inputData[index] : "";
     const unit = inputUnits[category] && inputUnits[category][index] ? inputUnits[category][index] : "";
     value.innerHTML = `${val} <span>${unit}</span>`;
   });
+
   doc.querySelectorAll(".impact-section .impact-card .impact-label").forEach((label, index) => {
     if (labels[index]) label.textContent = labels[index];
   });
+
+
   doc.querySelectorAll(".impact-section .impact-card .impact-unit").forEach((unitEl, index) => {
     if (units[index] !== undefined) unitEl.textContent = units[index];
   });
+
+
+
   doc.querySelectorAll(".impact-section .impact-card .impact-value").forEach((value, index) => {
     if (ids[index]) value.id = ids[index] + "-value";
   });
+
+
   for (const key in calculatedResults) {
     if (!Object.prototype.hasOwnProperty.call(calculatedResults, key)) continue;
     const el = doc.getElementById(key + "-value");
-    if (el) el.textContent = calculatedResults[key];
+    //if (el) el.textContent = calculatedResults[key];
+    if (el) el.textContent = formatNumberPretty(calculatedResults[key]);
   }
   const now = new Date();
   const formattedDate = now.toLocaleDateString('en-GB').replace(/\//g, '.') + ', ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
