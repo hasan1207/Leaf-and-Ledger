@@ -16,21 +16,6 @@
             background-color: #f8f9fa;
         }
         
-        /*
-        .header-bar-img {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        header {
-            flex-grow: 1;
-        }
-        
-        .sub-nav {
-            margin-top: auto;
-        }
-            */
-        
         .contact-hero {
             background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
             color: white;
@@ -243,21 +228,7 @@
 </head>
 
 <body class="bg-light">
-    <!-- <div class="nav-bar">
-        <img src="./images/klisus-white.jpeg" alt="Logo">
-        
-        <div class="header-bar-img bg-success">
-            <header class="text-center">
-                <h1 class="--fw-bold --text-success">Leaf & Ledger</h1>
-                <p class="--text-muted">A calculator for quantifying plantation's impact.</p>
-            </header>
-            
-            <div class="sub-nav bg-light-green px-2 text-center">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="contact.html" class="nav-link active">Contact Us</a>
-            </div>
-        </div>
-    </div> -->
+    
 
     <div class="nav-bar">
         <img src="./images/klisus-white.jpeg" alt="">
@@ -279,17 +250,17 @@
         
         </div>
     
-    <!-- Hero Section -->
+    
     <!-- <div class="contact-hero">
         <h2>Get in Touch</h2>
         <p>Have questions about our plantation impact calculator? We'd love to hear from you. Reach out to our team and we'll respond as soon as possible.</p>
     </div> -->
     
-    <!-- Contact Content -->
+   
     <div class="contact-container mt-4">
         <div class="contact-card">
             <div class="row g-0">
-                <!-- Contact Information -->
+                
                 <div class="col-lg-5">
                     <div class="contact-info-section h-100">
                         <h3>Contact Information</h3>
@@ -354,7 +325,7 @@
                     </div>
                 </div>
                 
-                <!-- Contact Form -->
+                
                 <div class="col-lg-7">
                     <div class="contact-form-section">
                         <h3>Send Us a Message</h3>
@@ -423,23 +394,13 @@
     <script>
         function handleSubmit(event) {
             event.preventDefault();
-            
-            // Here you would normally send the form data to a server
-            // For now, we'll just show a success message
-            
             const successMessage = document.getElementById('successMessage');
             const form = document.getElementById('contactForm');
-            
-            // Show success message
             successMessage.style.display = 'block';
             
-            // Reset form
             form.reset();
-            
-            // Scroll to success message
             successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
-            // Hide success message after 5 seconds
             setTimeout(() => {
                 successMessage.style.display = 'none';
             }, 5000);

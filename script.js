@@ -6,7 +6,7 @@ let chart;
 let areaUnit = "m2";
 let adWatched = false;
 let selectedUnit = "m2";
-let calculatedResults = null; // Store results only after ad
+let calculatedResults = null;
 let category = "green-tab";
 let inputData = ["0", "0", "0", "0"];
 
@@ -30,6 +30,15 @@ const inputUnits = {
   "water-tab": ["Litres/year", "Litres/year", "Litres/year", "m²"],
   "waste-tab": ["kg/year", "kg/year", "kg", "m²"]
 }
+
+// const tooltipContent = {
+//   "green-tab": ["Estimated carbon captured annually by the trees. Removes harmful carbon dioxide from the atmosphere each year, helping slow climate change.", "Relative biodiversity score based on species richness per area. Shows how effectively the green space can support diverse plant and animal life.", "Cooling potential created by green space. Reduces surrounding temperatures naturally, improving comfort and lowering heat stress.", "Amount of PM2.5 removed by trees annually. Filters pollutants like PM2.5 from the air, providing cleaner and healthier air to breathe.", "Rainwater intercepted by green surfaces annually. Absorbs rainfall and reduces flooding risk while improving groundwater replenishment.", "A maturity indicator combining age, species, and trees. Reflects the environmental leadership and maturity of your green initiative.", "Equivalent number of average petrol cars' annual CO₂ emissions avoided.", "Number of average households' annual electricity use offset by saved emissions.", "Approximate number of 1-tonne CO₂ credits represented."],
+//   "energy-tab": ["Total energy consumed annually. Represents the total energy consumed annually, helping track operational efficiency.", "Estimated cost of consumed electricity. Shows the annual financial cost of electricity consumption to highlight savings opportunities.", "Percentage share of renewable energy. Indicates how much of your total energy comes from clean, renewable sources.", "Energy needed per unit of user-defined output. Reveals the amount of energy required per unit of output, showing operational efficiency.", "Reduction in energy use relative to baseline. Shows how much energy you have saved compared to the baseline, demonstrating improvement.", "Emissions caused by electricity usage. Quantifies the climate-impacting emissions generated from electricity use.", "Equivalent months of an average household's electricity supplied by saved energy.", "Volume of petrol whose combustion equals the energy saved.", "Energy savings expressed in gigajoules."],
+//   "water-tab": ["Total water withdrawn from all sources. Measures the total water withdrawn from all sources for your operations.", "Water consumed after reuse and discharge. Shows the actual water consumed after subtracting reused and discharged water.", "Percentage of withdrawn water reused. Indicates how effectively your system recycles water, reducing freshwater demand.", "Estimated annual stormwater infiltration. Estimates how much rainwater your site can naturally filter back into the ground.", "Water consumption per output unit. Shows how much water is consumed per unit of output, helping identify efficiency gains.", "Water retained or released by site. Indicates whether your site retains or releases water overall.", "Number of typical household showers that volume of water could supply.", "Months of water supply for one household (basic use) provided.", "Number of standard Olympic pools worth of water saved."],
+//   "waste-tab": ["Combined hazardous and non-hazardous waste. Represents the combined hazardous and non-hazardous waste produced annually.", "Percentage of waste recycled. Shows the percentage of waste diverted from disposal through recycling.", "Percentage of waste landfilled. Indicates how much waste ends up in landfills, supporting zero-waste goals.", "Potential energy from recoverable waste. Shows how much usable energy can be recovered from organic waste.", "Waste generated per output unit. Measures waste generated per unit of output, highlighting efficiency improvements.", "Reduction in waste compared to baseline. Shows how effectively waste has been reduced compared to your baseline levels.", "Number of standard 10-tonne truckloads reduced.", "Approximate trees' worth of carbon avoided by diverting waste.", "Potential electricity from waste-to-energy for organic fraction."]
+// }
+
+let tooltipContent = [];
 
 let labels = [];
 let units = [];
@@ -75,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return unit === "ac" ? displayValue * AC_TO_M2 : displayValue;
   }
 
-  // Initialize canonical m² dataset values for all area-divs
+
   function initAreaDivValues() {
     document.querySelectorAll(".area-div").forEach(areaDiv => {
       const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
@@ -86,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Convert displayed value and unit when toggling m² ↔ ac
+
   function updateAreaDiv(areaDiv, chosenUnit) {
     const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
     const unitSpan = areaDiv.querySelector(".number-with-unit span");
@@ -109,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof adWatched !== "undefined" && adWatched) calculate?.();
   }
 
-  // When typing in the number input
+
   document.addEventListener("input", e => {
     if (!e.target.matches(".area-div .number-with-unit input[type='number']")) return;
 
@@ -127,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof adWatched !== "undefined" && adWatched) calculate?.();
   });
 
-  // When toggling between m² and ac
+
   document.addEventListener("change", e => {
     if (!e.target.matches(".area-div input[type='radio']")) return;
     const radio = e.target;
@@ -136,10 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateAreaDiv(areaDiv, chosenUnit);
   });
 
-  // Initialize at load
+
   initAreaDivValues();
 
-  // Reinitialize after "Generate Again" (if that button exists)
+
   const generateBtn = document.getElementById("generateAgain");
   if (generateBtn) {
     generateBtn.addEventListener("click", () => {
@@ -209,7 +218,7 @@ function calculate() {
 
   calculatedResults = {};
 
-  // 🌿 1. Green Space & Biodiversity
+
   if (category === "green-tab") {
     const trees = +document.getElementById("trees").value || 0;
     const species = +document.getElementById("species").value || 0;
@@ -236,17 +245,17 @@ function calculate() {
     //   branding: Math.log(trees + species + duration || 1).toFixed(2)
     // };
 
-    const co2 = trees * 21.8; // kg/year (average sequestration per mature tree)
+    const co2 = trees * 21.8;
     const biodiversity = area > 0 ? ((species / area) * 100) : 0;
-    const cooling = (area / 100) * 0.2; // °C reduction
-    const air = trees * 0.12; // kg/year of PM2.5 removed
-    const stormwater = area * 100; // L/year intercepted
-    const branding = Math.log(trees + species + duration || 1); // index
+    const cooling = (area / 100) * 0.2;
+    const air = trees * 0.12;
+    const stormwater = area * 100;
+    const branding = Math.log(trees + species + duration || 1);
 
-    // --- Relatable Equivalents ---
-    const cars = co2 / 1710;        // cars/year
-    const households = co2 / 3000;  // household-years
-    const credits = co2 / 1000;     // 1 tCO₂ credits
+
+    const cars = co2 / 1710;
+    const households = co2 / 3000;
+    const credits = co2 / 1000;
 
 
       ids = [
@@ -256,7 +265,6 @@ function calculate() {
       "air",
       "stormwater",
       "branding",
-      // new equivalents
       "cars",
       "households",
       "credits"
@@ -269,7 +277,6 @@ function calculate() {
       "kg/year",
       "L/year",
       "",
-      // new equivalents
       "cars/year",
       "household years",
       "credits (1 tCO₂)"
@@ -282,7 +289,6 @@ function calculate() {
       "Air Quality Improvement",
       "Stormwater Runoff Reduction",
       "Green Branding Score",
-      // new equivalents
       "Cars Taken Off the Road",
       "Household Electricity Offset (Annual)",
       "Carbon Credits (Approx.)"
@@ -295,13 +301,14 @@ function calculate() {
       "💨",
       "💧",
       "⭐",
-      // new equivalents
       "🚗",
       "🏠",
       "🌲"
     ];
 
-    // --- Bundle Results ---
+    tooltipContent = ["Estimated carbon captured annually by the trees. Removes harmful carbon dioxide from the atmosphere each year, helping slow climate change.", "Relative biodiversity score based on species richness per area. Shows how effectively the green space can support diverse plant and animal life.", "Cooling potential created by green space. Reduces surrounding temperatures naturally, improving comfort and lowering heat stress.", "Amount of PM2.5 removed by trees annually. Filters pollutants like PM2.5 from the air, providing cleaner and healthier air to breathe.", "Rainwater intercepted by green surfaces annually. Absorbs rainfall and reduces flooding risk while improving groundwater replenishment.", "A maturity indicator combining age, species, and trees. Reflects the environmental leadership and maturity of your green initiative.", "Equivalent number of average petrol cars' annual CO₂ emissions avoided.", "Number of average households' annual electricity use offset by saved emissions.", "Approximate number of 1-tonne CO₂ credits represented."];
+
+
     calculatedResults = {
       co2: co2.toFixed(1),
       biodiversity: biodiversity.toFixed(2),
@@ -310,14 +317,14 @@ function calculate() {
       stormwater: stormwater.toFixed(0),
       branding: branding.toFixed(2),
 
-      // new equivalents
+
       cars: cars.toFixed(2),
       households: households.toFixed(2),
       credits: credits.toFixed(2)
     };
   }
 
-  // ⚡ 2. Energy & Built Environment
+
   else if (category === "energy-tab") {
   const electricity = +document.getElementById("electricity").value || 0;
   const renewable = +document.getElementById("renewable").value || 0;
@@ -331,12 +338,12 @@ function calculate() {
     hours
   ];
 
-  // Constants
-  const tariff = 8;      // ₹ per kWh (example)
-  const gridEF = 0.82;   // kg CO₂ per kWh (example)
-  const baseline = 10000; // baseline kWh for savings%
 
-  // Display fields
+  const tariff = 8;
+  const gridEF = 0.82;
+  const baseline = 10000;
+
+
   ids = [
     "annualEnergy",
     "energyCost",
@@ -344,7 +351,6 @@ function calculate() {
     "energyIntensity",
     "energySavings",
     "ghg",
-    // new equivalents
     "householdMonths",
     "petrolAvoided",
     "energyGJ"
@@ -357,7 +363,6 @@ function calculate() {
     "kWh/unit",
     "%",
     "kg CO₂/year",
-    // new equivalents
     "months",
     "litres",
     "GJ/year"
@@ -370,7 +375,6 @@ function calculate() {
     "Energy Intensity",
     "Energy Savings",
     "GHG Emissions",
-    // new equivalents
     "Household Electricity (Months)",
     "Petrol Avoided",
     "Annual GJ Saved"
@@ -383,27 +387,28 @@ function calculate() {
     "📊",
     "💡",
     "🌍",
-    // new equivalents
     "🏠",
     "⛽",
     "🔥"
   ];
 
-  // --- Calculations ---
-  const annualEnergy = power * hours * 365; // total energy in kWh/year
+  tooltipContent = ["Total energy consumed annually. Represents the total energy consumed annually, helping track operational efficiency.", "Estimated cost of consumed electricity. Shows the annual financial cost of electricity consumption to highlight savings opportunities.", "Percentage share of renewable energy. Indicates how much of your total energy comes from clean, renewable sources.", "Energy needed per unit of user-defined output. Reveals the amount of energy required per unit of output, showing operational efficiency.", "Reduction in energy use relative to baseline. Shows how much energy you have saved compared to the baseline, demonstrating improvement.", "Emissions caused by electricity usage. Quantifies the climate-impacting emissions generated from electricity use.", "Equivalent months of an average household's electricity supplied by saved energy.", "Volume of petrol whose combustion equals the energy saved.", "Energy savings expressed in gigajoules."];
+  
 
-  const energyCost = electricity * tariff; // ₹/year
+  const annualEnergy = power * hours * 365;
+
+  const energyCost = electricity * tariff;
   const renewableShare = electricity > 0 ? (renewable / electricity) * 100 : 0;
-  const energyIntensity = annualEnergy / 100; // arbitrary "per 100 units" example
+  const energyIntensity = annualEnergy / 100;
   const energySavings = ((baseline - electricity) / baseline) * 100;
-  const ghg = electricity * gridEF; // kg CO₂/year
+  const ghg = electricity * gridEF;
 
-  // --- Relatable Equivalents ---
-  const householdMonths = annualEnergy / 90;      // kWh ÷ 90 = months of avg household use
-  const petrolAvoided = annualEnergy / 9.7;       // kWh ÷ 9.7 = litres petrol avoided
-  const energyGJ = annualEnergy / 277.778;        // kWh ÷ 277.778 = GJ saved
 
-  // --- Final Results Object ---
+  const householdMonths = annualEnergy / 90;
+  const petrolAvoided = annualEnergy / 9.7;
+  const energyGJ = annualEnergy / 277.778;
+
+
   calculatedResults = {
     annualEnergy: annualEnergy.toFixed(2),
     energyCost: energyCost.toFixed(2),
@@ -412,14 +417,14 @@ function calculate() {
     energySavings: energySavings.toFixed(2),
     ghg: ghg.toFixed(2),
 
-    // new equivalents
+
     householdMonths: householdMonths.toFixed(2),
     petrolAvoided: petrolAvoided.toFixed(2),
     energyGJ: energyGJ.toFixed(2)
   };
 }
 
-  // 💧 3. Water Use & Management
+
   else if (category === "water-tab") {
   const withdrawal = +document.getElementById("waterWithdrawal").value || 0;
   const discharge = +document.getElementById("waterDischarged").value || 0;
@@ -443,7 +448,7 @@ function calculate() {
 
   const netConsumption = withdrawal - discharge - reuse;
 
-  // Display fields
+
   ids = [
     "totalUse",
     "netConsumption",
@@ -451,7 +456,6 @@ function calculate() {
     "stormInfiltration",
     "waterIntensity",
     "hydroBalance",
-    // new equivalents
     "showersSupplied",
     "householdMonthsWater",
     "olympicPools"
@@ -464,7 +468,6 @@ function calculate() {
     "L/year",
     "L/m²",
     "L/year",
-    // new equivalents
     "showers",
     "household-months",
     "pools"
@@ -477,7 +480,6 @@ function calculate() {
     "Storm Infiltration",
     "Water Intensity",
     "Hydro Balance",
-    // new equivalents
     "Household Showers Supplied",
     "Months of Household Water Supply",
     "Olympic Pools Equivalent"
@@ -490,26 +492,28 @@ function calculate() {
     "🌧️",
     "📊",
     "⚖️",
-    // new equivalents
     "🚿",
     "🏠",
     "🏊‍♂️"
   ];
 
-  // --- Core Calculations ---
+  tooltipContent = ["Total water withdrawn from all sources. Measures the total water withdrawn from all sources for your operations.", "Water consumed after reuse and discharge. Shows the actual water consumed after subtracting reused and discharged water.", "Percentage of withdrawn water reused. Indicates how effectively your system recycles water, reducing freshwater demand.", "Estimated annual stormwater infiltration. Estimates how much rainwater your site can naturally filter back into the ground.", "Water consumption per output unit. Shows how much water is consumed per unit of output, helping identify efficiency gains.", "Water retained or released by site. Indicates whether your site retains or releases water overall.", "Number of typical household showers that volume of water could supply.", "Months of water supply for one household (basic use) provided.", "Number of standard Olympic pools worth of water saved."];
+  
+
+
   const totalUse = withdrawal;
   const reusePercent = withdrawal > 0 ? (reuse / withdrawal) * 100 : 0;
-  const stormInfiltration = siteArea * 80; // L/year
-  const waterIntensity = netConsumption / 100; // L/m²
+  const stormInfiltration = siteArea * 80;
+  const waterIntensity = netConsumption / 100;
   const hydroBalance = withdrawal - discharge;
 
-  // --- Relatable Equivalents ---
-  const litresSaved = reuse; // Using reused/saved water volume
-  const showersSupplied = litresSaved / 50;          // 50 L per shower
-  const householdMonthsWater = litresSaved / 3000;   // 3000 L per household-month
-  const olympicPools = litresSaved / 2_500_000;      // 2.5 million L per pool
 
-  // --- Final Results Object ---
+  const litresSaved = reuse;
+  const showersSupplied = litresSaved / 50;
+  const householdMonthsWater = litresSaved / 3000;
+  const olympicPools = litresSaved / 2_500_000;
+
+
   calculatedResults = {
     totalUse: totalUse.toFixed(2),
     netConsumption: netConsumption.toFixed(2),
@@ -518,14 +522,14 @@ function calculate() {
     waterIntensity: waterIntensity.toFixed(2),
     hydroBalance: hydroBalance.toFixed(2),
 
-    // new equivalents
+
     showersSupplied: showersSupplied.toFixed(2),
     householdMonthsWater: householdMonthsWater.toFixed(2),
     olympicPools: olympicPools.toFixed(4)
   };
 }
 
-  // 🗑️ 4. Waste & Circularity
+
   else if (category === "waste-tab") {
   const haz = +document.getElementById("hazardousWaste").value || 0;
   const nonHaz = +document.getElementById("nonHazardousWaste").value || 0;
@@ -534,13 +538,13 @@ function calculate() {
 
   inputData = [haz, nonHaz, recycled, landfill];
 
-  const organicFraction = 0.3; // fraction of waste that is organic
-  const energyFactor = 0.7; // kWh per kg of organic waste
+  const organicFraction = 0.3;
+  const energyFactor = 0.7;
 
   const total = haz + nonHaz;
   const organicWaste = total * organicFraction;
 
-  // --- Field IDs ---
+
   ids = [
     "totalWaste",
     "recycleRate",
@@ -548,13 +552,11 @@ function calculate() {
     "energyPotential",
     "wasteIntensity",
     "reductionPercent",
-    // new equivalents
     "truckloadsAvoided",
     "treeCarbonEquivalent",
     "energyGenPotential"
   ];
 
-  // --- Units ---
   units = [
     "kg/year",
     "%",
@@ -562,13 +564,11 @@ function calculate() {
     "kWh/year",
     "kg/m²",
     "%",
-    // new equivalents
     "truckloads",
     "tree-equivalents",
     "kWh/year"
   ];
 
-  // --- Labels ---
   labels = [
     "Total Waste",
     "Recycle Rate",
@@ -576,13 +576,11 @@ function calculate() {
     "Energy Potential",
     "Waste Intensity",
     "Reduction %",
-    // new equivalents
     "Truckloads of Waste Avoided",
     "Trees Worth of Carbon Avoided",
     "Energy Generation Potential"
   ];
 
-  // --- Emojis ---
   emojis = [
     "🗑️",
     "♻️",
@@ -590,25 +588,27 @@ function calculate() {
     "⚡",
     "📊",
     "📉",
-    // new equivalents
     "🚛",
     "🌳",
     "🔋"
   ];
 
-  // --- Core Metrics ---
+  tooltipContent = ["Combined hazardous and non-hazardous waste. Represents the combined hazardous and non-hazardous waste produced annually.", "Percentage of waste recycled. Shows the percentage of waste diverted from disposal through recycling.", "Percentage of waste landfilled. Indicates how much waste ends up in landfills, supporting zero-waste goals.", "Potential energy from recoverable waste. Shows how much usable energy can be recovered from organic waste.", "Waste generated per output unit. Measures waste generated per unit of output, highlighting efficiency improvements.", "Reduction in waste compared to baseline. Shows how effectively waste has been reduced compared to your baseline levels.", "Number of standard 10-tonne truckloads reduced.", "Approximate trees' worth of carbon avoided by diverting waste.", "Potential electricity from waste-to-energy for organic fraction."]
+
+
+
   const recycleRate = total > 0 ? (recycled / total) * 100 : 0;
   const landfillRate = total > 0 ? (landfill / total) * 100 : 0;
-  const energyPotential = total * organicFraction * energyFactor; // kWh
-  const wasteIntensity = total / 100; // kg/m²
-  const reductionPercent = ((10000 - total) / 10000) * 100; // vs baseline
+  const energyPotential = total * organicFraction * energyFactor;
+  const wasteIntensity = total / 100;
+  const reductionPercent = ((10000 - total) / 10000) * 100;
 
-  // --- Relatable Equivalents ---
-  const truckloadsAvoided = total / 10_000; // 10-tonne trucks
-  const treeCarbonEquivalent = total / 1000; // 1 tree ≈ 1000 kg CO₂e
-  const energyGenPotential = organicWaste * 0.7; // kWh (same as above for clarity)
 
-  // --- Final Results Object ---
+  const truckloadsAvoided = total / 10_000;
+  const treeCarbonEquivalent = total / 1000;
+  const energyGenPotential = organicWaste * 0.7;
+
+
   calculatedResults = {
     totalWaste: total.toFixed(2),
     recycleRate: recycleRate.toFixed(2),
@@ -617,7 +617,7 @@ function calculate() {
     wasteIntensity: wasteIntensity.toFixed(2),
     reductionPercent: reductionPercent.toFixed(2),
 
-    // new equivalents
+
     truckloadsAvoided: truckloadsAvoided.toFixed(2),
     treeCarbonEquivalent: treeCarbonEquivalent.toFixed(2),
     energyGenPotential: energyGenPotential.toFixed(2)
@@ -625,7 +625,7 @@ function calculate() {
 }
 
 
-  //if(category == 'energy-tab' || category == 'water-tab' || category == 'waste-tab'){
+
 
     document.querySelectorAll("#report-section .metric-value").forEach((el, index) => {
       el.id = ids[index];
@@ -644,16 +644,15 @@ function calculate() {
       el.textContent = emojis[index];
     });
 
-    // documents.querySelectorAll("#report-section .branding-tooltip.custom-tooltip").forEach((el, index) => {
-    //   el.textContent = tooltips[index];
-    // });
+    document.querySelectorAll("#report-section .custom-tooltip").forEach((el, index) => {
+      el.textContent = tooltipContent[index];
+    });
+
+
 
     
-  //}
 
-    
 
-  // 🎯 Display results (only if on calculator.html)
   if (window.location.pathname.endsWith("calculator.html")) {
     for (const key in calculatedResults) {
       if (document.getElementById(key))
@@ -673,10 +672,10 @@ function calculate() {
 
 
 function showPlaceholders() {
-  // Detect which tab is active
+ 
   const category = document.querySelector('.nav-link.active')?.id;
 
-  // Define placeholders for each category
+  
   // const placeholders = {
   //   "green-tab": ["co2", "biodiversity", "cooling", "air", "stormwater", "branding"],
   //   "energy-tab": ["annualEnergy", "energyCost", "renewableShare", "energyIntensity", "energySavings", "ghg"],
@@ -690,10 +689,10 @@ function showPlaceholders() {
     "waste-tab": ["totalWaste", "recycleRate", "landfillRate", "energyPotential", "wasteIntensity", "reductionPercent"]
   };
 
-  // Get relevant metric IDs for this category
+  
   const ids = placeholders[category] || [];
 
-  // Loop and replace their text with placeholders
+  
   ids.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = "••••";
@@ -729,10 +728,7 @@ function disableForm() {
     input.style.borderColor = '#e9ebee';
     
   });
-  // const spans = document.querySelectorAll('input[type="number"]+span');
-  // spans.forEach(span => {
-  //   span.style.backgroundColor = '#e9ebee';
-  // });
+
   document.querySelectorAll('.number-with-unit').forEach(el => {
     el.style.backgroundColor = '#e9ebee';
     el.style.border = "1px solid #e9ebee";
@@ -754,7 +750,7 @@ function enableForm() {
   });
 }
 
-// Action buttons visibility
+
 function showActionButtons() {
   const actionContainer = document.getElementById('action-buttons');
   if (actionContainer) {
@@ -780,22 +776,22 @@ function watchAd() {
   const adOverlay = document.getElementById('adOverlay');
   const adVideo = document.getElementById('adVideo');
 
-  // Show overlay and play video
+
   adOverlay.style.display = 'flex';
   adVideo.currentTime = 0;
   adVideo.play();
 
-  // Hide main scroll to prevent background interaction
+
   document.body.style.overflow = 'hidden';
 
-  // When the video ends, close overlay and continue
+  
   adVideo.onended = () => {
     adOverlay.style.display = 'none';
     document.body.style.overflow = 'auto';
-    onAdComplete(); // same function you already have
+    onAdComplete();
   };
 
-  // In case video can't load (fallback)
+ 
   adVideo.onerror = () => {
     alert('Ad failed to load. Simulating completion.');
     adOverlay.style.display = 'none';
@@ -835,21 +831,19 @@ async function onAdComplete() {
 
 
   try {
-
     const pdfBlob = await generatePDFBlob();
     saveAs(pdfBlob, "Leaf_Ledger_Report.pdf");
 
-    
-    
+  
   } catch (err) {
     console.error("Error generating PDF:", err);
   }
 }
 
-// Generate Again functionality
+
 function generateAgain() {
   adWatched = false;
-  calculatedResults = null; // Clear stored results
+  calculatedResults = null;
 
   document.getElementById('report-section').style.display = 'none';
   
@@ -862,12 +856,11 @@ function generateAgain() {
     el.classList.remove('unlocked');
   });
   
-  // Show watch ad button again
+  
   const adButton = document.getElementById('watchAdBtn');
   const generateAgainBtn = document.getElementById('generateAgainBtn');
   if (adButton) {
     adButton.style.display = 'inline-block';
-    //adButton.textContent = 'Watch Ad to View Results';
     adButton.innerHTML = "<i class='bi bi-play-circle'></i> Generate Metrics";
     adButton.disabled = false;
   }
@@ -876,7 +869,7 @@ function generateAgain() {
     generateAgainBtn.style.display = 'none';
   }
   
-  // Scroll to top
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -887,145 +880,7 @@ function generateAgain() {
 
 
 
-// async function generatePDFBlob() {
-//   const response = await fetch("report.html");
-//   const html = await response.text();
-//   const parser = new DOMParser();
-//   const doc = parser.parseFromString(html, "text/html");
 
-//     trees = document.getElementById("trees")?.value || 0;
-//     species = document.getElementById("species")?.value || 0;
-//     area = document.getElementById("area")?.value || 0;
-//     duration = document.getElementById("duration")?.value || 0;
-//     unit = document.getElementById("areaUnit")?.textContent || "m²";
-  
-
-
-
-//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
-//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
-//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
-//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
-
-//   doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
-//   doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
-//   doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
-//   doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
-//   doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
-//   doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
-//   doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
-
-//   const now = new Date();
-//   doc.querySelector("#report-date").textContent = now.toLocaleDateString() + ", " + now.toLocaleTimeString();
-
-//   const reportDiv = doc.getElementById("report");
-//   reportDiv.style.width = "210mm";
-//   reportDiv.style.minHeight = "297mm";
-//   reportDiv.style.padding = "10mm";
-//   reportDiv.style.background = "#fff";
-//   reportDiv.style.boxSizing = "border-box";
-
-//   document.body.appendChild(reportDiv);
-
-//   const canvas = await html2canvas(reportDiv, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
-//   const imgData = canvas.toDataURL("image/jpeg");
-
-//   const pdf = new jspdf.jsPDF("p", "mm", "a4");
-//   const pageWidth = pdf.internal.pageSize.getWidth();
-//   const pageHeight = pdf.internal.pageSize.getHeight();
-
-//   const imgWidth = pageWidth;
-//   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-//   const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
-//   const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
-//   const xOffset = (pageWidth - finalWidth) / 2;
-//   const yOffset = (pageHeight - finalHeight) / 2;
-
-//   pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
-//   const blob = pdf.output("blob");
-
-//   reportDiv.remove();
-//   return blob;
-// }
-
-
-// async function generatePDFBlob() {
-//   const response = await fetch("report.html");
-//   const html = await response.text();
-//   const parser = new DOMParser();
-//   const doc = parser.parseFromString(html, "text/html");
-
-//   // --- Retrieve input values ---
-//   const trees = document.getElementById("trees")?.value || 0;
-//   const species = document.getElementById("species")?.value || 0;
-//   const area = document.getElementById("area")?.value || 0;
-//   const duration = document.getElementById("duration")?.value || 0;
-//   const unit = document.getElementById("areaUnit")?.textContent || "m²";
-
-//   // --- Update Overview Table ---
-//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(1)").textContent = trees;
-//   doc.querySelector(".report-overview-table tr:nth-child(3) td:nth-child(2)").textContent = species;
-//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(1)").textContent = `${area} ${unit}`;
-//   doc.querySelector(".report-overview-table tr:nth-child(5) td:nth-child(2)").textContent = `${duration} years`;
-
-//   // --- Update Main Metrics ---
-//   doc.querySelector("#co2Cell > span > span").textContent = calculatedResults.co2;
-//   doc.querySelector("#bioCell > span > span").textContent = calculatedResults.biodiversity;
-//   doc.querySelector("#coolingCell > span > span").textContent = calculatedResults.cooling;
-//   doc.querySelector("#airCell > span > span").textContent = calculatedResults.air;
-//   doc.querySelector("#stormCell > span > span").textContent = calculatedResults.stormwater;
-//   doc.querySelector("#scoreCell > span > span").textContent = calculatedResults.branding;
-
-//   // --- Update Extra Metrics (new row) ---
-//   if (calculatedResults.homesCooled !== undefined) {
-//     doc.querySelector("#shadeCell > span > span").textContent = calculatedResults.homesCooled;
-//   }
-//   if (calculatedResults.oxygenSupplied !== undefined) {
-//     doc.querySelector("#oxygenCell > span > span").textContent = calculatedResults.oxygenSupplied;
-//   }
-//   if (calculatedResults.lpgOffset !== undefined) {
-//     doc.querySelector("#carbonCell > span > span").textContent = calculatedResults.lpgOffset;
-//   }
-
-//   // --- Update Branding Score ---
-//   doc.querySelector(".score-table tr:nth-child(2) td").textContent = calculatedResults.branding;
-
-//   // --- Update Timestamp ---
-//   const now = new Date();
-//   doc.querySelector("#report-date").textContent =
-//     now.toLocaleDateString() + ", " + now.toLocaleTimeString();
-
-//   // --- Prepare for PDF Rendering ---
-//   const reportDiv = doc.getElementById("report");
-//   reportDiv.style.width = "210mm";
-//   reportDiv.style.minHeight = "297mm";
-//   reportDiv.style.padding = "10mm";
-//   reportDiv.style.background = "#fff";
-//   reportDiv.style.boxSizing = "border-box";
-
-//   document.body.appendChild(reportDiv);
-
-//   // --- Generate Canvas and PDF ---
-//   const canvas = await html2canvas(reportDiv, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
-//   const imgData = canvas.toDataURL("image/jpeg");
-
-//   const pdf = new jspdf.jsPDF("p", "mm", "a4");
-//   const pageWidth = pdf.internal.pageSize.getWidth();
-//   const pageHeight = pdf.internal.pageSize.getHeight();
-
-//   const imgWidth = pageWidth;
-//   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-//   const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
-//   const finalWidth = imgHeight > pageHeight ? (pageHeight * canvas.width) / canvas.height : imgWidth;
-//   const xOffset = (pageWidth - finalWidth) / 2;
-//   const yOffset = (pageHeight - finalHeight) / 2;
-
-//   pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
-//   const blob = pdf.output("blob");
-
-//   reportDiv.remove();
-//   return blob;
-// }
 
 
 const reportIds = [];
@@ -1035,37 +890,7 @@ async function generatePDFBlob() {
       const html = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
-      // if(category == "green-tab"){
-        
-
-      // }
-      // else if(category == "energy-tab"){
-        
-      // }
-      // else if(category == "water-tab"){
-        
-      // }
-      // else if(category == "waste-tab"){
-        
-      // }
-
-      // document.querySelectorAll("#report-section .metric-value").forEach((value, index) => {
-      //     reportIds.push(value.id);
-      //   });
-
-      //   doc.querySelectorAll(".overview-value > span").forEach((unit, index) => {
-      //   console.log(unit);
-      //   unit.innerHTML = inputUnits[category][index];
-      // });
-
       
-
-
-      // --- Update Overview Section ---
-      // doc.querySelector("#overview-trees").textContent = inputData.trees;
-      // doc.querySelector("#overview-species").textContent = inputData.species;
-      // doc.querySelector("#overview-area").innerHTML = `${inputData.area} <span>${inputData.unit}</span>`;
-      // doc.querySelector("#overview-duration").innerHTML = `${inputData.duration} <span>years</span>`;
 
       doc.querySelectorAll(".overview-label").forEach((label, index) => {
         //console.log(label);
@@ -1127,45 +952,23 @@ async function generatePDFBlob() {
 
 
 
-      // // --- Update Impact Metrics ---
-      // doc.querySelector("#co2-value").textContent = calculatedResults.co2Sequestration;
-      // doc.querySelector("#bio-value").textContent = calculatedResults.biodiversityIndex;
-      // doc.querySelector("#cooling-value").textContent = calculatedResults.coolingEffect;
-      // doc.querySelector("#air-value").textContent = calculatedResults.airQuality;
-      // doc.querySelector("#storm-value").textContent = calculatedResults.stormwaterReduction;
-      // doc.querySelector("#score-value").textContent = calculatedResults.brandingScore;
-
-      // // --- Update Green Branding Score ---
-      // //doc.querySelector("#final-score").textContent = calculatedResults.brandingScore;
-
-      // // --- Update Relatable Equivalents ---
-      // if (calculatedResults.equivalents) {
-      //   doc.querySelector("#eq1-value").textContent = calculatedResults.equivalents.co2Tonnes;
-      //   doc.querySelector("#eq2-value").textContent = calculatedResults.equivalents.carsOffRoad;
-      //   doc.querySelector("#eq3-value").textContent = calculatedResults.equivalents.coolingEffect;
-      //   doc.querySelector("#eq4-value").textContent = calculatedResults.equivalents.airConditioners;
-      //   doc.querySelector("#eq5-value").textContent = calculatedResults.equivalents.stormwaterLiters;
-      //   doc.querySelector("#eq6-value").textContent = calculatedResults.equivalents.householdShowers;
-      // }
-
-      // --- Update Timestamp ---
+      
       const now = new Date();
       const formattedDate = now.toLocaleDateString('en-GB').replace(/\//g, '.') + 
                            ', ' + 
                            now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       doc.querySelector("#report-date").textContent = formattedDate;
 
-      // --- Prepare for PDF Rendering ---
+
       const reportDiv = doc.getElementById("report");
       reportDiv.style.width = "210mm";
       reportDiv.style.minHeight = "297mm";
       reportDiv.style.background = "#fff";
       reportDiv.style.boxSizing = "border-box";
 
-      // Temporarily append to body for rendering
+
       document.body.appendChild(reportDiv);
 
-      // --- Generate Canvas and PDF ---
       const canvas = await html2canvas(reportDiv, { 
         scale: 2, 
         useCORS: true, 
@@ -1197,17 +1000,9 @@ async function generatePDFBlob() {
       pdf.addImage(imgData, "JPEG", xOffset, yOffset, finalWidth, finalHeight);
       const blob = pdf.output("blob");
 
-      // Clean up
+
       reportDiv.remove();
       
       return blob;
     }
 
-
-
-
-// document.addEventListener('change', e => {
-//   if (e.target.matches('.area-div input[type="radio"]')) {
-//     console.log('🔥 Radio toggled:', e.target.value);
-//   }
-// });

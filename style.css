@@ -137,7 +137,7 @@ body {
 .header-bar-img {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* pushes sub-nav to the bottom */
+  justify-content: space-between;
   height: 100%;
   position: relative;
 }
@@ -159,8 +159,7 @@ body {
   display: inline-flex;
   justify-content: center;
   gap: 2rem;
-  /* position: relative;
-  top: 25px; */
+
   --border-radius: 0 0 10px 10px;
 }
 .sub-nav {
@@ -170,19 +169,19 @@ body {
   gap: 2rem;
   --width: 100%;
   padding: 8px 0;
-  margin-top: auto; /* ensures it sits at the bottom */
+  margin-top: auto;
 }
 
 .nav-bar {
   display: flex;
-  align-items: stretch; /* ensures both children match height */
+  align-items: stretch;
 }
 
 .nav-bar img {
   
 
-  height: 100%;   /* always match .header-bar-img height */
-  width: auto;    /* or set a fixed width if you prefer */
+  height: 100%;
+  width: auto;
   object-fit: fill; 
 }
 
@@ -1310,7 +1309,7 @@ input[type="range"]::-moz-range-track {
       margin: 0 10px;
     }
 
-    /* Footer */
+    
     .footer {
       margin-top: 20px;
       padding: 15px;
@@ -1320,7 +1319,7 @@ input[type="range"]::-moz-range-track {
       border-top: 1px solid #e0e0e0;
     }
 
-    /* Print Styles */
+    
     @media print {
       body {
         background: white;
@@ -1336,21 +1335,21 @@ input[type="range"]::-moz-range-track {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      gap: 10px; /* Reduce from 15px to 10px */
+      gap: 10px;
       padding: 0 20px;
     }
 
     .equivalent-group {
       display: flex;
       align-items: flex-end;
-      gap: 10px; /* Reduce from 15px to 10px */
+      gap: 10px;
     }
 
     .equals-sign {
       font-size: 50px;
       font-weight: 700;
       color: #1a3d0a;
-      margin: 0 5px; /* Reduce from 10px to 5px */
+      margin: 0 5px;
       padding-bottom: 20px;
     }
 
@@ -1360,7 +1359,7 @@ input[type="range"]::-moz-range-track {
       background: white;
       opacity: 0.7;
       border-radius: 2px;
-      margin: 0 5px; /* Reduce from 10px to 5px */
+      margin: 0 5px;
     }
 
     .breakdown-grid {
@@ -1371,8 +1370,8 @@ input[type="range"]::-moz-range-track {
     }
 
     .breakdown-item {
-      background: #EAF9EA;        /* soft green like your PDF */
-      border: 1px solid #82C483;  /* green border */
+      background: #EAF9EA;
+      border: 1px solid #82C483;
       padding: 10px;
       border-radius: 4px;
     }
@@ -1380,7 +1379,7 @@ input[type="range"]::-moz-range-track {
     .breakdown-metric {
       font-weight: 600;
       margin-bottom: 5px;
-      color: #0d5e3a;             /* deep green heading */
+      color: #0d5e3a;
     }
 
     .breakdown-explanation {
@@ -1389,3 +1388,153 @@ input[type="range"]::-moz-range-track {
       text-align: justify;
       hyphens: auto;
     }
+
+    .hero-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .hero-section h2 {
+            color: #1b5e20;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            color: #424242;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .tree-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-section {
+            padding: 60px 20px 80px;
+        }
+        
+        .cta-heading {
+            text-align: center;
+            color: #1b5e20;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 50px;
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px 30px;
+            height: 100%;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .option-card:hover {
+            border-color: #2e7d32;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .option-card i {
+            font-size: 3rem;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+        
+        .option-card h3 {
+            color: #1b5e20;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .btn-custom {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        .btn-custom:hover {
+            background-color: #1b5e20;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary-custom {
+            background-color: #43a047;
+        }
+        
+        .btn-secondary-custom:hover {
+            background-color: #2e7d32;
+        }
+        
+        .or-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2e7d32;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .about-section {
+            background: white;
+            padding: 60px 20px;
+        }
+        
+        .about-section h3 {
+            color: #1b5e20;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .about-section p {
+            color: #424242;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .plantation-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+
+        .upload-input {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section h2 {
+                font-size: 2rem;
+            }
+            
+            .cta-heading {
+                font-size: 1.8rem;
+            }
+            
+            .or-divider {
+                margin: 30px 0;
+            }
+        }

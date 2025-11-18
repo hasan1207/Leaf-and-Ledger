@@ -58,7 +58,7 @@
 
 
       <div class="tab-content" id="calculatorTabContent">
-        <!-- Green Space & Biodiversity Tab -->
+        
         <div class="tab-pane fade show active" id="green" role="tabpanel">
           <div class="form-group">
             <div class="title-row">
@@ -215,18 +215,7 @@
             </div>
           </div>
 
-          <!-- <div class="form-group">
-            <div class="title-row">
-              <label for="siteArea">Site Area</label>
-              <div class="number-with-unit">
-                <input type="number" id="siteArea" class="form-control w-auto" value="0" min="0" oninput="validateNonNegative(this); syncSlider('siteArea','siteAreaRange')">
-                <span>m²</span>
-              </div>
-            </div>
-            <div class="input-row">
-              <input type="range" id="siteAreaRange" class="--form-range" min="0" max="200000" value="0" oninput="validateNonNegative(this); syncInput('siteArea','siteAreaRange')">
-            </div>
-          </div> -->
+
 
 
 
@@ -358,8 +347,10 @@
               <i class="bi bi-info-circle info-icon branding-info"></i>
             </div>
             <div class="metric-label">Biodiversity<br> Potential Index</div>
-            <div class="metric-value" id="biodiversity">••••</div>
-            <div class="metric-unit"></div>
+            <div class="metric-value-outer">
+              <div class="metric-value" id="biodiversity">••••</div>
+              <div class="metric-unit"></div>
+            </div>
             <div class="custom-tooltip branding-tooltip">
               This is a relative score indicating the complexity of the habitat. A higher variety of species in a given area generally supports a richer ecosystem. This index provides a simple measure of this potential.
             </div>            
@@ -425,9 +416,10 @@
               <i class="bi bi-info-circle info-icon branding-info"></i>
             </div>
             <div class="metric-label">Green<br> Branding Score</div>
-            <div class="metric-value" id="branding">••••</div>
-            <div class="metric-unit"></div>
-
+            <div class="metric-value-outer">
+              <div class="metric-value" id="branding">••••</div>
+              <div class="metric-unit"></div>
+            </div>
            
             <div class="custom-tooltip branding-tooltip">
               A proprietary, motivational score that reflects the scale, complexity, and maturity of the greening initiative. The logarithmic scale indicates that while all contributions are valuable, sustained and diverse projects have a greater cumulative impact.
@@ -440,7 +432,7 @@
           <h5 class="fw-bold text-secondary mt-3">Top 3 Relatable Equivalents</h5>
         </div>
 
-        <!-- Equivalent 1 -->
+        
         <div class="col-custom">
           <div class="metric-card p-4 text-center shadow-sm">
             <div class="metric-row">
@@ -459,7 +451,7 @@
           </div>
         </div>
 
-        <!-- Equivalent 2 -->
+        
         <div class="col-custom">
           <div class="metric-card p-4 text-center shadow-sm">
             <div class="metric-row">
@@ -478,7 +470,7 @@
           </div>
         </div>
 
-        <!-- Equivalent 3 -->
+        
         <div class="col-custom">
           <div class="metric-card p-4 text-center shadow-sm">
             <div class="metric-row">
@@ -502,25 +494,7 @@
 
       <div id="action-buttons" class="mt-4" style="display: none;">
         <div class="row g-3">
-          <!-- <div class="col-md-3 col-6">
-            <button class="btn btn-success w-100" onclick="generatePDF()">
-              <i class="bi bi-file-pdf"></i> Download PDF Report
-            </button>
-          </div>
-          <div class="col-md-3 col-6">
-            <button class="btn btn-success w-100" onclick="exportToCSV()">
-              <i class="bi bi-file-spreadsheet"></i> Export to CSV
-            </button>
-          </div>
-          <div class="col-md-3 col-6">
-            <button class="btn btn-success w-100" onclick="exportToPNG()">
-              <i class="bi bi-image"></i> Download Card (PNG)
-            </button>
-          </div> -->
           
-            <!-- <button class="btn btn-outline-primary w-100" id="generateAgainBtn" onclick="generateAgain()">
-              <i class="bi bi-arrow-clockwise"></i> Generate Again
-            </button> -->
           
         </div>
       </div>
