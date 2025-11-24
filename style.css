@@ -81,6 +81,8 @@ body {
   
 }
 
+
+
 /* .metric-card .metric-value {
   filter: blur(8px);
   user-select: none;
@@ -275,7 +277,7 @@ body {
 #footer-2 span{
   text-align: left !important;
   --flex: 2 !important;
-  width: 600px !important;
+  width: 700px !important;
   
   font-size: 16px;
 }
@@ -1188,6 +1190,16 @@ input[type="range"]::-moz-range-track {
       text-align: center;
     }
 
+    .preview-content {
+      background: #e5f9fb;
+      padding: 15px;
+      text-align: center;
+      text-align: justify;
+      color: rgb(85,85,85);
+      padding-left: 35px;
+      padding-right: 35px;
+    }
+
     .score-subtitle {
       font-size: 12px;
       color: #0d919d;
@@ -1406,6 +1418,7 @@ input[type="range"]::-moz-range-track {
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto 40px;
+            text-align: justify;
         }
         
         .tree-icon {

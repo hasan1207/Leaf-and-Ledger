@@ -1064,12 +1064,24 @@ let calculatedResults = null;
 let category = "green-tab";
 let inputData = ["0", "0", "0", "0"];
 
+let previewHeaderText = "";
+let previewContentText = "";
+
 const inputHeaders = {
   "green-tab": ["Number of Trees", "Number of Species", "Area", "Project Duration"],
   "energy-tab": ["Electricity Consumption", "Renewable Electricity Used", "Power Rating of Equipment", "Operating Hours per Day"],
   "water-tab": ["Water Withdrawal", "Water Discharged", "Water Reused", "Site Area"],
   "waste-tab": ["Hazardous Waste", "Non-Hazardous Waste", "Waste Recycled", "Waste Sent to Landfill"]
 };
+
+// const icons = {
+//   "green-tab": ["icons-removebg-preview.png", "icons_copy-removebg-preview.png", "icons_copy_3-removebg-preview.png", "icons_copy_4-removebg-preview.png", "icons_copy_2-removebg-preview.png", "icons_copy_5-removebg-preview.png", "icons_copy_7-removebg-preview.png", "icons_copy_6-removebg-preview.png", "icons_copy_8-removebg-preview.png"],
+//   "energy-tab": ["Energy-removebg-preview.png", "Energy_copy-removebg-preview.png", "Energy_copy_2-removebg-preview.png", "Energy_copy_3-removebg-preview.png", "Energy_copy_4-removebg-preview.png", "Energy_copy_5-removebg-preview.png", "Energy_copy_6-removebg-preview.png", "Energy_copy_7-removebg-preview.png", "Energy_copy_8-removebg-preview.png"],
+//   "water-tab": ["Water-removebg-preview.png", "Water_copy-removebg-preview.png", "Water_copy_2-removebg-preview.png", "Water_copy_3-removebg-preview.png", "Water_copy_4-removebg-preview.png", "Water_copy_5-removebg-preview.png", "Water_copy_6-removebg-preview.png", "Water_copy_7-removebg-preview.png", "Water_copy_8-removebg-preview.png"],
+//   "waste-tab": ["Waste-removebg-preview.png", "Waste_copy-removebg-preview.png", "Waste_copy_2-removebg-preview.png", "Waste_copy_3-removebg-preview.png", "Waste_copy_4-removebg-preview.png", "Waste_copy_5-removebg-preview.png", "Waste_copy_6-removebg-preview.png", "Waste_copy_7-removebg-preview.png", "Waste_copy_8-removebg-preview.png"]
+// }
+
+let iconsToUse = [];
 
 const inputUnits = {
   "green-tab": ["", "", "m²", "years"],
@@ -1117,17 +1129,6 @@ document.addEventListener('click', (e) => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const AC_TO_M2 = 4046.86;
-
-  function displayFromM2(m2, unit) {
-    return unit === "ac" ? m2 / AC_TO_M2 : m2;
-  }
-
-  function m2FromDisplay(displayValue, unit) {
-    return unit === "ac" ? displayValue * AC_TO_M2 : displayValue;
-  }
-
   function initAreaDivValues() {
     document.querySelectorAll(".area-div").forEach(areaDiv => {
       const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
@@ -1144,6 +1145,34 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+//document.addEventListener("DOMContentLoaded", () => {
+  const AC_TO_M2 = 4046.86;
+
+  // function displayFromM2(m2, unit) {
+  //   return unit === "ac" ? m2 / AC_TO_M2 : m2;
+  // }
+
+  // function m2FromDisplay(displayValue, unit) {
+  //   return unit === "ac" ? displayValue * AC_TO_M2 : displayValue;
+  // }
+
+  // function initAreaDivValues() {
+  //   document.querySelectorAll(".area-div").forEach(areaDiv => {
+  //     const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
+  //     const unitSpan = areaDiv.querySelector(".number-with-unit span");
+  //     if (!numInput) return;
+  //     const checkedUnit = areaDiv.querySelector("input[type='radio']:checked")?.value || "m2";
+  //     const displayVal = parseFloat(numInput.value) || 0;
+  //     numInput.dataset.m2 = m2FromDisplay(displayVal, checkedUnit);
+  //     if (unitSpan) unitSpan.textContent = checkedUnit === 'ac' ? 'ac' : 'm²';
+  //     const rangeInput = areaDiv.closest(".form-group")?.querySelector("input[type='range']");
+  //     if (rangeInput) {
+  //       rangeInput.max = checkedUnit === 'ac' ? 50 : 200000;
+  //       rangeInput.value = displayVal;
+  //     }
+  //   });
+  // }
 
   function updateAreaDiv(areaDiv, chosenUnit) {
     const numInput = areaDiv.querySelector(".number-with-unit input[type='number']");
@@ -1193,7 +1222,15 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(initAreaDivValues);
     });
   }
-});
+//});
+
+  function displayFromM2(m2, unit) {
+    return unit === "ac" ? m2 / AC_TO_M2 : m2;
+  }
+
+  function m2FromDisplay(displayValue, unit) {
+    return unit === "ac" ? displayValue * AC_TO_M2 : displayValue;
+  }
 
 function updateAllSliderFills() {
   document.querySelectorAll('input[type="range"]').forEach(slider => {
@@ -1236,6 +1273,7 @@ function calculate() {
   let emojisLocal = [];
   tooltipContent = [];
   calculatedResults = {};
+  //iconsToUse = icons[category] || [];
   if (category === "green-tab") {
     const trees = +document.getElementById("trees")?.value || 0;
     const species = +document.getElementById("species")?.value || 0;
@@ -1262,7 +1300,10 @@ function calculate() {
     labels = ["Annual CO₂ Sequestration","Biodiversity Potential Index","Localized Cooling Effect","Air Quality Improvement","Stormwater Runoff Reduction","Green Branding Score","Cars Taken Off the Road","Household Electricity Offset (Annual)","Carbon Credits (Approx.)"];
     emojisLocal = ["🌳","🌿","🌡️","💨","💧","⭐","🚗","🏠","🌲"];
     tooltipContent = ["Estimated carbon captured annually by the trees. Removes harmful carbon dioxide from the atmosphere each year, helping slow climate change.", "Relative biodiversity score based on species richness per area. Shows how effectively the green space can support diverse plant and animal life.", "Cooling potential created by green space. Reduces surrounding temperatures naturally, improving comfort and lowering heat stress.", "Amount of PM2.5 removed by trees annually. Filters pollutants like PM2.5 from the air, providing cleaner and healthier air to breathe.", "Rainwater intercepted by green surfaces annually. Absorbs rainfall and reduces flooding risk while improving groundwater replenishment.", "A maturity indicator combining age, species, and trees. Reflects the environmental leadership and maturity of your green initiative.", "Equivalent number of average petrol cars' annual CO₂ emissions avoided.", "Number of average households' annual electricity use offset by saved emissions.", "Approximate number of 1-tonne CO₂ credits represented."];
-    calculatedResults = {
+    iconsToUse = ["icons-removebg-preview.png", "icons_copy-removebg-preview.png", "icons_copy_3-removebg-preview.png", "icons_copy_4-removebg-preview.png", "icons_copy_2-removebg-preview.png", "icons_copy_5-removebg-preview.png", "icons_copy_7-removebg-preview.png", "icons_copy_6-removebg-preview.png", "icons_copy_8-removebg-preview.png"];
+    previewHeaderText = "Green Space & Biodiversity";
+    previewContentText = "This category reflects the quantity and diversity of natural areas, which are vital for supporting ecosystems, species, and urban well-being. Measuring it helps assess how well a site preserves nature and promotes resilience against urban and climate pressures.";
+;    calculatedResults = {
       co2: co2.toFixed(1),
       biodiversity: biodiversity.toFixed(2),
       cooling: cooling.toFixed(2),
@@ -1296,6 +1337,9 @@ function calculate() {
     labels = ["Annual Energy","Energy Cost","Renewable Share","Energy Intensity","Energy Savings","GHG Emissions","Household Electricity (Months)","Petrol Avoided","Annual GJ Saved"];
     emojisLocal = ["⚡️","💰","🌞","📊","💡","🌍","🏠","⛽","🔥"];
     tooltipContent = ["Total energy consumed annually. Represents the total energy consumed annually, helping track operational efficiency.", "Estimated cost of consumed electricity. Shows the annual financial cost of electricity consumption to highlight savings opportunities.", "Percentage share of renewable energy. Indicates how much of your total energy comes from clean, renewable sources.", "Energy needed per unit of user-defined output. Reveals the amount of energy required per unit of output, showing operational efficiency.", "Reduction in energy use relative to baseline. Shows how much energy you have saved compared to the baseline, demonstrating improvement.", "Emissions caused by electricity usage. Quantifies the climate-impacting emissions generated from electricity use.", "Equivalent months of an average household's electricity supplied by saved energy.", "Volume of petrol whose combustion equals the energy saved.", "Energy savings expressed in gigajoules."];
+    iconsToUse = ["Energy-removebg-preview.png", "Energy_copy-removebg-preview.png", "Energy_copy_2-removebg-preview.png", "Energy_copy_3-removebg-preview.png", "Energy_copy_4-removebg-preview.png", "Energy_copy_5-removebg-preview.png", "Energy_copy_6-removebg-preview.png", "Energy_copy_7-removebg-preview.png", "Energy_copy_8-removebg-preview.png"];
+    previewHeaderText = "Energy & Built Environment";
+    previewContentText = "This category captures how sustainably energy is consumed and managed in buildings and infrastructure. Understanding this allows users to quantify their energy footprint and identify opportunities to reduce emissions and improve efficiency.";
     calculatedResults = {
       annualEnergy: annualEnergy.toFixed(2),
       energyCost: energyCost.toFixed(2),
@@ -1334,6 +1378,10 @@ function calculate() {
     labels = ["Total Use","Net Consumption","Reuse %","Storm Infiltration","Water Intensity","Hydro Balance","Household Showers Supplied","Months of Household Water Supply","Olympic Pools Equivalent"];
     emojisLocal = ["💧","🚰","🔁","🌧️","📊","⚖️","🚿","🏠","🏊‍♂️"];
     tooltipContent = ["Total water withdrawn from all sources. Measures the total water withdrawn from all sources for your operations.", "Water consumed after reuse and discharge. Shows the actual water consumed after subtracting reused and discharged water.", "Percentage of withdrawn water reused. Indicates how effectively your system recycles water, reducing freshwater demand.", "Estimated annual stormwater infiltration. Estimates how much rainwater your site can naturally filter back into the ground.", "Water consumption per output unit. Shows how much water is consumed per unit of output, helping identify efficiency gains.", "Water retained or released by site. Indicates whether your site retains or releases water overall.", "Number of typical household showers that volume of water could supply.", "Months of water supply for one household (basic use) provided.", "Number of standard Olympic pools worth of water saved."];
+    iconsToUse = ["Water-removebg-preview.png", "Water_copy-removebg-preview.png", "Water_copy_2-removebg-preview.png", "Water_copy_3-removebg-preview.png", "Water_copy_4-removebg-preview.png", "Water_copy_5-removebg-preview.png", "Water_copy_6-removebg-preview.png", "Water_copy_7-removebg-preview.png", "Water_copy_8-removebg-preview.png"];
+    previewHeaderText = "Water Use & Management";
+    previewContentText = "It represents the amount and quality of water utilized and conserved within a site. Tracking water use supports resource planning and sustainability, helping users safeguard against scarcity and pollution risk.";
+    
     calculatedResults = {
       totalUse: totalUse.toFixed(2),
       netConsumption: netConsumption.toFixed(2),
@@ -1368,7 +1416,11 @@ function calculate() {
     units = ["kg/year","%","%","kWh/year","kg/m²","%","truckloads","tree-equivalents","kWh/year"];
     labels = ["Total Waste","Recycle Rate","Landfill Rate","Energy Potential","Waste Intensity","Reduction %","Truckloads of Waste Avoided","Trees Worth of Carbon Avoided","Energy Generation Potential"];
     emojisLocal = ["🗑️","♻️","🏭","⚡","📊","📉","🚛","🌳","🔋"];
-    tooltipContent = ["Combined hazardous and non-hazardous waste. Represents the combined hazardous and non-hazardous waste produced annually.", "Percentage of waste recycled. Shows the percentage of waste diverted from disposal through recycling.", "Percentage of waste landfilled. Indicates how much waste ends up in landfills, supporting zero-waste goals.", "Potential energy from recoverable waste. Shows how much usable energy can be recovered from organic waste.", "Waste generated per output unit. Measures waste generated per unit of output, highlighting efficiency improvements.", "Reduction in waste compared to baseline. Shows how effectively waste has been reduced compared to your baseline levels.", "Number of standard 10-tonne truckloads reduced.", "Approximate trees' worth of carbon avoided by diverting waste.", "Potential electricity from waste-to-energy for organic fraction."]
+    tooltipContent = ["Combined hazardous and non-hazardous waste. Represents the combined hazardous and non-hazardous waste produced annually.", "Percentage of waste recycled. Shows the percentage of waste diverted from disposal through recycling.", "Percentage of waste landfilled. Indicates how much waste ends up in landfills, supporting zero-waste goals.", "Potential energy from recoverable waste. Shows how much usable energy can be recovered from organic waste.", "Waste generated per output unit. Measures waste generated per unit of output, highlighting efficiency improvements.", "Reduction in waste compared to baseline. Shows how effectively waste has been reduced compared to your baseline levels.", "Number of standard 10-tonne truckloads reduced.", "Approximate trees' worth of carbon avoided by diverting waste.", "Potential electricity from waste-to-energy for organic fraction."];
+    iconsToUse = ["Waste-removebg-preview.png", "Waste_copy-removebg-preview.png", "Waste_copy_2-removebg-preview.png", "Waste_copy_3-removebg-preview.png", "Waste_copy_4-removebg-preview.png", "Waste_copy_5-removebg-preview.png", "Waste_copy_6-removebg-preview.png", "Waste_copy_7-removebg-preview.png", "Waste_copy_8-removebg-preview.png"];
+    previewHeaderText = "Waste & Circularity";
+    previewContentText = "This category covers the generation, handling, and recycling of waste, emphasizing materials kept in productive use. Measuring waste and circularity highlights environmental responsibility and progress toward minimizing landfill through smart resource cycles.";
+    
     calculatedResults = {
       totalWaste: total.toFixed(2),
       recycleRate: recycleRate.toFixed(2),
@@ -1399,15 +1451,25 @@ function calculate() {
 
   document.querySelectorAll("#report-section .metric-label").forEach((el, index) => {
     if (labels[index] !== undefined) el.textContent = labels[index];
+    
   });
 
   document.querySelectorAll("#report-section .metric-icon").forEach((el, index) => {
-    if (emojisLocal[index] !== undefined) el.textContent = emojisLocal[index];
+    //if (emojisLocal[index] !== undefined) el.textContent = emojisLocal[index];
+    if(iconsToUse[index]){
+      el.innerHTML = `<img src="./images/${iconsToUse[index]}" alt="${labels[index]}" class="metric-icon-img" style="height: 48px;">`;
+      //el.innerHTML = `<img src="/Leaf-and-Ledger/images/${iconsToUse[index]}" alt="${labels[index]}" class="metric-icon-img" style="height: 48px;">`;
+    }
+    //el.innerHTML = iconsToUse[index] ? `<img src="/Leaf-and-Ledger/images/${iconsToUse[index]}" alt="${labels[index]}"> ${labels[index]}` : labels[index];
+    //el.innerHTML = iconsToUse[index] ? `<img src="./images/${iconsToUse[index]}" alt="${labels[index]}"> ${labels[index]}` : labels[index];
+    // class="metric-icon-img"
   });
 
   document.querySelectorAll("#report-section .custom-tooltip").forEach((el, index) => {
     if (tooltipContent[index] !== undefined) el.textContent = tooltipContent[index];
   });
+
+  
 
   if (isCalculatorPage()) {
     for (const key in calculatedResults) {
@@ -1612,6 +1674,15 @@ async function generatePDFBlob() {
   doc.querySelectorAll(".impact-section .impact-card .impact-value").forEach((value, index) => {
     if (ids[index]) value.id = ids[index] + "-value";
   });
+
+  doc.querySelectorAll(".impact-section .impact-card > img").forEach((image, index) => {
+    //if (iconsToUse[index]) image.src = "/Leaf-and-Ledger/images/" + iconsToUse[index];
+    if (iconsToUse[index]) image.src = "./images/" + iconsToUse[index];
+    
+  });
+
+  doc.querySelector(".section-intro .preview-header").textContent = previewHeaderText;
+  doc.querySelector(".section-intro .preview-content").textContent = previewContentText;
 
 
   for (const key in calculatedResults) {
