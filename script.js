@@ -1688,7 +1688,7 @@ async function generatePDFBlob() {
   for (const key in calculatedResults) {
     if (!Object.prototype.hasOwnProperty.call(calculatedResults, key)) continue;
     const el = doc.getElementById(key + "-value");
-    //if (el) el.textContent = calculatedResults[key];
+    
     if (el) el.textContent = formatNumberPretty(calculatedResults[key]);
   }
   const now = new Date();
